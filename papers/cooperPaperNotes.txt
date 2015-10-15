@@ -1,0 +1,4 @@
+When there is not enough power available to meet the demand on the grid, the generators all slow down together and the ENF falls. Conversely, if the demand for power drops the generators speed up and the ENF increases.(pg 195)
+Under certain circumstances, it is also possible for recordings produced on battery- powered recorders to contain ENF components (Brixen 2008). (pg 196)
+Therefore, ENF harmonics may also be used for analysis; however, frequencies above the 3rd harmonic are unlikely to be useful due to contamination by lower frequency acoustic signals. (p. 197)
+The uncertainty principle states that you can not obtain arbitrarily high resolution in both the time and frequency domains simultaneously, making low frequency signals that vary with time very difficult to estimate (Czyzewski et al. 2007).(pg 197)

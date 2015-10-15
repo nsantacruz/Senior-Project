@@ -1,3 +1,5 @@
 --NOAHS WEEKLY LOG!--
 
 9/27: organized files, read paper discussing ENF signals
+10/4: with Jon and Howie, wrote proposal. Brainstormed general strategy for how to extract ENF signal from audio
+
