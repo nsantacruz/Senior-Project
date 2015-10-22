@@ -1,4 +1,4 @@
-%clc, clear all, close all
+clc, clear all, close all
 A_Pow = load('A_Pow.mat','tempCell');
 
 AP1 = A_Pow.tempCell(1);
