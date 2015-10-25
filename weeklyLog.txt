@@ -2,5 +2,6 @@
 
 9/27: organized files, read paper discussing ENF signals
 10/4: with Jon and Howie, wrote proposal. Brainstormed general strategy for how to extract ENF signal from audio
-10/11: worked a bunch
+10/11: worked with Jon and Howie on matlab code to generalize reading in data provided by IEEE. Saved all the data in a convenient format to use for testing later on. Set up github for the project and showed Jon and Howie how to use it. Made a gameplan for how to split up the work going forward
+10/18: Began to try to extract the ENF signal from the audio files provided as specified in a paper found. The paper gives a clear method for how to extract it and we'll see if it gives results as expected.
 
