@@ -2,16 +2,21 @@
 % Modified by Noah Santacruz
 % Audio ENF Extraction Test
 clc,clear, close all;
-A_Aud = load('A_Aud.mat', 'tempCell');
+A_Aud = load('I_Pow.mat', 'tempCell');
+%A 60, B 50, C 60, D 50,I 60
 
 %%
 fs = 1000;                          % sample rate
 
-AA1_test_Orig = A_Aud.tempCell{1};     % get samples of first audio file
+AA1_test_Orig = A_Aud.tempCell{3};     % get samples of first audio file
 AA1_max = max(abs(AA1_test_Orig));       % find maximum absolute value
 AA1_test_Orig = AA1_test_Orig/AA1_max;        % scale signal
 
-AA1_test = filterENF(AA1_test_Orig,60,1,3);
+midf = 60;
+df = 1;
+decF = 3;
+
+AA1_test = filterENF(AA1_test_Orig,midf,1,decF);
 %AA1_test = AA1_test_Orig;
 
 AA1_test_len = length(AA1_test);    % length of signal
@@ -23,6 +28,12 @@ fft_len = 1000;                     % FFT length (hop*fs*pad*factor)
 K = sum(hamming(wlen, 'periodic'))/wlen;
 
 [s, f, t] = stft2(AA1_test, wlen, hop, fft_len, fs);
+
+qifftSig = qifft(s,f,t,(midf-df)*decF,(midf+df)*decF,midf);
+figure;
+plot(t,qifftSig);
+%axis([1 t(end) midf-1.2*df midf+1.2*df]);
+title('Estimated ENF!');
 
 %%
 
