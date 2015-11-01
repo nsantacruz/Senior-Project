@@ -3,15 +3,15 @@
 % Audio ENF Extraction Test
 clc,clear, close all;
 gridLetters = 'ABCDEFGHI';
-gridFreqs = [60 50 60 50 50 50 50 50 60];
+gridFreqs = [58.5 50 60 50 50 50 50 50 60];
 recTypes = {'Pow' 'Aud'};
 
 for ii = 1:1
 %--INPUT PARAMS--
-grid = 'D';                         %which grid
+grid = 'A';                         %which grid
 sampleNum = ii;                     %which sample rec of grid
 harmNum = 1;                        %which harmonic of enf
-type = 1;                           %power = 1 audio = 2
+type = 2;                           %power = 1 audio = 2
 %--END INPUT PARAMS--
 
 A_Aud = load([grid '_' recTypes{type} '.mat'], 'tempCell');
@@ -25,8 +25,8 @@ AA1_max = max(abs(AA1_test_Orig));       % find maximum absolute value
 AA1_test_Orig = AA1_test_Orig/AA1_max;        % scale signal
 
 midf = harmNum*gridFreqs(gridLetters == grid);
-df = 3;
-decF = 1;
+df = 2;
+decF = 3;
 
 AA1_test = filterENF(AA1_test_Orig,midf,1,decF);
 %AA1_test = AA1_test_Orig;
@@ -40,14 +40,13 @@ fft_len = 1000;                     % FFT length (hop*fs*pad*factor)
 K = sum(hamming(wlen, 'periodic'))/wlen;
 
 [s, f, t] = stft2(AA1_test, wlen, hop, fft_len, fs);
-[peaks, qifftSig] = qifft(s,f,(midf-df)*decF,(midf+df)*decF, fs*decF);
-qifftSig = qifftSig;
+[peaks, qifftSig] = qifft(s,f,(midf-df)*decF,(midf+df)*decF, fs/decF);
 figure;
 plot(t,abs(qifftSig));
 
-%tdmfSig = tdmf(qifftSig,50,0.03);
-%figure;
-%plot(t,tdmfSig);
+tdmfSig = tdmf(qifftSig,50,0.03);
+figure;
+plot(t,tdmfSig);
 
 %axis([1 t(end) midf-1.2*df midf+1.2*df]);
 title(['Estimated ENF Grid ' grid ' ' recTypes{type} ' ' int2str(sampleNum)]);

@@ -17,12 +17,13 @@ function [ peaks, peaks_freq ] = qifft( s,f,f1,f2,fs )
 s = 20*log10(abs(s));                          %not sure if this is right, but it's weird to have complex frequencies in final answer
 sfilt = s(f1Ind:f2Ind,:);            %only care about s in range f1,f2
 [beta,maxInds] = max(sfilt);         %get max in each column
+maxInds = maxInds +f1Ind-1;          %readjust maxInds so that it matches indices in s, not sfilt
 
 alpha = zeros(size(beta));
 lambda = zeros(size(beta));
 for ii = 1:length(beta)
-   alpha(ii) = s(maxInds(ii)-1+f1Ind-1,ii);   %access freqs in s not sfilt so it's less likely your out of range
-   lambda(ii) = s(maxInds(ii)+1+f1Ind-1,ii);
+   alpha(ii) = s(maxInds(ii)-1,ii);   %access freqs in s not sfilt so it's less likely your out of range
+   lambda(ii) = s(maxInds(ii)+1,ii);
 end
 % alpha = 20*log10(alpha);
 % lambda = 20*log10(lambda);
@@ -31,7 +32,7 @@ p = (.5*(alpha-lambda))./(alpha-2*beta+lambda);
 peaks = beta - .25*(alpha - lambda).*p;
 % p = 10.^(p/20);
 k_star = maxInds + p;
-peaks_freq = k_star*fs/length(f);
+peaks_freq = .5*k_star*fs/length(f);
 
 if false
     testpoint = 150;

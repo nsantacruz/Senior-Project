@@ -13,7 +13,14 @@ for ii = 1:length(in)
 end
 
 detrended = in - med;
-detrendedThreshI = detrended > thresh | detrended < -thresh;
+
+[di,dc] = kmeans(abs(detrended)',3,'Replicates',20);
+dc = sort(dc);
+
+
+%detrendedThreshI = detrended > thresh | detrended < -thresh;
+detrendedThreshI = di == 2 | di == 3;              %all of the bad indices are when the class is 2
+
 
 if true
 figure;
