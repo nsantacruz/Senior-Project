@@ -1,16 +1,36 @@
 % Howard Chen
 % Audio ENF Extraction Test
 
+clear all; close all;
+
 A_Aud = load('A_Aud.mat', 'tempCell');
 
 %%
 fs = 1000;                          % sample rate
 
-AA1_test = A_Aud.tempCell{1,1};     % get samples of first audio file
+AA1_test = A_Aud.tempCell{1};       % get samples of first audio file
 AA1_max = max(abs(AA1_test));       % find maximum absolute value
 AA1_test = AA1_test/AA1_max;        % scale signal
 
-AA1_test = decimate(AA1_test, 3);   % Decimate by 3
+% Decimate
+decFactor = 3;
+AA1_test = decimate(AA1_test, decFactor);
+
+% Filter
+
+% Expected ENF frequency (Hz)
+f_exp = 60;
+f_tol = 3; % +/- ENF frequency (Hz)
+
+bOrd = 3;
+fn = fs/2;
+f1 = (f_exp-f_tol)*decFactor; 
+f2 = (f_exp+f_tol)*decFactor;
+w1 = f1/fn; w2 = f2/fn;
+Wp = [w1 w2];
+[b,a] = butter(bOrd,Wp);
+AA1_test = filter(b,a,AA1_test);
+
 
 AA1_test_len = length(AA1_test);    % length of signal
 wlen = 1000;                        % window length
@@ -37,18 +57,19 @@ end
 
 % convert amplitude spectrum to dB (min = -120 dB)
 s = 20*log10(s + 1e-6);
+f = f/3;
 
 % plot the spectrogram
 figure
 imagesc(t, f, s)
 set(gca,'YDir','normal')
-set(gca, 'FontName', 'Times New Roman', 'FontSize', 14)
-ylim([0, 300]);
+set(gca, 'FontSize', 14)
+ylim([0, 100]);
 xlabel('Time, s')
 ylabel('Frequency, Hz')
-title('Amplitude spectrogram of the signal')
+title('Amplitude Spectrogram - Audio Recording (Grid A, 1)')
 handl = colorbar;
-set(handl, 'FontName', 'Times New Roman', 'FontSize', 14)
+set(handl, 'FontSize', 14)
 ylabel(handl, 'Magnitude, dB')
 
 

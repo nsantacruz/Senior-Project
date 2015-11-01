@@ -33,22 +33,18 @@ peaks = beta - .25*(alpha - lambda).*p;
 k_star = maxInds + p;
 peaks_freq = k_star*fs/length(f);
 
-if false
-    testpoint = 150;
-    a = alpha(testpoint);
-    b = beta(testpoint);
-    l = lambda(testpoint);
-    m = maxInds(testpoint);
-    k = k_star(testpoint);
+testpoint = 10;
+a = alpha(testpoint);
+b = beta(testpoint);
+l = lambda(testpoint);
+m = maxInds(testpoint);
+k = k_star(testpoint);
 
-    pf = polyfit([m-1,m,m+1],[a,b,l],2);
-    pv = polyval(pf,linspace(m-1,m+1));
+p = polyfit([a,b,l],[m-1,m,m+1],2);
 
-    figure;hold on; 
-    plot([m-1 m m+1],[a,b,l],'ob');
-    plot(k,peaks(10),'or');
-    plot(linspace(m-1,m+1),pv,'m');
-    hold off;
-end
+figure;hold on; 
+plot([m-1 m m+1],[a,b,l],'ob');
+plot(k,peaks(10),'or');hold off;
+hold off;
 end
 

@@ -8,10 +8,10 @@ recTypes = {'Pow' 'Aud'};
 
 for ii = 1:1
 %--INPUT PARAMS--
-grid = 'A';                         %which grid
+grid = 'D';                         %which grid
 sampleNum = ii;                     %which sample rec of grid
 harmNum = 1;                        %which harmonic of enf
-type = 2;                           %power = 1 audio = 2
+type = 1;                           %power = 1 audio = 2
 %--END INPUT PARAMS--
 
 A_Aud = load([grid '_' recTypes{type} '.mat'], 'tempCell');
@@ -26,7 +26,7 @@ AA1_test_Orig = AA1_test_Orig/AA1_max;        % scale signal
 
 midf = harmNum*gridFreqs(gridLetters == grid);
 df = 3;
-decF = 3;
+decF = 1;
 
 AA1_test = filterENF(AA1_test_Orig,midf,1,decF);
 %AA1_test = AA1_test_Orig;
@@ -40,14 +40,14 @@ fft_len = 1000;                     % FFT length (hop*fs*pad*factor)
 K = sum(hamming(wlen, 'periodic'))/wlen;
 
 [s, f, t] = stft2(AA1_test, wlen, hop, fft_len, fs);
-
-qifftSig = qifft(s,f,t,(midf-df)*decF,(midf+df)*decF,midf);
+[peaks, qifftSig] = qifft(s,f,(midf-df)*decF,(midf+df)*decF, fs*decF);
+qifftSig = qifftSig;
 figure;
-plot(t,qifftSig);
+plot(t,abs(qifftSig));
 
-tdmfSig = tdmf(qifftSig,50,0.03);
-figure;
-plot(t,tdmfSig);
+%tdmfSig = tdmf(qifftSig,50,0.03);
+%figure;
+%plot(t,tdmfSig);
 
 %axis([1 t(end) midf-1.2*df midf+1.2*df]);
 title(['Estimated ENF Grid ' grid ' ' recTypes{type} ' ' int2str(sampleNum)]);
