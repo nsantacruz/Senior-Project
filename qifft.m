@@ -10,6 +10,7 @@ function [ peaks ] = qifft( s,f,t,f1,f2,offsetf )
 
 [~,f1Ind] = min(abs(f-f1));
 [~,f2Ind] = min(abs(f-f2));
+f2Ind = f2Ind+1; %in case f1 and f2 are very close
 
 s = abs(s);                          %not sure if this is right, but it's weird to have complex frequencies in final answer
 sfilt = s(f1Ind:f2Ind,:);            %only care about s in range f1,f2
@@ -18,14 +19,14 @@ sfilt = s(f1Ind:f2Ind,:);            %only care about s in range f1,f2
 alpha = zeros(size(beta));
 lambda = zeros(size(beta));
 for ii = 1:length(beta)
-   alpha(ii) = s(maxInds(ii)-1+f1,ii);   %access freqs in s not sfilt so it's less likely your out of range
-   lambda(ii) = s(maxInds(ii)+1+f1,ii);
+   alpha(ii) = s(maxInds(ii)-1+f1Ind-1,ii);   %access freqs in s not sfilt so it's less likely your out of range
+   lambda(ii) = s(maxInds(ii)+1+f1Ind-1,ii);
 end
 alpha = 20*log10(alpha);
 lambda = 20*log10(lambda);
 beta = 20*log10(beta);
 peaks = (.5*(alpha-lambda))./(alpha-2*beta+lambda);
-peaks = peaks+offsetf;
+peaks = 10.^(peaks./20) + offsetf-1;
 
 end
 

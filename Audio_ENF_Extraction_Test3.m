@@ -2,18 +2,30 @@
 % Modified by Noah Santacruz
 % Audio ENF Extraction Test
 clc,clear, close all;
-A_Aud = load('I_Pow.mat', 'tempCell');
+gridLetters = 'ABCDEFGHI';
+gridFreqs = [60 50 60 50 50 50 50 50 60];
+recTypes = {'Pow' 'Aud'};
+
+for ii = 1:1
+%--INPUT PARAMS--
+grid = 'A';                         %which grid
+sampleNum = ii;                     %which sample rec of grid
+harmNum = 1;                        %which harmonic of enf
+type = 2;                           %power = 1 audio = 2
+%--END INPUT PARAMS--
+
+A_Aud = load([grid '_' recTypes{type} '.mat'], 'tempCell');
 %A 60, B 50, C 60, D 50,I 60
 
 %%
 fs = 1000;                          % sample rate
 
-AA1_test_Orig = A_Aud.tempCell{3};     % get samples of first audio file
+AA1_test_Orig = A_Aud.tempCell{sampleNum};     % get samples of first audio file
 AA1_max = max(abs(AA1_test_Orig));       % find maximum absolute value
 AA1_test_Orig = AA1_test_Orig/AA1_max;        % scale signal
 
-midf = 60;
-df = 1;
+midf = harmNum*gridFreqs(gridLetters == grid);
+df = 3;
 decF = 3;
 
 AA1_test = filterENF(AA1_test_Orig,midf,1,decF);
@@ -32,8 +44,13 @@ K = sum(hamming(wlen, 'periodic'))/wlen;
 qifftSig = qifft(s,f,t,(midf-df)*decF,(midf+df)*decF,midf);
 figure;
 plot(t,qifftSig);
+
+tdmfSig = tdmf(qifftSig,50,0.03);
+figure;
+plot(t,tdmfSig);
+
 %axis([1 t(end) midf-1.2*df midf+1.2*df]);
-title('Estimated ENF!');
+title(['Estimated ENF Grid ' grid ' ' recTypes{type} ' ' int2str(sampleNum)]);
 
 %%
 
@@ -64,4 +81,4 @@ handl = colorbar;
 set(handl, 'FontName', 'Times New Roman', 'FontSize', 14)
 ylabel(handl, 'Magnitude, dB')
 
-
+end
