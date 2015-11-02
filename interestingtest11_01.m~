@@ -104,6 +104,33 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
     AA1_max = max(abs(x));       % find maximum absolute value
     scldx = x/AA1_max;        % scale signal
 
+%     midf = gridFreqs(trainingGridLetters == trainingGrid);
+%     df = 3;
+%     decF = 3;
+%     AA1_test_Orig = scldx;
+%     AA1_test = filterENF(AA1_test_Orig,midf,1,decF);
+%     %AA1_test = AA1_test_Orig;
+% 
+%     AA1_test_len = length(AA1_test);    % length of signal
+%     wlen = 1000;                        % window length
+%     hop = wlen/4;                       % hop size
+%     pad = 2;                            % zero padding factor of 4
+%     fft_len = 1000;                     % FFT length (hop*fs*pad*factor) 
+% 
+%     K = sum(hamming(wlen, 'periodic'))/wlen;
+% 
+%     [s, f, noahsT] = stft2(AA1_test, wlen, hop, fft_len, fs);
+% 
+% qifftSig = qifft(s,f,noahsT,(midf-df)*decF,(midf+df)*decF,midf);
+% tdmfSig = tdmf(qifftSig,50,0.03);
+%     
+% 
+% w_length = 100;
+% modm = mod(length(qifftSig),w_length);
+% numpad = w_length-modm;
+% qifftSig = padarray(qifftSig,[0 numpad],'post');
+% qifftSig = qifftSig';
+
 w_length = 1000;
     %lengthx = lengthx + length(x)
     %count = count+ 1;
@@ -190,6 +217,36 @@ w_length = 1000;
     %[x, fs] = audioread(tempStr);  % get the samples of the .wav file
     AA1_max = max(abs(x));       % find maximum absolute value
     scldx = x/AA1_max;        % scale signal
+
+%     midf = gridFreqs(trainingGridLetters == trainingGrid);
+%     df = 3;
+%     decF = 3;
+%     AA1_test_Orig = scldx;
+%     AA1_test = filterENF(AA1_test_Orig,midf,1,decF);
+%     %AA1_test = AA1_test_Orig;
+% 
+%     AA1_test_len = length(AA1_test);    % length of signal
+%     wlen = 1000;                        % window length
+%     hop = wlen/4;                       % hop size
+%     pad = 2;                            % zero padding factor of 4
+%     fft_len = 1000;                     % FFT length (hop*fs*pad*factor) 
+% 
+%     K = sum(hamming(wlen, 'periodic'))/wlen;
+% 
+%     [s, f, noahsT] = stft2(AA1_test, wlen, hop, fft_len, fs);
+% 
+% qifftSig = qifft(s,f,noahsT,(midf-df)*decF,(midf+df)*decF,midf);
+% tdmfSig = tdmf(qifftSig,50,0.03);
+%     
+%     
+%     
+% w_length = 100;
+% modm = mod(length(qifftSig),w_length);
+% numpad = w_length-modm;
+% qifftSig = padarray(qifftSig,[0 numpad],'post');
+% qifftSig = qifftSig';
+    
+
 
     w_length = 1000;
     %All_recordings{count} = x;
