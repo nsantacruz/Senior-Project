@@ -22,7 +22,8 @@ function [filteredSignal] = filterENF(signal,f,df,decFactor)
     if true
         figure;
         spectrogram(signal,wlen,4096,nfft,fs,'yaxis');
-        title('Spectrogram of Orig Signal');
+        title('Spectrogram of Power Recording');
+        colormap('hot');
         figure;
         spectrogram(filteredSignal,wlen,4096,nfft,fs,'yaxis');
         title('Spectrogram of Filtered Signal');
