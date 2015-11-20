@@ -4,12 +4,11 @@ import scipy
 import numpy as np
 from scipy.io import wavfile
 
-def get_features(wlength=10000):
+def get_all_features(wlength=10000):
     recordingTypeLetters = 'AP'
     recordingTypeNames = ['Audio_recordings','Power_recordings']
     recording_file = ['Aud','Pow']
     numRecordingsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11]
-    numRecordingsPerGrid = [0,9]
 
 
 
@@ -18,7 +17,6 @@ def get_features(wlength=10000):
 
     trainingGridLetters = 'ABCDEFGHI'
     count = 0
-    #All_recordings = cell(sum(numRecordingsPerGrid),1)
 
     for recIndex,tempNumRecordings in enumerate(numRecordingsPerGrid):
 
@@ -27,7 +25,6 @@ def get_features(wlength=10000):
         recording_file_name = recording_file[recIndex%2]
         trainingGrid = trainingGridLetters[int(math.floor(recIndex/2))]
 
-        #tempCell = cell(endofii,1)
         tempCell = [0 for i in range(tempNumRecordings)]
 
         for i in range(tempNumRecordings):
@@ -41,56 +38,82 @@ def get_features(wlength=10000):
             #tempCell{ii} = x;
             tempCell[i] = tempSig;
 
-            windowedSig = np.reshape(tempSig,(tempSig.shape[0]/wlength,wlength))
+            feature_set = get_features(tempSig,wlength)
 
-            '''
-                        %Integrated ENF Signal
-            IENF_Tr = sum(abs(tempTest_Tr));
-            %Mean Absolute Value
-            MAV_Tr = mean(abs(tempTest_Tr));
-            % Mean Absolute Value Slope - gives the difference beween MAVs of adjacent
-            % segments
-            MAVS_Tr = diff(MAV_Tr);
-            %Simple Square Integral - total power per window
-            SSI_Tr = sum(abs(tempTest_Tr).^2);
-            %Variance
-            Var_Tr = var(tempTest_Tr,0);%,%,2); %0 makes this unweighted, so it is equal to var(x)
-            %RMS - root mean square
-            RMS_Tr = sqrt(mean(tempTest_Tr.^2));
-            % Waveform Length - cumulative length of the waveform over the time segment
-            WL_Tr = sum(abs(diff(tempTest_Tr)));
-            '''
-            #start extracting features
+            if recIndex%2 == 0:
+                tempclassVec = (np.zeros((feature_set.shape[0],1))+recIndex/2)
+                feature_set = np.append(tempclassVec,feature_set,axis=1)
 
-            #Integrated ENF Sig
-            IENF_Tr = np.sum(np.abs(windowedSig))
-            #Mean Abs Val
-            MAV_Tr = np.mean(np.abs(windowedSig),1)
+                if len(featMatAudio) == 0:
+                    featMatAudio = feature_set
+                else:
+                    featMatAudio = np.append(featMatAudio,feature_set,axis=0)
+            else:
+                tempclassVec = (np.zeros((feature_set.shape[0],1))+(recIndex-1)/2)
+                feature_set = np.append(tempclassVec,feature_set,axis=1)
+                if len(featMatPower) == 0:
+                    featMatPower = feature_set
+                else:
+                   featMatPower = np.append(featMatPower,feature_set,axis=0)
 
-            #Mean Abs Value Slope - gives the difference between MAVs of adjacent segments
-            MAVS_Tr = np.diff(MAV_Tr)
-            #Simple Square Integral - total power per window
-            SSI_Tr = np.sum(np.power(np.abs(windowedSig),2))
-            #Variance
-            Var_Tr = np.var(windowedSig)
-            #RMS - root mean square
-            RMS_Tr = np.sqrt(np.mean(np.power(windowedSig,2)))
-            #Waveform Length - cumulative length of the waveform over the time segment
-            WL_Tr = np.sum(np.abs(np.diff(windowedSig)))
+
+    return (featMatPower,featMatAudio)
 
 
 
 
+def get_features(signal,wlength=10000):
+    windowedSig = np.reshape(signal,(signal.shape[0]/wlength,wlength))
+
+    #TIME DOMAIN
+
+    #Integrated ENF Sig
+    IENF_Tr = np.sum(np.abs(windowedSig),1)
+    #Mean Abs Val
+    MAV_Tr = np.mean(np.abs(windowedSig),1)
+
+    #Mean Abs Value Slope - gives the difference between MAVs of adjacent segments
+    MAVS_Tr = np.diff(MAV_Tr)
+    #Simple Square Integral - total power per window
+    SSI_Tr = np.sum(np.power(np.abs(windowedSig),2),1)
+    #Variance
+    Var_Tr = np.var(windowedSig,1)
+    #RMS - root mean square
+    RMS_Tr = np.sqrt(np.abs(np.mean(np.power(windowedSig,2),1)))
+    #Waveform Length - cumulative length of the waveform over the time segment
+    WL_Tr = np.sum(np.abs(np.diff(windowedSig,axis=1)),1)
+
+    #FREQUENCY DOMAIN
+
+    #FFT
+    FFT_Tr = np.fft.fft(windowedSig)
+    #Mean Frequency
+
+    #Mean Absolute Value - Freq
+    MAVFreq_Tr = np.mean(np.abs(FFT_Tr),1)
+    # Mean Absolute Value Slope - Frequency
+    MAVSFreq_Tr = np.diff(MAVFreq_Tr)
+    #Maximum frequency
+    MaxFreq_Tr = np.max(np.abs(FFT_Tr),1)
+    #Frequency Variance
+    VarFreq_Tr = np.var(FFT_Tr,1)
+    #Frequency RMS
+    RMSFreq_Tr = np.abs(np.sqrt(np.mean(np.power(FFT_Tr,2),1)))
+
+    feature_set = np.array([IENF_Tr[:-1],MAV_Tr[:-1],MAVS_Tr,SSI_Tr[:-1],Var_Tr[:-1],RMS_Tr[:-1], \
+                            WL_Tr[:-1],MAVFreq_Tr[:-1],MAVSFreq_Tr,MaxFreq_Tr[:-1],VarFreq_Tr[:-1],RMSFreq_Tr[:-1]])
+
+    feature_set = feature_set.T
+
+    return feature_set
 
 
-    #np.save(trainingGrid + '_' + recording_file_name + '.npy',tempCell)
 
 
 
 
-
-
-get_features()
+#example of how to run it
+featMatPower, featMatAudio = get_all_features()
 
 
 
