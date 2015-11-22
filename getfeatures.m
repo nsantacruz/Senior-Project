@@ -63,9 +63,9 @@ function [ feature_mat, ind ] = getfeatures( signals )
             % FFT
             FFT_Tr = fft(tempTest_Tr);
             % FFT_Tr = abs(FFT_Tr)/max(abs(FFT_Tr));
-            % Mean Frequency
+            % Mean Frequency**************
             MeanFreq_Tr = meanfreq(tempTest_Tr);
-            % Median Frequency
+            % Median Frequency************
             MedFreq_Tr = medfreq(tempTest_Tr);
             % Mean Absolute Value - Frequency
             MAVFreq_Tr = mean(abs(FFT_Tr));

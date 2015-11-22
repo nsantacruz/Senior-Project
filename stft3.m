@@ -32,7 +32,7 @@ end
 xlen = length(x);
 
 % form a periodic hamming window, with trailing zeros
-win = hamming(wlen, 'periodic');
+win = rectwin(wlen);
 
 % form the stft matrix
 rown = ceil((1+nfft)/2);                         % calculate the total number of rows
