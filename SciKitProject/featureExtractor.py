@@ -134,12 +134,14 @@ def splitFeatMat(featMat,indVec,numRecsPerGrid,numTestingRecsPerGrid):
         trainRecInds = tempRecInds[numTestingRecsPerGrid:]
 
         for tempTestRecInd in testRecInds:
+            tempTestRecInd = int(tempTestRecInd)
             try:
                 testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]:indVec[tempTestRecInd+1],:])
             except IndexError:
                 testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]:,:])
 
         for tempTrainRecInd in trainRecInds:
+            tempTrainRecInd = int(tempTrainRecInd)
             try:
                 trainingMat = np.append(trainingMat,featMat[indVec[tempTrainRecInd]:indVec[tempTrainRecInd+1],:])
             except IndexError:
@@ -160,9 +162,13 @@ def splitFeatMat(featMat,indVec,numRecsPerGrid,numTestingRecsPerGrid):
 
 #example of how to run it
 featMatPower,featMatAudio,indVecPower,numPowerRecsPerGrid,indVecAudio,numAudioRecsPerGrid= get_all_features()
-trainingMat,testingMat = splitFeatMat(featMatPower,indVecPower,numPowerRecsPerGrid,2)
 
-yo = 4
+np.save("featMatPower.npy",featMatPower)
+np.save("indVecPower.npy",indVecPower)
+np.save("numPowerRecsPerGrid.npy",numPowerRecsPerGrid)
+#trainingMat,testingMat = splitFeatMat(featMatPower,indVecPower,numPowerRecsPerGrid,2)
+
+#yo = 4
 
 
 
