@@ -9,11 +9,15 @@ def get_all_features(wlength=10000):
     recordingTypeNames = ['Audio_recordings','Power_recordings']
     recording_file = ['Aud','Pow']
     numRecordingsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11]
-
+    numPowerRecsPerGrid = numRecordingsPerGrid[1::2]
+    numAudioRecsPerGrid = numRecordingsPerGrid[0::2]
+    print numPowerRecsPerGrid
 
 
     featMatAudio = []
     featMatPower = []
+    indVecPower = []
+    indVecAudio = []
 
     trainingGridLetters = 'ABCDEFGHI'
     count = 0
@@ -40,7 +44,9 @@ def get_all_features(wlength=10000):
 
             feature_set = get_features(tempSig,wlength)
 
-            if recIndex%2 == 0:
+
+            if recIndex%2 == 0: #AUDIO
+                indVecAudio.append(feature_set.shape[0])
                 tempclassVec = (np.zeros((feature_set.shape[0],1))+recIndex/2)
                 feature_set = np.append(tempclassVec,feature_set,axis=1)
 
@@ -48,7 +54,8 @@ def get_all_features(wlength=10000):
                     featMatAudio = feature_set
                 else:
                     featMatAudio = np.append(featMatAudio,feature_set,axis=0)
-            else:
+            else: #POWER
+                indVecPower.append(feature_set.shape[0])
                 tempclassVec = (np.zeros((feature_set.shape[0],1))+(recIndex-1)/2)
                 feature_set = np.append(tempclassVec,feature_set,axis=1)
                 if len(featMatPower) == 0:
@@ -57,7 +64,7 @@ def get_all_features(wlength=10000):
                    featMatPower = np.append(featMatPower,feature_set,axis=0)
 
 
-    return (featMatPower,featMatAudio)
+    return (featMatPower,featMatAudio,indVecPower,numPowerRecsPerGrid,indVecAudio,numAudioRecsPerGrid)
 
 
 
@@ -107,13 +114,55 @@ def get_features(signal,wlength=10000):
 
     return feature_set
 
+#takes feature matrix of N features and M samples (featMat is MxN+1)
+def splitFeatMat(featMat,indVec,numRecsPerGrid,numTestingRecsPerGrid):
+    trainingMat = np.array([])
+    testingMat = np.array([])
+
+    recCount = 0
+    for numRecs in numRecsPerGrid:
+        startRecInd = recCount
+        endRecInd = recCount + numRecs - 1
+
+        tempRecInds = np.array([])
+        for i in range(startRecInd,endRecInd+1):
+            tempRecInds = np.append(tempRecInds,i)
+
+        np.random.shuffle(tempRecInds)
+
+        testRecInds = tempRecInds[0:numTestingRecsPerGrid]
+        trainRecInds = tempRecInds[numTestingRecsPerGrid:]
+
+        for tempTestRecInd in testRecInds:
+            try:
+                testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]:indVec[tempTestRecInd+1],:])
+            except IndexError:
+                testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]:,:])
+
+        for tempTrainRecInd in trainRecInds:
+            try:
+                trainingMat = np.append(trainingMat,featMat[indVec[tempTrainRecInd]:indVec[tempTrainRecInd+1],:])
+            except IndexError:
+                trainingMat = np.append(trainingMat,featMat[indVec[tempTrainRecInd]:,:])
+
+
+        recCount += numRecs
+
+    return (trainingMat,testingMat)
+
+
+
+
 
 
 
 
 
 #example of how to run it
-featMatPower, featMatAudio = get_all_features()
+featMatPower,featMatAudio,indVecPower,numPowerRecsPerGrid,indVecAudio,numAudioRecsPerGrid= get_all_features()
+trainingMat,testingMat = splitFeatMat(featMatPower,indVecPower,numPowerRecsPerGrid,2)
+
+yo = 4
 
 
 
