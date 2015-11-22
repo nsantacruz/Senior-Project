@@ -4,7 +4,7 @@ format compact
 recordingTypeLetters = 'PA'
 recordingTypeNames = {'Power_recordings','Audio_recordings'};
 recording_file = {'Pow', 'Aud'};
-numRecordingsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11]
+numRecordingsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
 trainingGridLetters = 'ABCDEFGHI' ;
 count = 0;
 All_recordings = cell(sum(numRecordingsPerGrid),1);

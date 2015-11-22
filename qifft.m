@@ -1,4 +1,4 @@
-function [ peaks, peaks_freq ] = qifft( s,f,f1,f2,fs )
+function [ peaks, peaks_freq,sfilt1,ffilt1 ] = qifft( s,f,f1,f2,fs )
 %given s,f,t outputs of stft2, compute qifft
 %s is spectrogram of signal
 %f is vector representing fft frequency bins
@@ -13,9 +13,14 @@ function [ peaks, peaks_freq ] = qifft( s,f,f1,f2,fs )
 [~,f1Ind] = min(abs(f-f1));
 [~,f2Ind] = min(abs(f-f2));
 % f2Ind = f2Ind+1; %in case f1 and f2 are very close
-
+ffilt = f(f1Ind:f2Ind);
 s = 20*log10(abs(s));                          %not sure if this is right, but it's weird to have complex frequencies in final answer
 sfilt = s(f1Ind:f2Ind,:);            %only care about s in range f1,f2
+
+
+offset = 10;
+sfilt1 = s(f1Ind-offset:f2Ind+offset,:);
+ffilt1 = f(f1Ind-offset:f2Ind+offset);
 [beta,maxInds] = max(sfilt);         %get max in each column
 maxInds = maxInds +f1Ind-1;          %readjust maxInds so that it matches indices in s, not sfilt
 

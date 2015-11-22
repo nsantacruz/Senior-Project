@@ -14,7 +14,7 @@ end
 
 detrended = in - med;
 
-[di,dc] = kmeans(abs(detrended)',3,'Replicates',20);
+[di,dc] = kmeans(abs(detrended)',2,'Replicates',20);
 dc = sort(dc);
 
 
@@ -25,8 +25,8 @@ detrendedThreshI = di == 2 | di == 3;              %all of the bad indices are w
 if true
 figure;
 hold on;
-plot(1:length(detrended),zeros(size(detrended))+thresh,'r');
-plot(1:length(detrended),zeros(size(detrended))-thresh,'r');
+plot(1:length(detrended),zeros(size(detrended))+dc(2),'r');
+plot(1:length(detrended),zeros(size(detrended))-dc(2),'r');
 plot(detrended,'b');
 hold off;
 end
