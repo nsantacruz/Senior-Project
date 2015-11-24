@@ -1,29 +1,25 @@
 
-
-
 import classtest
 import scipy.io as sio
 import numpy as np
 
-xtrain=sio.loadmat('xtrain.mat')
+xtrain=sio.loadmat('xtrainR1.mat')
 # print xtrain
-# print "done!"
+
 xtrain=xtrain['xtrain']
-ytrain=sio.loadmat('ytrain.mat')
+ytrain=sio.loadmat('ytrainR1.mat')
 ytrain = ytrain['ytrain']
-xtest=sio.loadmat('xtest.mat')
+xtest=sio.loadmat('xtestR1.mat')
 xtest = xtest['xtest']
-ytest=sio.loadmat('ytest.mat')
+ytest=sio.loadmat('ytestR1.mat')
 ytest=ytest['ytest']
 
 ytrain1 = np.ravel(ytrain)
 ytest1 = np.ravel(ytest)
 
-print xtrain.shape
-print xtest.shape
 
 
-classtest.myclassify(numfiers=20,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
+classtest.myclassify(numfiers=21,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
 
 # xtrainwo = sio.loadmat('xtrainwo.mat')
 # # print xtrainwo

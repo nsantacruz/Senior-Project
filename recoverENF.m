@@ -51,7 +51,7 @@ filteredSig = filterENF(origSig,idealMidf,1,decF);
 %AA1_test = AA1_test_Orig;
 
 AA1_test_len = length(filteredSig);    % length of signal
-wlen = 1000;                        % window length
+wlen = 3000;                        % window length
 hop  = 100;                         % hop size
 zfac = 8;                           % zero padding factor of 4
 

@@ -278,9 +278,9 @@ ytrain = trainDat(:,1);
 xtest = testDat(:,2:end);
 ytest = testDat(:,1);
 
-save xtrain.mat xtrain
-save ytrain.mat ytrain
-save xtest.mat xtest
-save ytest.mat ytest
+save xtrainR1.mat xtrain
+save ytrainR1.mat ytrain
+save xtestR1.mat xtest
+save ytestR1.mat ytest
 
 
