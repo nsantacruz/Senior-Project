@@ -4,7 +4,7 @@ import scipy
 import numpy as np
 from scipy.io import wavfile
 
-def get_all_features(wlength=10000):
+def get_all_features(wlength=1000):
     recordingTypeLetters = 'AP'
     recordingTypeNames = ['Audio_recordings','Power_recordings']
     recording_file = ['Aud','Pow']
@@ -14,8 +14,8 @@ def get_all_features(wlength=10000):
     print numPowerRecsPerGrid
 
 
-    featMatAudio = []
-    featMatPower = []
+    featMatAudio = np.empty((0,13))
+    featMatPower = np.empty((0,13))
     indVecPower = []
     indVecAudio = []
 
@@ -49,19 +49,13 @@ def get_all_features(wlength=10000):
                 indVecAudio.append(feature_set.shape[0])
                 tempclassVec = (np.zeros((feature_set.shape[0],1))+recIndex/2)
                 feature_set = np.append(tempclassVec,feature_set,axis=1)
+                featMatAudio = np.append(featMatAudio,feature_set,axis=0)
 
-                if len(featMatAudio) == 0:
-                    featMatAudio = feature_set
-                else:
-                    featMatAudio = np.append(featMatAudio,feature_set,axis=0)
             else: #POWER
                 indVecPower.append(feature_set.shape[0])
                 tempclassVec = (np.zeros((feature_set.shape[0],1))+(recIndex-1)/2)
                 feature_set = np.append(tempclassVec,feature_set,axis=1)
-                if len(featMatPower) == 0:
-                    featMatPower = feature_set
-                else:
-                   featMatPower = np.append(featMatPower,feature_set,axis=0)
+                featMatPower = np.append(featMatPower,feature_set,axis=0)
 
 
     return (featMatPower,featMatAudio,indVecPower,numPowerRecsPerGrid,indVecAudio,numAudioRecsPerGrid)
@@ -69,7 +63,7 @@ def get_all_features(wlength=10000):
 
 
 
-def get_features(signal,wlength=10000):
+def get_features(signal,wlength=1000):
     windowedSig = np.reshape(signal,(signal.shape[0]/wlength,wlength))
 
     #TIME DOMAIN
@@ -120,6 +114,7 @@ def splitFeatMat(featMat,indVec,numRecsPerGrid,numTestingRecsPerGrid):
     testingMat = np.array([])
 
     recCount = 0
+    featureRowCount = 0
     for numRecs in numRecsPerGrid:
         startRecInd = recCount
         endRecInd = recCount + numRecs - 1
@@ -136,16 +131,22 @@ def splitFeatMat(featMat,indVec,numRecsPerGrid,numTestingRecsPerGrid):
         for tempTestRecInd in testRecInds:
             tempTestRecInd = int(tempTestRecInd)
             try:
-                testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]:indVec[tempTestRecInd+1],:])
+                testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]+featureRowCount:indVec[tempTestRecInd+1]+featureRowCount,:])
+                featureRowCount += (indVec[tempTestRecInd+1]-indVec[tempTestRecInd])
             except IndexError:
-                testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]:,:])
+                testingMat = np.append(testingMat,featMat[indVec[tempTestRecInd]+featureRowCount:,:])
+
+
 
         for tempTrainRecInd in trainRecInds:
             tempTrainRecInd = int(tempTrainRecInd)
             try:
-                trainingMat = np.append(trainingMat,featMat[indVec[tempTrainRecInd]:indVec[tempTrainRecInd+1],:])
+                trainingMat = np.append(trainingMat,featMat[indVec[tempTrainRecInd]+featureRowCount:indVec[tempTrainRecInd+1]+featureRowCount,:])
+                featureRowCount += (indVec[tempTrainRecInd+1]-indVec[tempTrainRecInd])
             except IndexError:
-                trainingMat = np.append(trainingMat,featMat[indVec[tempTrainRecInd]:,:])
+                trainingMat = np.append(trainingMat,featMat[indVec[tempTrainRecInd]+featureRowCount:,:])
+
+
 
 
         recCount += numRecs
