@@ -22,7 +22,7 @@ dc = sort(dc);
 detrendedThreshI = di == 2 | di == 3;              %all of the bad indices are when the class is 2
 
 
-if true
+if false
 figure;
 hold on;
 plot(1:length(detrended),zeros(size(detrended))+dc(2),'r');

@@ -29,6 +29,7 @@ lambda = zeros(size(beta));
 for ii = 1:length(beta)
    alpha(ii) = s(maxInds(ii)-1,ii);   %access freqs in s not sfilt so it's less likely your out of range
    lambda(ii) = s(maxInds(ii)+1,ii);
+   
 end
 % alpha = 20*log10(alpha);
 % lambda = 20*log10(lambda);

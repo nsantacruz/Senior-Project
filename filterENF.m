@@ -19,7 +19,7 @@ function [filteredSignal] = filterENF(signal,f,df,decFactor)
     [b,a] = butter(bOrd,Wp);
     filteredSignal = filter(b,a,signal);
     %PLOTTING
-    if true
+    if false
         figure;
         spectrogram(signal,wlen,4096,nfft,fs,'yaxis');
         title('Spectrogram of Power Recording');

@@ -1,19 +1,16 @@
 % Howard Chen 
 % Modified by Noah Santacruz
 % Audio ENF Extraction Test
-clc,clear, close all;
+function [ enf ] = recoverENF(grid,recType,sampleNum)
 gridLetters = 'ABCDEFGHI';
-gridFreqs = [58.72 50 60 50 50 50 50 50 60];
-recTypes = {'Pow' 'Aud'};
+gridFreqs = [60 50 60 50 50 50 50 50 60];
+
+shouldPlot = false;
 
 %--INPUT PARAMS--
-grid = 'B';                         %which grid
-sampleNum = 1;                     %which sample rec of grid
-harmNum = 1;                        %which harmonic of enf
-type = 1;                           %power = 1 audio = 2
 %--END INPUT PARAMS--
 
-A_Aud = load([grid '_' recTypes{type} '.mat'], 'tempCell');
+A_Aud = load([grid '_' recType '.mat'], 'tempCell');
 AA1_test_Orig = A_Aud.tempCell{sampleNum};     % get samples of first audio file
 AA1_max = max(abs(AA1_test_Orig));       % find maximum absolute value
 AA1_test_Orig = AA1_test_Orig/AA1_max;        % scale signal
@@ -25,23 +22,22 @@ P1 = P2(1:L/2+1);
 P1(2:end-1) = 2*P1(2:end-1);
 
 f = 1000*(0:(L/2))/L;
+
+if shouldPlot
 figure;plot(f,P1);
+end
 
 %estimate the best frequency to bandpass around
 idealMidf = harmNum*gridFreqs(gridLetters == grid);
 [~,ind1] = min(abs(f-(idealMidf-3)));
 [~,ind2] = min(abs(f-(idealMidf+3)));
 [~,maxi] = max(P1(ind1:ind2));
-midf = f(maxi+ind1)
+midf = f(maxi+ind1);
 
 %%
 fs = 1000;                          % sample rate
-
-
-
-
-decF = 1;
-df = 3*decF;
+decF = 3;
+df = 1.9*decF;
 
 AA1_test = filterENF(AA1_test_Orig,idealMidf,1,decF);
 %AA1_test = AA1_test_Orig;
@@ -55,6 +51,8 @@ K = sum(hamming(wlen, 'periodic'))/wlen;
 
 [s, f, t] = stft3(AA1_test, wlen, hop, zfac, fs);
 [peaks, qifftSig,sfilt,ffilt] = qifft(s,f,(idealMidf-df)*decF,(idealMidf+df)*decF, fs/decF);
+
+if shouldPlot
 figure;
 plot(t,abs(qifftSig));
 
@@ -63,7 +61,6 @@ figure;
 hold on;
    
 imagesc(t,ffilt/decF,sfilt);
-
 set(gca,'YDir','normal')
 set(gca, 'FontName', 'Times New Roman', 'FontSize', 14)
 
@@ -81,6 +78,7 @@ hold off;
 %axis([1 t(end) midf-1.2*df midf+1.2*df]);
 %title(['Estimated ENF Grid ' grid ' ' recTypes{type} ' ' int2str(sampleNum)]);
 title('Recovered ENF Signal');
+end
 %%
 
 % take the amplitude of fft(x) and scale it, so not to be a
@@ -98,6 +96,7 @@ end
 s = 20*log10(s + 1e-6);
 
 % plot the spectrogram
+if shouldPlot
 figure
 imagesc(t, f, s)
 set(gca,'YDir','normal')
@@ -109,3 +108,5 @@ title('Amplitude spectrogram of the signal')
 handl = colorbar;
 set(handl, 'FontName', 'Times New Roman', 'FontSize', 14)
 ylabel(handl, 'Magnitude, dB')
+end
+en
