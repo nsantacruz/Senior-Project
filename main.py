@@ -1,17 +1,22 @@
 
 import classtest
+import FinalClassifier
 import scipy.io as sio
 import numpy as np
+from sklearn.ensemble import BaggingClassifier
+from sklearn.tree import ExtraTreeClassifier as ETC
 
-xtrain=sio.loadmat('xtrainR1.mat')
-# print xtrain
 
+xtrain=sio.loadmat('xtrainNorm.mat')
 xtrain=xtrain['xtrain']
-ytrain=sio.loadmat('ytrainR1.mat')
+
+ytrain = sio.loadmat('ytrainNorm.mat')
 ytrain = ytrain['ytrain']
-xtest=sio.loadmat('xtestR1.mat')
+
+xtest = sio.loadmat('xtestNorm.mat')
 xtest = xtest['xtest']
-ytest=sio.loadmat('ytestR1.mat')
+
+ytest=sio.loadmat('ytestNorm.mat')
 ytest=ytest['ytest']
 
 ytrain1 = np.ravel(ytrain)
@@ -19,7 +24,86 @@ ytest1 = np.ravel(ytest)
 
 
 
-classtest.myclassify(numfiers=21,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
+xtrainhold=sio.loadmat('xtrain2holdout.mat')
+xtrainhold=xtrainhold['xtrain']
+
+ytrainhold = sio.loadmat('ytrain2holdout.mat')
+ytrainhold = ytrainhold['ytrain']
+
+xtesthold = sio.loadmat('xtest2holdout.mat')
+xtesthold = xtesthold['xtest']
+
+ytesthold=sio.loadmat('ytest2holdout.mat')
+ytesthold=ytesthold['ytest']
+
+ytrainhold1 = np.ravel(ytrainhold)
+ytesthold1 = np.ravel(ytesthold)
+
+
+xtrainall=sio.loadmat('xtrainAll.mat')
+xtrainall=xtrainall['xtrain']
+
+ytrainall = sio.loadmat('ytrainAll.mat')
+ytrainall = ytrainall['ytrain']
+
+xtestall = sio.loadmat('xtesting.mat')
+xtestall = xtestall['xtesting']
+
+xtestallNorm = sio.loadmat('xtestingNorm.mat')
+xtestallNorm = xtestallNorm['xtestingNorm']
+
+ytrainall1 = np.ravel(ytrainall)
+
+
+
+xtrunclength = sio.loadmat('xtrunclength.mat')
+xtrunclength = xtrunclength['xtrunclength']
+# print xtrainall.shape
+# print ytrainall.shape
+# print ytrainall1.shape
+# print xtestall.shape
+
+xtestall = xtestall[~np.isnan(xtestall).any(axis=1),:]
+
+ytestclasses,yteststring = FinalClassifier.myclassify_practice_set(numfiers=1,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
+#classtest.myclassify(numfiers=5,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
+
+print xtrunclength.shape
+
+
+for i in xtrunclength:
+    if i==xtrunclength[0]:
+        
+
+
+
+
+
+# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
+# bagging2.fit(xtrainhold,ytrainhold1)
+# #print bagging2.score(xtest,ytest)
+#
+# print "\n for original holdouts \n" + "on training set score was" + str(bagging2.score(xtrainhold,ytrainhold1))
+# print "on holdout set score was" + str(bagging2.score(xtesthold,ytesthold1))
+#
+#
+#
+#
+# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
+# bagging2.fit(xtrain,ytrain1)
+# #print bagging2.score(xtest,ytest)
+#
+# print "for normalized signal \n" "on training set score was" + str(bagging2.score(xtrain,ytrain1))
+# print "on holdout set score was" + str(bagging2.score(xtest,ytest1))
+
+# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
+# bagging2.fit(xtrain,ytrain1)
+# #print bagging2.score(xtest,ytest)
+# ytest = bagging2.predict(xtest)
+# print ytest[1:1000]
+
+
+#classtest.myclassify(numfiers=21,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
 
 # xtrainwo = sio.loadmat('xtrainwo.mat')
 # # print xtrainwo

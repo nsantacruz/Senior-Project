@@ -42,7 +42,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print tree2.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,tree2.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         bagging1 = BaggingClassifier(ETC())
@@ -50,7 +50,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print bagging1.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,bagging1.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         # votingClassifiers combine completely different machine learning classifiers and use a majority vote
@@ -71,7 +71,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #     print ()
         count+=1
         classifiers = np.append(classifiers,eclf.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
 
     if count < numfiers:
@@ -80,7 +80,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         dec = svc1.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,svc1.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         # Quadradic discriminant analysis - classifier with quadratic decision boundary -
@@ -89,7 +89,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(qda.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,qda.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
 
 
@@ -101,7 +101,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print tree1.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,tree1.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         knn1 = neighbors.KNeighborsClassifier() # this classifies based on the #k nearest neighbors, where k is definted by the user.
@@ -109,7 +109,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(knn1.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,knn1.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
 
     if count < numfiers:
@@ -119,7 +119,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(lda.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,lda.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         tree3 = RFC()
@@ -127,7 +127,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print tree3.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,tree3.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         bagging3 = BaggingClassifier(RFC(),bootstrap=False,bootstrap_features=False)
@@ -135,7 +135,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print bagging3.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,bagging3.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
 
     if count < numfiers:
@@ -144,7 +144,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print bagging4.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,bagging4.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         tree4 = RFC(bootstrap=False)
@@ -152,7 +152,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print tree4.score(xtest,ytest)
         count+=1
         classifiers = np.append(classifiers,tree4.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         tree6 = GBC()
@@ -160,7 +160,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(tree6.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,tree6.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         knn2 = neighbors.KNeighborsClassifier(n_neighbors = 10)
@@ -168,7 +168,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(knn2.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,knn2.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         knn3 = neighbors.KNeighborsClassifier(n_neighbors = 3)
@@ -176,7 +176,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(knn3.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,knn3.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         knn4 = neighbors.KNeighborsClassifier(algorithm = 'ball_tree')
@@ -184,7 +184,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(knn4.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,knn4.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         knn5 = neighbors.KNeighborsClassifier(algorithm = 'kd_tree')
@@ -192,7 +192,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print(knn5.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,knn5.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         ncc1 = NearestCentroid()
@@ -200,7 +200,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
         #print (ncc1.score(xtest,ytest))
         count+=1
         classifiers = np.append(classifiers,ncc1.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
     # Nearest shrunken Centroid
@@ -211,7 +211,7 @@ def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
 
         count+=1
         classifiers = np.append(classifiers,ncc2.score(xtest,ytest))
-        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%"
+        print "percentage classifcation complete: %s" % str(round(100*(float(count)/numfiers))) + "%" + "   " + str(numfiers-count) + "classifiers left to train"
 
     if count < numfiers:
         tree5 = ABC()
