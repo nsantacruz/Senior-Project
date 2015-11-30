@@ -8,4 +8,6 @@
 11/1 Went over the QIFFT function with Jon and Howie. Extensively debugged it to make sure the results made sense. 
 11/8 Finished the overall ENF extraction process. Began the switch from Matlab to Python
 11/15 Prepared Senior Project poster with Jon and Howie. rewrote the ENF extractor code so to generate useful figures to put in the poster
+11/22 Finished rewriting main parts of feature extraction in Python. Found that the results weren't as good as in Matlab. Also tested initial feature extraction on recovered ENF signal (as opposed to directly on the power signal) and it gave much worse results.
+11/29 Cleaned up a lot of code. 
 
