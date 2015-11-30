@@ -94,6 +94,7 @@ for ii = 1:numTestingRecs % does this for loop work?
 
 
 end %ends the training data loop
+xtrunclength = xtrunclength./w_length;
 disp(xtrunclength)   
   
 trainDat = [trainDat; feature_mat];

@@ -65,15 +65,11 @@ xtrunclength = xtrunclength['xtrunclength']
 
 xtestall = xtestall[~np.isnan(xtestall).any(axis=1),:]
 
-ytestclasses,yteststring = FinalClassifier.myclassify_practice_set(numfiers=1,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
+yteststring = FinalClassifier.myclassify_practice_set(numfiers=6,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
 #classtest.myclassify(numfiers=5,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
 
-print xtrunclength.shape
+print yteststring
 
-
-for i in xtrunclength:
-    if i==xtrunclength[0]:
-        
 
 
 

@@ -1,10 +1,11 @@
 
 
 import numpy as np
- 
+
 
 
 #from sklearn import svm
+import scipy.io as sio
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression as logreg
 from sklearn.feature_selection import SelectFromModel as sfm
@@ -23,19 +24,21 @@ from sklearn.ensemble import VotingClassifier
 #def myclassify(numfiers = 6,xtrain=xtrain,ytrain=ytrain,xtest=xtest,ytest=ytest):
 def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
 
+    xtrunclength = sio.loadmat('xtrunclength.mat')
+    xtrunclength = xtrunclength['xtrunclength'][0]
+
     #if xtest is NxM matrix, returns Nxnumifiers matrix where each column corresponds to a classifiers prediction vector
     count = 0
     print numfiers
 
     predictionMat = np.empty((xtest.shape[0],numfiers))
-    predictionStringMat = np.empty((1,numfiers))
+    predictionStringMat = []
 
     bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
     bagging2.fit(xtrain,ytrain)
     #print bagging2.score(xtest,ytest)
     ytest = bagging2.predict(xtest)
     predictionMat[:,count] = ytest
-    predictionStringMat[count] = predVec2Str(ytest)
     count += 1
 
 
@@ -45,7 +48,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         tree2.fit(xtrain,ytrain)
         ytest = tree2.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -55,7 +57,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         #print bagging1.score(xtest,ytest)
         ytest = bagging1.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -77,7 +78,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         #     print ()
         ytest = eclf.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -86,7 +86,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         svc1.fit(xtrain,ytrain)
         ytest = svc1.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -96,7 +95,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         #print(qda.score(xtest,ytest))
         ytest = qda.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -107,7 +105,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         tree1.fit(xtrain,ytrain)
         ytest = tree1.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -115,7 +112,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         knn1.fit(xtrain,ytrain)
         ytest = knn1.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -125,7 +121,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         lda.fit(xtrain,ytrain)
         ytest = lda.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -133,7 +128,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         tree3.fit(xtrain,ytrain)
         ytest = tree3.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -141,7 +135,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         bagging3.fit(xtrain,ytrain)
         ytest = bagging3.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -151,7 +144,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         bagging4.fit(xtrain,ytrain)
         ytest = bagging4.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -160,7 +152,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         tree4.fit(xtrain,ytrain)
         ytest = tree4.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -168,7 +159,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         tree6.fit(xtrain,ytrain)
         ytest = tree6.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -176,7 +166,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         knn2.fit(xtrain,ytrain)
         ytest = knn2.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -185,7 +174,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         knn3.fit(xtrain,ytrain)
         ytest = knn3.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -194,7 +182,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         knn4.fit(xtrain,ytrain)
         ytest = knn4.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -203,7 +190,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         knn5.fit(xtrain,ytrain)
         ytest = knn5.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
@@ -213,7 +199,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         ncc1.fit(xtrain,ytrain)
         ytest = ncc1.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
     if count < numfiers:
@@ -221,21 +206,36 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
         tree5.fit(xtrain,ytrain)
         ytest = tree5.predict(xtest)
         predictionMat[:,count] = ytest
-        predictionStringMat[1,count] = predVec2Str(ytest)
         count+=1
 
 
 
+    for colCount in range(predictionMat.shape[1]):
+        tempCol = predictionMat[:,colCount]
+        modeCol = predWindowVecModeFinder(tempCol,xtrunclength)
+        modeStr = predVec2Str(modeCol)
+        predictionStringMat.append(modeStr)
 
-    return (predictionMat,predictionStringMat)
+    return predictionStringMat
 
 
+#given prediction vector for all windows and all recordings, output mode for each recording
+def predWindowVecModeFinder(predVec,xtrunclength):
+    predModeVec = []
+    for count in range(len(xtrunclength)):
+        start = 0 if count == 0 else xtrunclength[count-1]
+        tempPredRec = predVec[start:xtrunclength[count]]
+        from collections import Counter
+        b = Counter(tempPredRec)
+        predModeVec.append(b.most_common(1)[0][0])
 
+    return predModeVec
 
 def predVec2Str(ytest):
     gridLetters = 'ABCDEFGHI'
     str = ''
     for pred in ytest:
         #remember, A corresponds to class 1
-        str += gridLetters[pred-1]
+        str += gridLetters[int(pred)-1]
     return str
+
