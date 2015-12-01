@@ -1,115 +1,74 @@
-clc,clear all, close all;
-format compact
+function [xtrain, ytrain, xtest, ytest] = FeatExtract(numTestRecs,...
+    isP, Norm, Est, name1, name2, name3, name4)
+% numTestRecs: specifies the number of recordings used for testing - the
+% remaining recordings will be used for training
+%
+% isP: Audio or power; if 0, working with audio files; if 1, working with
+% power files
+%
+% Norm: if 0, do not normalize features, if 1, normalize features to 1
+%
+% Est: if 0, do not use estimated ENF signal; if 1, use estimated ENF
+%
+% name1 thru name4: strings containing the names of files to be saved for
+% xtrain, ytrain, xtest, and ytest
 
 Type_Rec0 = 'PA';
 Type_Rec1 = {'Power_recordings','Audio_recordings'};
-Type_Rec2 = {'Pow', 'Aud'};
-numRecordingsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
-gridFreqs = [60 50 60 50 50 50 50 50 60];
+numRecsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
 trainingGridLetters = 'ABCDEFGHI' ;
 count = 0;
-% This line makes a file that includes all of the recordings together
 
-numGrids = length(numRecordingsPerGrid)/2; 
-% We discussed splitting up the recordings into training and test
-
-qe = 2:2:18; 
-total_pow_rec = sum(numRecordingsPerGrid(qe));
-n_p_test = 2; % how many power recordings per grid do we want to save as test data?
-numPowTest = (total_pow_rec) - (numGrids)*(n_p_test);
-numPowTrain = (total_pow_rec) - (numPowTest);
-
-Training_recordings = cell(numPowTrain,1);
-Testing_recordings = cell(numPowTest,1);
-
-% probably this method wont work so well for audio because we only have 2
-% recordings per grid
-qe = 1:2:18;
-total_aud_rec = sum(numRecordingsPerGrid(qe));  %number of total audio recordings
-n_a_test = 1; % how many audio recordings per grid do we want to use as test data?
-numAudTest = (total_aud_rec) - (numGrids)*(n_a_test);
-numAudTrain = (total_aud_rec) - (numAudTest);
-
-Aud_Training_recordings = cell(numAudTrain,1);
-Aud_Testing_recordings = cell(numAudTest,1);
-
-TrainAudfeatmat = []; %final matrix for holding audio features for training
-TestAudfeatmat = []; %final matrix for holding audio features for testing
-TrainPowfeatmat = []; %final matrix for holding power features for training
-TestPowfeatmat = []; %final matrix for holding power features for testing
-TestAudclasses = []; %classes for the Aud testing data
-TestPowclasses = []; %classes for the Pow testing data
-
-numFeat = 7; % n = number of features
-counts = 0;
-trainDat = [];%temp matrix used to hold features for training
-testDat = []; % temp matrix used to hold features for testing
-county = 0;
-featmatsize = 0;
-lengthx = 0;
+trainDat = []; %temp matrix used to hold features for training
+testDat = []; %temp matrix used to hold features for testing
 
 %for kk = 1:length(numRecordingsPerGrid)
 h = waitbar(0,'Initializing waitbar...');
-for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power recordings
-    ppppp = kk/length(numRecordingsPerGrid);
-    waitbar(ppppp,h,'percent done')
-    endofii = numRecordingsPerGrid(kk); % this tells us the number or recordings we have for that grid (A,B...) and type (Audio, Power)
-        
-    if endofii==2
-        numTrainGrids = endofii- n_a_test; % number of recordings which will be training data, n_a_test will be testing
-        numTestGrids = n_a_test;
-    else 
-        numTrainGrids = endofii - n_p_test;
-        numTestGrids = n_p_test;
-    end
+
+if isP
+    loopInds = 2:2:length(numRecsPerGrid);
+else
+    loopInds = 1:2:length(numRecsPerGrid);
+end
+
+for kk = loopInds
+     waitb = kk/length(numRecsPerGrid);
+     waitbar(waitb,h,'percent done')
+    endofii = numRecsPerGrid(kk); % this tells us the number or recordings we have for that grid (A,B...) and type (Audio, Power)
 
     rec_vec = 1:endofii;  % makes a vector from 1 to the number of recordings for that grid (i.e. for grid a it will be 1,2,...8,9
-    if true
-        r = randperm(endofii);   % randomize the total number of recordings so that which recordings we remove is random
-        holdout_rec = rec_vec (r(1:numTestGrids)); %remove the number of recordings we want for holding out for testing
-        data_rec = rec_vec (r(numTestGrids+1:end)); % keep the rest of the recordings as data
-    else 
+   
+    r = randperm(endofii);  % randomize the total number of recordings so that which recordings we remove is random
+    if numTestRecs == 0
+        holdout_rec = [];
         data_rec = rec_vec;
-    end 
-    % can also use sample data function to do this...? this is good if
-    % we want to select at random, but is it also good if we want to
-    % split the data (so randomly select some for training, and choose
-    % the rest for testing)??
-
-    % rec_vec = 1:endofii;
-    % holdout_rec = datasample(rec_vec,numTestGrids);
-    % data_rec = datasample(rec_vec,num
+    else 
+        holdout_rec = rec_vec (r(1:numTestRecs)); %remove the number of recordings we want for holding out for testing
+        data_rec = rec_vec (r(numTestRecs+1:end)); % keep the rest of the recordings as data
+    end
+    
         
     recType = Type_Rec0(mod(kk,2)+1);
     recTypeName = Type_Rec1{mod(kk,2)+1};
-    recording_file_name = Type_Rec2{mod(kk,2)+1};
-    trainingGrid = trainingGridLetters(ceil(kk/2));
 
-    tempCell = cell(endofii - numTestGrids,1); % temp cell to hold training data
-    tempCell1 = cell(numTestGrids,1); % temp cell to hold testing data
+    trainingGrid = trainingGridLetters(ceil(kk/2));
 
     feature_mat = [];
     feature_mat_test = [];
-
-    %features for training
-    %tempTest_Tr= cell(1,numTrainGrids); % temp used to hold reshaped(windowed) version of our file x
       
     % now we make a matrix for training data
     for ii = data_rec(1:end) % does this for loop work?
-
-        tempStr = ['IEEEDataset/Grid_' trainingGrid '/' recTypeName '/Train_Grid_' trainingGrid '_' recType int2str(ii) '.wav'];
+        tempStr = ['IEEEDataset/Grid_' trainingGrid '/' recTypeName...
+            '/Train_Grid_' trainingGrid '_' recType int2str(ii) '.wav'];
+        disp('Training...')
         disp(tempStr);
-
-        if true
-            [x, fs] = audioread(tempStr);  % get the samples of the .wav file
-            w_length = 1000;
+        if Est
+             [tdmf,x] = recoverENF(trainingGrid,recording_file_name,ii);
+             w_length = 100;
         else
-            [tdmf,x] = recoverENF(trainingGrid,recording_file_name,ii);
-            w_length = 100;
+            [x, fs] = audioread(tempStr); % get the samples of .wav file
+            w_length = 1000;
         end
-
-        %lengthx = lengthx + length(x)
-        %count = count+ 1;
 
         xTrunc = x(1:end-mod(length(x),w_length));
         disp(['xTrunc length ' int2str(length(xTrunc))]);
@@ -129,7 +88,6 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
         RMS_Tr = sqrt(mean(tempTest_Tr.^2));%,2));
         % Waveform Length - cumulative length of the waveform over the time segment
         WL_Tr = sum(abs(diff(tempTest_Tr)));%,2);
-        %tttt = length(WL_Tr);
         % Log Range
         LogRange_Tr = log(range(tempTest_Tr));
         % Log Variance
@@ -186,9 +144,10 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
 
             feature_set = feature_set';
 
-         if mod(kk,2) == 0 % check if this line is right
+         if mod(kk,2) == 0
            feature_set = [((zeros(length(feature_set),1))+kk)/2, feature_set];
-            %Powclasses = [Powclasses; (zeros(length(PowfeatReal),1)+ceil(ii/2))];
+         else
+           feature_set = [((zeros(length(feature_set),1))+kk+1)/2, feature_set];
          end
 
          feature_mat = [feature_mat; feature_set];
@@ -204,14 +163,14 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
        for ii = holdout_rec(1:end) % does this for loop work?
 
             tempStr1 = ['IEEEDataset/Grid_' trainingGrid '/' recTypeName '/Train_Grid_' trainingGrid '_' recType int2str(ii) '.wav'];
+            disp('Testing...');
             disp(tempStr1);
-            if true
-                [x, fs] = audioread(tempStr1);  % get the samples of the .wav file
-                w_length = 1000;
-            else
+            if Est
                 [tdmf,x] = recoverENF(trainingGrid,recording_file_name,ii);
                 w_length = 100;
-
+            else
+                [x, fs] = audioread(tempStr1);  % get the samples of the .wav file
+                w_length = 1000;
             end
             xTrunc = x(1:end-mod(length(x),w_length));
 
@@ -287,30 +246,42 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
 
             feature_set_test = feature_set_test';
 
-            if mod(kk,2) == 0 % check if this line is right
-               feature_set_test = [((zeros(length(feature_set_test),1))+kk)/2, feature_set_test];
-                %Powclasses = [Powclasses; (zeros(length(PowfeatReal),1)+ceil(ii/2))];
-            end   
-
-            feature_mat_test = [feature_mat_test; feature_set_test];       
-
+            if mod(kk,2) == 0
+               feature_set_test = [((zeros(length(feature_set_test),...
+                   1))+kk)/2, feature_set_test];
+            else
+               feature_set_test = [((zeros(length(feature_set_test),...
+                   1))+kk+1)/2, feature_set_test];   
+            end      
         end
             testDat = [testDat; feature_mat_test];
-            %    feat_mat_test_predictor = testDat(:,2:end);
-            %    feat_meat_test_response = testDat(:,1);
    end 
 end 
-xtrain = trainDat(:,2:end); %training data for testing)
+
+xtrain = trainDat(:,2:end); % Data for testing
 ytrain = trainDat(:,1);
-xtest = testDat(:,2:end);
-ytest = testDat(:,1);
 
-%xtrain = normFeatures(xtrain);
-%xtest = normFeatures(xtest);
+if isempty(testDat)
+    xtest = [];
+    ytest = [];
+else
+    xtest = testDat(:,2:end);
+    ytest = testDat(:,1);   
+end
 
-save xtrain2holdout.mat xtrain
-save ytrain2holdout.mat ytrain
-save xtest2holdout.mat xtest
-save ytest2holdout.mat ytest
+if Norm
+    xtrain = normFeatures(xtrain);
+    xtest = normFeatures(xtest);
+end
 
-
+if nargin == 8
+    save(name1, 'xtrain')
+    save(name2, 'ytrain')
+    save(name3, 'xtest')
+    save(name4, 'ytest')
+elseif nargin == 6
+    save(name1, 'xtrain')
+    save(name2, 'ytrain')
+end
+close(h)
+end
