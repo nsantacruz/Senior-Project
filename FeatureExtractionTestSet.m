@@ -1,7 +1,5 @@
-% STFT anaysis of 50 Hz siganl present in audio signal
-clc,clear all, close all;
+clc, clear all, close all;
 format compact
-
 
 trainDat = [];%temp matrix used to hold features for training
 feature_mat = [];
@@ -23,9 +21,7 @@ for ii = 1:numTestingRecs % does this for loop work?
         [tdmf,x] = recoverENF(trainingGrid,recording_file_name,ii);
         w_length = 100;
     end
-
-
-    
+ 
     xTrunc = x(1:end-mod(length(x),w_length));
     disp(['xTrunc length ' int2str(length(xTrunc))]);
     
@@ -37,13 +33,7 @@ for ii = 1:numTestingRecs % does this for loop work?
         xtrunclength = [xtrunclength, xtrunctemp];
     end
 
-    count = count + 1;
-    
-
-  
-   
-    
-    
+    count = count + 1;  
     tempTest_Tr = reshape(xTrunc,[],length(xTrunc)/w_length); % before it was just w_length
     %Integrated ENF Signal
     IENF_Tr = sum(abs(tempTest_Tr));%,2);
@@ -61,6 +51,37 @@ for ii = 1:numTestingRecs % does this for loop work?
     % Waveform Length - cumulative length of the waveform over the time segment
     WL_Tr = sum(abs(diff(tempTest_Tr)));%,2);
     %tttt = length(WL_Tr);
+    % Log Range
+    LogRange_Tr = log(range(tempTest_Tr));
+    % Log Variance
+    LogVar_Tr = log(var(tempTest_Tr));
+    
+    % Log Variances of Wavelet Decomposition, 1 thru 9 levels
+    WaveC1_Tr = wavedec(tempTest_Tr, 1, 'db1');
+    WaveC1_Tr = WaveC1_Tr(1:length(x));
+    WaveC1_Tr = reshape(WaveC1_Tr,[],round(length(WaveC1_Tr)/w_length));
+    LVWave1_Tr = log(var(WaveC1_Tr));
+    
+    WaveC3_Tr = wavedec(tempTest_Tr, 3, 'db1');
+    WaveC3_Tr = WaveC3_Tr(1:length(x));
+    WaveC3_Tr = reshape(WaveC3_Tr,[],round(length(WaveC3_Tr)/w_length));
+    LVWave3_Tr = log(var(WaveC3_Tr));
+    
+    WaveC5_Tr = wavedec(tempTest_Tr, 5, 'db1');
+    WaveC5_Tr = WaveC5_Tr(1:length(x));
+    WaveC5_Tr = reshape(WaveC5_Tr,[],round(length(WaveC5_Tr)/w_length));
+    LVWave5_Tr = log(var(WaveC5_Tr));
+    
+    WaveC7_Tr = wavedec(tempTest_Tr, 7, 'db1');
+    WaveC7_Tr = WaveC7_Tr(1:length(x));
+    WaveC7_Tr = reshape(WaveC7_Tr,[],round(length(WaveC7_Tr)/w_length));
+    LVWave7_Tr = log(var(WaveC7_Tr));
+    
+    WaveC9_Tr = wavedec(tempTest_Tr, 9, 'db1');
+    WaveC9_Tr = WaveC9_Tr(1:length(x));
+    WaveC9_Tr = reshape(WaveC9_Tr,[],round(length(WaveC9_Tr)/w_length));
+    LVWave9_Tr = log(var(WaveC9_Tr));
+    
     FFT_Tr = fft(tempTest_Tr);
     % FFT_Tr = abs(FFT_Tr)/max(abs(FFT_Tr));
     % Mean Frequency
@@ -77,29 +98,21 @@ for ii = 1:numTestingRecs % does this for loop work?
     VarFreq_Tr = var(FFT_Tr);
     % Frequency RMS
     RMSFreq_Tr = abs(sqrt(mean(FFT_Tr.^2)));
-
-
-
+    
     feature_set = [IENF_Tr(1:end-1);MAV_Tr(1:end-1);MAVS_Tr;...
-        SSI_Tr(1:end-1);Var_Tr(1:end-1);RMS_Tr(1:end-1);WL_Tr(1:end-1);...
-        MeanFreq_Tr(1:end-1);MedFreq_Tr(1:end-1);MAVFreq_Tr(1:end-1);...
+        SSI_Tr(1:end-1);Var_Tr(1:end-1);RMS_Tr(1:end-1);WL_Tr(1:end-1);LogRange_Tr(1:end-1);...
+        LogVar_Tr(1:end-1);LVWave1_Tr(1:end-1);LVWave3_Tr(1:end-1);LVWave5_Tr(1:end-1);...
+        LVWave7_Tr(1:end-1);LVWave9_Tr(1:end-1);MeanFreq_Tr(1:end-1);MedFreq_Tr(1:end-1);MAVFreq_Tr(1:end-1);...
         MAVSFreq_Tr;MaxFreq_Tr(1:end-1);VarFreq_Tr(1:end-1);RMSFreq_Tr(1:end-1)];
-
-
-        feature_set = feature_set';
-
-
+    
+     feature_set = feature_set';
      feature_mat = [feature_mat; feature_set];
-
-
 
 end %ends the training data loop
 xtrunclength = xtrunclength./w_length;
 disp(xtrunclength)   
   
 trainDat = [trainDat; feature_mat];
-  
- 
 xtesting = trainDat; %training data for testing
 xtestingNorm = normFeatures(xtesting);
 
