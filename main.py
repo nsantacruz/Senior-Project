@@ -72,9 +72,6 @@ print yteststring
 
 
 
-
-
-
 # bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
 # bagging2.fit(xtrainhold,ytrainhold1)
 # #print bagging2.score(xtest,ytest)
