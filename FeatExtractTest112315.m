@@ -1,7 +1,5 @@
-% STFT anaysis of 50 Hz siganl present in audio signal
 clc,clear all, close all;
 format compact
-
 
 Type_Rec0 = 'PA';
 Type_Rec1 = {'Power_recordings','Audio_recordings'};
@@ -17,7 +15,7 @@ numGrids = length(numRecordingsPerGrid)/2;
 
 qe = 2:2:18; 
 total_pow_rec = sum(numRecordingsPerGrid(qe));
-n_p_test = 0; % how many power recordings per grid do we want to save as test data?
+n_p_test = 2; % how many power recordings per grid do we want to save as test data?
 numPowTest = (total_pow_rec) - (numGrids)*(n_p_test);
 numPowTrain = (total_pow_rec) - (numPowTest);
 
@@ -35,8 +33,6 @@ numAudTrain = (total_aud_rec) - (numAudTest);
 Aud_Training_recordings = cell(numAudTrain,1);
 Aud_Testing_recordings = cell(numAudTest,1);
 
-
-
 TrainAudfeatmat = []; %final matrix for holding audio features for training
 TestAudfeatmat = []; %final matrix for holding audio features for testing
 TrainPowfeatmat = []; %final matrix for holding power features for training
@@ -51,7 +47,6 @@ testDat = []; % temp matrix used to hold features for testing
 county = 0;
 featmatsize = 0;
 lengthx = 0;
-
 
 %for kk = 1:length(numRecordingsPerGrid)
 h = waitbar(0,'Initializing waitbar...');
@@ -69,15 +64,13 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
     end
 
     rec_vec = 1:endofii;  % makes a vector from 1 to the number of recordings for that grid (i.e. for grid a it will be 1,2,...8,9
-    if false
+    if true
         r = randperm(endofii);   % randomize the total number of recordings so that which recordings we remove is random
         holdout_rec = rec_vec (r(1:numTestGrids)); %remove the number of recordings we want for holding out for testing
         data_rec = rec_vec (r(numTestGrids+1:end)); % keep the rest of the recordings as data
     else 
         data_rec = rec_vec;
     end 
-
-
     % can also use sample data function to do this...? this is good if
     % we want to select at random, but is it also good if we want to
     % split the data (so randomly select some for training, and choose
@@ -87,8 +80,6 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
     % holdout_rec = datasample(rec_vec,numTestGrids);
     % data_rec = datasample(rec_vec,num
         
-         
-
     recType = Type_Rec0(mod(kk,2)+1);
     recTypeName = Type_Rec1{mod(kk,2)+1};
     recording_file_name = Type_Rec2{mod(kk,2)+1};
@@ -96,8 +87,6 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
 
     tempCell = cell(endofii - numTestGrids,1); % temp cell to hold training data
     tempCell1 = cell(numTestGrids,1); % temp cell to hold testing data
-
-
 
     feature_mat = [];
     feature_mat_test = [];
@@ -119,11 +108,8 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
             w_length = 100;
         end
 
-
-
         %lengthx = lengthx + length(x)
         %count = count+ 1;
-
 
         xTrunc = x(1:end-mod(length(x),w_length));
         disp(['xTrunc length ' int2str(length(xTrunc))]);
@@ -144,6 +130,37 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
         % Waveform Length - cumulative length of the waveform over the time segment
         WL_Tr = sum(abs(diff(tempTest_Tr)));%,2);
         %tttt = length(WL_Tr);
+        % Log Range
+        LogRange_Tr = log(range(tempTest_Tr));
+        % Log Variance
+        LogVar_Tr = log(var(tempTest_Tr));
+
+        % Log Variances of Wavelet Decomposition, 1 thru 9 levels
+        WaveC1_Tr = wavedec(tempTest_Tr, 1, 'db1');
+        WaveC1_Tr = WaveC1_Tr(1:length(x));
+        WaveC1_Tr = reshape(WaveC1_Tr,[],round(length(WaveC1_Tr)/w_length));
+        LVWave1_Tr = log(var(WaveC1_Tr));
+
+        WaveC3_Tr = wavedec(tempTest_Tr, 3, 'db1');
+        WaveC3_Tr = WaveC3_Tr(1:length(x));
+        WaveC3_Tr = reshape(WaveC3_Tr,[],round(length(WaveC3_Tr)/w_length));
+        LVWave3_Tr = log(var(WaveC3_Tr));
+
+        WaveC5_Tr = wavedec(tempTest_Tr, 5, 'db1');
+        WaveC5_Tr = WaveC5_Tr(1:length(x));
+        WaveC5_Tr = reshape(WaveC5_Tr,[],round(length(WaveC5_Tr)/w_length));
+        LVWave5_Tr = log(var(WaveC5_Tr));
+
+        WaveC7_Tr = wavedec(tempTest_Tr, 7, 'db1');
+        WaveC7_Tr = WaveC7_Tr(1:length(x));
+        WaveC7_Tr = reshape(WaveC7_Tr,[],round(length(WaveC7_Tr)/w_length));
+        LVWave7_Tr = log(var(WaveC7_Tr));
+
+        WaveC9_Tr = wavedec(tempTest_Tr, 9, 'db1');
+        WaveC9_Tr = WaveC9_Tr(1:length(x));
+        WaveC9_Tr = reshape(WaveC9_Tr,[],round(length(WaveC9_Tr)/w_length));
+        LVWave9_Tr = log(var(WaveC9_Tr));
+
         FFT_Tr = fft(tempTest_Tr);
         % FFT_Tr = abs(FFT_Tr)/max(abs(FFT_Tr));
         % Mean Frequency
@@ -161,36 +178,26 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
         % Frequency RMS
         RMSFreq_Tr = abs(sqrt(mean(FFT_Tr.^2)));
 
-
-
         feature_set = [IENF_Tr(1:end-1);MAV_Tr(1:end-1);MAVS_Tr;...
-            SSI_Tr(1:end-1);Var_Tr(1:end-1);RMS_Tr(1:end-1);WL_Tr(1:end-1);...
-            MeanFreq_Tr(1:end-1);MedFreq_Tr(1:end-1);MAVFreq_Tr(1:end-1);...
-            MAVSFreq_Tr;MaxFreq_Tr(1:end-1);VarFreq_Tr(1:end-1);RMSFreq_Tr(1:end-1)];
-
+        SSI_Tr(1:end-1);Var_Tr(1:end-1);RMS_Tr(1:end-1);WL_Tr(1:end-1);LogRange_Tr(1:end-1);...
+        LogVar_Tr(1:end-1);LVWave1_Tr(1:end-1);LVWave3_Tr(1:end-1);LVWave5_Tr(1:end-1);...
+        LVWave7_Tr(1:end-1);LVWave9_Tr(1:end-1);MeanFreq_Tr(1:end-1);MedFreq_Tr(1:end-1);MAVFreq_Tr(1:end-1);...
+        MAVSFreq_Tr;MaxFreq_Tr(1:end-1);VarFreq_Tr(1:end-1);RMSFreq_Tr(1:end-1)];
 
             feature_set = feature_set';
-
 
          if mod(kk,2) == 0 % check if this line is right
            feature_set = [((zeros(length(feature_set),1))+kk)/2, feature_set];
             %Powclasses = [Powclasses; (zeros(length(PowfeatReal),1)+ceil(ii/2))];
          end
 
-
          feature_mat = [feature_mat; feature_set];
          %size(feature_mat)
-          %now I add the class number as the first column to the PowfeatReal
-          
+          %now I add the class number as the first column to the PowfeatReal          
           count = count + 1;
     
    end %ends the training data loop
-   
-  
    trainDat = [trainDat; feature_mat];
-  
-
-
    % now we make a matrix for testing data
    for ii = holdout_rec(1:end) % does this for loop work?
 
@@ -204,13 +211,9 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
             w_length = 100;
 
         end
-
-
         xTrunc = x(1:end-mod(length(x),w_length));
 
-
         tempTest_Te = reshape(xTrunc,[],length(xTrunc)/w_length);
-
         %Integrated ENF Signal
         IENF_Te = sum(abs(tempTest_Te));%,2);
         %Mean Absolute Value
@@ -226,10 +229,39 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
         RMS_Te = sqrt(mean(tempTest_Te.^2));%,2));
         % Waveform Length - cumulative length of the waveform over the time segment
         WL_Te = sum(abs(diff(tempTest_Te)));%,2);
-        % Slope Sign Change
+        % Log Range
+        LogRange_Te = log(range(tempTest_Te));
+        % Log Variance
+        LogVar_Te = log(var(tempTest_Te));
+
+        % Log Variances of Wavelet Decomposition, 1 thru 9 levels
+        WaveC1_Te = wavedec(tempTest_Te, 1, 'db1');
+        WaveC1_Te = WaveC1_Te(1:length(x));
+        WaveC1_Te = reshape(WaveC1_Te,[],round(length(WaveC1_Te)/w_length));
+        LVWave1_Te = log(var(WaveC1_Te));
+
+        WaveC3_Te = wavedec(tempTest_Te, 3, 'db1');
+        WaveC3_Te = WaveC3_Te(1:length(x));
+        WaveC3_Te = reshape(WaveC3_Te,[],round(length(WaveC3_Te)/w_length));
+        LVWave3_Te = log(var(WaveC3_Te));
+
+        WaveC5_Te = wavedec(tempTest_Te, 5, 'db1');
+        WaveC5_Te = WaveC5_Te(1:length(x));
+        WaveC5_Te = reshape(WaveC5_Te,[],round(length(WaveC5_Te)/w_length));
+        LVWave5_Te = log(var(WaveC5_Te));
+
+        WaveC7_Te = wavedec(tempTest_Te, 7, 'db1');
+        WaveC7_Te = WaveC7_Te(1:length(x));
+        WaveC7_Te = reshape(WaveC7_Te,[],round(length(WaveC7_Te)/w_length));
+        LVWave7_Te = log(var(WaveC7_Te));
+
+        WaveC9_Te = wavedec(tempTest_Te, 9, 'db1');
+        WaveC9_Te = WaveC9_Te(1:length(x));
+        WaveC9_Te = reshape(WaveC9_Te,[],round(length(WaveC9_Te)/w_length));
+        LVWave9_Te = log(var(WaveC9_Te));
 
         FFT_Te = fft(tempTest_Te);
-        % FFT_Tr = abs(FFT_Tr)/max(abs(FFT_Tr));
+        % FFT_Te = abs(FFT_Te)/max(abs(FFT_Te));
         % Mean Frequency
         MeanFreq_Te = meanfreq(tempTest_Te);
         % Median Frequency
@@ -245,21 +277,13 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
         % Frequency RMS
         RMSFreq_Te = abs(sqrt(mean(FFT_Te.^2)));
 
-
-
         feature_set_test = [IENF_Te(1:end-1);MAV_Te(1:end-1);MAVS_Te;...
-                SSI_Te(1:end-1);Var_Te(1:end-1);RMS_Te(1:end-1);WL_Te(1:end-1);...
-                MeanFreq_Te(1:end-1);MedFreq_Te(1:end-1);MAVFreq_Te(1:end-1);...
-                MAVSFreq_Te;MaxFreq_Te(1:end-1);VarFreq_Te(1:end-1);RMSFreq_Te(1:end-1)];
-
-
+        SSI_Te(1:end-1);Var_Te(1:end-1);RMS_Te(1:end-1);WL_Te(1:end-1);LogRange_Te(1:end-1);...
+        LogVar_Te(1:end-1);LVWave1_Te(1:end-1);LVWave3_Te(1:end-1);LVWave5_Te(1:end-1);...
+        LVWave7_Te(1:end-1);LVWave9_Te(1:end-1);MeanFreq_Te(1:end-1);MedFreq_Te(1:end-1);MAVFreq_Te(1:end-1);...
+        MAVSFreq_Te;MaxFreq_Te(1:end-1);VarFreq_Te(1:end-1);RMSFreq_Te(1:end-1)];
 
         feature_set_test = feature_set_test';
-    
-    
-    
-    
-    
 
         if mod(kk,2) == 0 % check if this line is right
            feature_set_test = [((zeros(length(feature_set_test),1))+kk)/2, feature_set_test];
@@ -268,9 +292,7 @@ for kk = 2:2:length(numRecordingsPerGrid) % right now i am only looking at power
 
         feature_mat_test = [feature_mat_test; feature_set_test];       
 
-        end
-
-
+    end
         testDat = [testDat; feature_mat_test];
         %    feat_mat_test_predictor = testDat(:,2:end);
         %    feat_meat_test_response = testDat(:,1);
@@ -283,10 +305,6 @@ ytest = testDat(:,1);
 
 %xtrain = normFeatures(xtrain);
 %xtest = normFeatures(xtest);
-
-    
-    
-
 
 save xtrain2holdout.mat xtrain
 save ytrain2holdout.mat ytrain
