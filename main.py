@@ -1,6 +1,7 @@
 
 import classtest
 import FinalClassifier
+import AudiovsPower
 import scipy.io as sio
 import numpy as np
 from sklearn.ensemble import BaggingClassifier
@@ -65,16 +66,35 @@ xtrunclength = xtrunclength['xtrunclength']
 
 xtestall = xtestall[~np.isnan(xtestall).any(axis=1),:]
 
-yteststring = FinalClassifier.myclassify_practice_set(numfiers=6,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
+#yteststring = FinalClassifier.myclassify_practice_set(numfiers=6,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
 #classtest.myclassify(numfiers=5,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
 
+#print yteststring
+
+
+
+xtrain_pow = sio.loadmat('xtrain_eight_feature_power_feature_all.mat')
+xtrain_pow=xtrain_pow['xtrain']
+
+xtrain_aud = sio.loadmat('xtrain_eight_feature_audio_feature_all.mat')
+xtrain_aud=xtrain_aud['xtrain']
+
+ytrain_pow = sio.loadmat('ytrain_eight_feature_power_feature_all.mat')
+ytrain_pow=ytrain_pow['ytrain']
+
+ytrain_aud = sio.loadmat('ytrain_eight_feature_audio_feature_all.mat')
+ytrain_aud=ytrain_aud['ytrain']
+
+
+
+xtest_audpow = sio.loadmat('xtestingaudpow.mat')
+xtest_audpow = xtest_audpow['xtesting']
+
+
+
+xtest_audpow = xtest_audpow[~np.isnan(xtest_audpow).any(axis=1),:]
+yteststring = AudiovsPower.myclassify_AudPow(2,xtrain_aud,xtrain_pow,ytrain_aud,ytrain_pow,xtest_audpow)
 print yteststring
-
-
-
-
-
-
 # bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
 # bagging2.fit(xtrainhold,ytrainhold1)
 # #print bagging2.score(xtest,ytest)
@@ -118,69 +138,3 @@ print yteststring
 #
 # print xtrainwo.shape
 # print xtestwo.shape
-#
-#
-
-
-
-
-
-
-
-# from sklearn import datasets
-# import imp_fil_mat
-# import scipy.io as sio
-# #sio.matlab
-# from sklearn import svm
-# from sklearn.svm import LinearSVC
-# from sklearn.svm import SVC
-#
-# import numpy as np
-# from sklearn import linear_model
-#
-# #import test
-# #test.myfunc("hello")
-#
-#
-#
-# #imp_fil_mat.train_test()
-# #xtrain,xtest,ytrain,ytest = imp_fil_mat.train_test()
-#
-#
-# # MAKE THIS A FUNCTION!! having trouble
-# import scipy.io as sio
-# sio.matlab
-# featmat = sio.loadmat('NUMPYTESTFEATURES.mat')
-# #ww = sio.whosmat('NUMPYTESTFEATURES.mat')
-# #print ww
-# #print featmat
-# xtrain = featmat['xtrain']
-# xtest = featmat['xtest']
-# ytrain = featmat['ytrain']
-# ytest = featmat['ytest']
-#
-# # print xtrain.shape
-# # print ytrain.shape
-# # print xtest.shape
-# # print ytest.shape
-#
-# ytrain1 = np.ravel(ytrain)
-# ytest1 = np.ravel(ytest)
-#
-# clf = SVC()
-# clf.fit(xtrain,ytrain1)
-# dec = clf.score(xtest,ytest1)
-# #results = clf.score(xtest,ytest)
-# print dec
-#
-# # lin_clf = LinearSVC()
-# # lin_clf.fit(xtrain,ytrain1)
-# # dec1 = lin_clf.score(xtest,ytest1)
-# #print dec1
-# # this took a ridiculous amount of time, and only got 49%
-#
-#
-# lassoclf = linear_model.Lasso(alpha = 0.1)
-# lassoclf.fit(xtrain,ytrain)
-# dec2 = lassoclf.score(xtest,ytest)
-# print dec2
