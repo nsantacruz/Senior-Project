@@ -7,56 +7,6 @@ import numpy as np
 from sklearn.ensemble import BaggingClassifier
 from sklearn.tree import ExtraTreeClassifier as ETC
 
-
-xtrain=sio.loadmat('xtrainNorm.mat')
-xtrain=xtrain['xtrain']
-
-ytrain = sio.loadmat('ytrainNorm.mat')
-ytrain = ytrain['ytrain']
-
-xtest = sio.loadmat('xtestNorm.mat')
-xtest = xtest['xtest']
-
-ytest=sio.loadmat('ytestNorm.mat')
-ytest=ytest['ytest']
-
-ytrain1 = np.ravel(ytrain)
-ytest1 = np.ravel(ytest)
-
-
-
-xtrainhold=sio.loadmat('xtrain2holdout.mat')
-xtrainhold=xtrainhold['xtrain']
-
-ytrainhold = sio.loadmat('ytrain2holdout.mat')
-ytrainhold = ytrainhold['ytrain']
-
-xtesthold = sio.loadmat('xtest2holdout.mat')
-xtesthold = xtesthold['xtest']
-
-ytesthold=sio.loadmat('ytest2holdout.mat')
-ytesthold=ytesthold['ytest']
-
-ytrainhold1 = np.ravel(ytrainhold)
-ytesthold1 = np.ravel(ytesthold)
-
-
-xtrainall=sio.loadmat('xtrainAll.mat')
-xtrainall=xtrainall['xtrain']
-
-ytrainall = sio.loadmat('ytrainAll.mat')
-ytrainall = ytrainall['ytrain']
-
-xtestall = sio.loadmat('xtesting.mat')
-xtestall = xtestall['xtesting']
-
-xtestallNorm = sio.loadmat('xtestingNorm.mat')
-xtestallNorm = xtestallNorm['xtestingNorm']
-
-ytrainall1 = np.ravel(ytrainall)
-
-
-
 xtrunclength = sio.loadmat('xtrunclength.mat')
 xtrunclength = xtrunclength['xtrunclength']
 # print xtrainall.shape
@@ -64,37 +14,37 @@ xtrunclength = xtrunclength['xtrunclength']
 # print ytrainall1.shape
 # print xtestall.shape
 
-xtestall = xtestall[~np.isnan(xtestall).any(axis=1),:]
-
 #yteststring = FinalClassifier.myclassify_practice_set(numfiers=6,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
 #classtest.myclassify(numfiers=5,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
 
 #print yteststring
 
 
+xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+xtrain_aud = xtrain_aud['xtrain']
 
-xtrain_pow = sio.loadmat('xtrain_eight_feature_power_feature_all.mat')
-xtrain_pow=xtrain_pow['xtrain']
+xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+xtrain_pow = xtrain_pow['xtrain']
 
-xtrain_aud = sio.loadmat('xtrain_eight_feature_audio_feature_all.mat')
-xtrain_aud=xtrain_aud['xtrain']
+ybin_aud = sio.loadmat('ybintrain_all_aud.mat')
+ybin_aud = ybin_aud['ybintrain']
 
-ytrain_pow = sio.loadmat('ytrain_eight_feature_power_feature_all.mat')
-ytrain_pow=ytrain_pow['ytrain']
+ybin_pow = sio.loadmat('ybintrain_all_pow.mat')
+ybin_pow = ybin_pow['ybintrain']
 
-ytrain_aud = sio.loadmat('ytrain_eight_feature_audio_feature_all.mat')
-ytrain_aud=ytrain_aud['ytrain']
+xtesting = sio.loadmat('xtesting.mat')
+xtesting = xtesting['xtesting']
 
+#print xtesting.shape
+xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
+xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
+#print xtesting.shape
+#print np.amax(xtesting)
+#print np.amin(xtesting)
 
-
-xtest_audpow = sio.loadmat('xtestingaudpow.mat')
-xtest_audpow = xtest_audpow['xtesting']
-
-
-
-xtest_audpow = xtest_audpow[~np.isnan(xtest_audpow).any(axis=1),:]
-yteststring = AudiovsPower.myclassify_AudPow(2,xtrain_aud,xtrain_pow,ytrain_aud,ytrain_pow,xtest_audpow)
+yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
 print yteststring
+
 # bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
 # bagging2.fit(xtrainhold,ytrainhold1)
 # #print bagging2.score(xtest,ytest)

@@ -1,9 +1,4 @@
-
-
 import numpy as np
-
-
-
 #from sklearn import svm
 import scipy.io as sio
 from sklearn.svm import SVC
@@ -31,7 +26,7 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
     print xtrain_1.shape
     print 'xtrainshape' + str(xtrain.shape)
     print 'ytrainshape' + str(ytrain.shape)
-    xtrunclength = sio.loadmat('xtrunclengthaudpow.mat')
+    xtrunclength = sio.loadmat('xtrunclength.mat')
     xtrunclength = xtrunclength['xtrunclength'][0]
 
     print'xtestshape' + str(xtest.shape)
