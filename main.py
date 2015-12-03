@@ -16,6 +16,8 @@ from sklearn.tree import ExtraTreeClassifier as ETC
 
 #print yteststring
 
+xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+xtrain_aud = xtrain_aud['xtrain']
 #
 # xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
 # xtrain_aud = xtrain_aud['xtrain']
@@ -46,6 +48,16 @@ xtrunclength = xtrunclength['xtrunclength']
 
 xtesting = sio.loadmat('xtesting.mat')
 xtesting = xtesting['xtesting']
+
+# xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
+# xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
+#
+# yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
+# print yteststring[1]
+# indsAud = AudiovsPower.indAudPow(yteststring[1], 'A')
+# print indsAud
+# indsPow = AudiovsPower.indAudPow(yteststring[1], 'P')
+# print indsPow
 
 xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
 xtrain_aud = xtrain_aud['xtrain']
