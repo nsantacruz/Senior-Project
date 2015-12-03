@@ -20,6 +20,12 @@ from sklearn.ensemble import VotingClassifier
 #def myclassify(numfiers = 6,xtrain=xtrain,ytrain=ytrain,xtest=xtest,ytest=ytest):
 def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
 
+    # remove NaN, Inf, and -Inf values from the xtest feature matrix
+    xtest = xtest[~np.isnan(xtest).any(axis=1),:]
+    xtest = xtest[~np.isinf(xtest).any(axis=1),:]
+
+    ytrain = np.ravel(ytrain)
+
     xtrunclength = sio.loadmat('xtrunclength.mat')
     xtrunclength = xtrunclength['xtrunclength'][0]
 
