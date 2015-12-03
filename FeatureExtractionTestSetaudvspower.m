@@ -10,7 +10,7 @@ xtrunclength = [];
 xtrunctemp = [];
 numTestingRecs = 50;
 count = 1;
-for ii = 1:numTestingRecs % does this for loop work?
+for ii = 1:numTestingRecs 
 
     tempStr = ['IEEEDataset/Practice_dataset/Practice_' int2str(ii) '.wav'];
 

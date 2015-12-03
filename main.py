@@ -93,7 +93,7 @@ xtest_audpow = xtest_audpow['xtesting']
 
 
 xtest_audpow = xtest_audpow[~np.isnan(xtest_audpow).any(axis=1),:]
-yteststring = AudiovsPower.myclassify_AudPow(2,xtrain_aud,xtrain_pow,ytrain_aud,ytrain_pow,xtest_audpow)
+yteststring = AudiovsPower.myclassify_AudPow(5,xtrain_aud,xtrain_pow,ytrain_aud,ytrain_pow,xtest_audpow)
 print yteststring
 # bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
 # bagging2.fit(xtrainhold,ytrainhold1)
