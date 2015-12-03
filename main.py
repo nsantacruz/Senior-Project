@@ -2,93 +2,132 @@
 import classtest
 import FinalClassifier
 import AudiovsPower
+import NA_Classifier
 import scipy.io as sio
 import numpy as np
 from sklearn.ensemble import BaggingClassifier
 from sklearn.tree import ExtraTreeClassifier as ETC
 
 
-xtrain=sio.loadmat('xtrainNorm.mat')
-xtrain=xtrain['xtrain']
 
-ytrain = sio.loadmat('ytrainNorm.mat')
-ytrain = ytrain['ytrain']
-
-xtest = sio.loadmat('xtestNorm.mat')
-xtest = xtest['xtest']
-
-ytest=sio.loadmat('ytestNorm.mat')
-ytest=ytest['ytest']
-
-ytrain1 = np.ravel(ytrain)
-ytest1 = np.ravel(ytest)
-
-
-
-xtrainhold=sio.loadmat('xtrain2holdout.mat')
-xtrainhold=xtrainhold['xtrain']
-
-ytrainhold = sio.loadmat('ytrain2holdout.mat')
-ytrainhold = ytrainhold['ytrain']
-
-xtesthold = sio.loadmat('xtest2holdout.mat')
-xtesthold = xtesthold['xtest']
-
-ytesthold=sio.loadmat('ytest2holdout.mat')
-ytesthold=ytesthold['ytest']
-
-ytrainhold1 = np.ravel(ytrainhold)
-ytesthold1 = np.ravel(ytesthold)
-
-
-xtrainall=sio.loadmat('xtrainAll.mat')
-xtrainall=xtrainall['xtrain']
-
-ytrainall = sio.loadmat('ytrainAll.mat')
-ytrainall = ytrainall['ytrain']
-
-xtestall = sio.loadmat('xtesting.mat')
-xtestall = xtestall['xtesting']
-
-xtestallNorm = sio.loadmat('xtestingNorm.mat')
-xtestallNorm = xtestallNorm['xtestingNorm']
-
-ytrainall1 = np.ravel(ytrainall)
-
-
-
-xtrunclength = sio.loadmat('xtrunclength.mat')
-xtrunclength = xtrunclength['xtrunclength']
-# print xtrainall.shape
-# print ytrainall.shape
-# print ytrainall1.shape
-# print xtestall.shape
-
-xtestall = xtestall[~np.isnan(xtestall).any(axis=1),:]
 
 #yteststring = FinalClassifier.myclassify_practice_set(numfiers=6,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
 #classtest.myclassify(numfiers=5,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
 
 #print yteststring
 
+xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+xtrain_aud = xtrain_aud['xtrain']
+#
+# xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+# xtrain_aud = xtrain_aud['xtrain']
+#
+# xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+# xtrain_pow = xtrain_pow['xtrain']
+#
+# ybin_aud = sio.loadmat('ybintrain_all_aud.mat')
+# ybin_aud = ybin_aud['ybintrain']
+#
+# ybin_pow = sio.loadmat('ybintrain_all_pow.mat')
+# ybin_pow = ybin_pow['ybintrain']
+#
+# xtesting = sio.loadmat('xtesting.mat')
+# xtesting = xtesting['xtesting']
 
 
-xtrain_pow = sio.loadmat('xtrain_eight_feature_power_feature_all.mat')
-xtrain_pow=xtrain_pow['xtrain']
 
-xtrain_aud = sio.loadmat('xtrain_eight_feature_audio_feature_all.mat')
-xtrain_aud=xtrain_aud['xtrain']
-
-ytrain_pow = sio.loadmat('ytrain_eight_feature_power_feature_all.mat')
-ytrain_pow=ytrain_pow['ytrain']
-
-ytrain_aud = sio.loadmat('ytrain_eight_feature_audio_feature_all.mat')
-ytrain_aud=ytrain_aud['ytrain']
+# yteststring = AudiovsPower.myclassify_AudPow(3, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
+# print 'binary audio vs power'
+# print yteststring
 
 
 
-xtest_audpow = sio.loadmat('xtestingaudpow.mat')
-xtest_audpow = xtest_audpow['xtesting']
+
+xtrunclength = sio.loadmat('xtrunclength.mat')
+xtrunclength = xtrunclength['xtrunclength']
+
+xtesting = sio.loadmat('xtesting.mat')
+xtesting = xtesting['xtesting']
+
+# xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
+# xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
+#
+# yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
+# print yteststring[1]
+# indsAud = AudiovsPower.indAudPow(yteststring[1], 'A')
+# print indsAud
+# indsPow = AudiovsPower.indAudPow(yteststring[1], 'P')
+# print indsPow
+
+xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+xtrain_aud = xtrain_aud['xtrain']
+
+ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
+ytrain_aud = ytrain_aud['ytrain']
+
+
+xtrain_aud_shortened = xtrain_aud[:,0:6]
+xtesting_shortened = xtesting[:,0:6]
+
+xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+xtrain_pow = xtrain_pow['xtrain']
+
+
+xtrain_pow_shortened = xtrain_pow[:,0:6]
+
+
+
+ystring0 = NA_Classifier.myclassify_NA(9,xtrain_pow,xtesting)
+print 'NA classifier pow'
+print ystring0
+
+
+ystring3 = NA_Classifier.myclassify_NA(9,xtrain_pow_shortened,xtrain_pow_shortened)
+print 'NA classifier pow'
+print ystring3
+
+
+
+
+
+
+
+# ystring2 = NA_Classifier.myclassify_NA(2,xtrain_aud_shortened,xtrain_aud_shortened)
+# print 'NA classifier Aud'
+# print ystring2
+#
+# xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+# xtrain_pow = xtrain_pow['xtrain']
+#
+
+#xtrain_pow_shortened = xtrain_pow[:,0:6]
+#
+# ystring1 = NA_Classifier.myclassify_NA(2,xtrain_pow,xtesting)
+# print 'NA classifier Pow'
+# print ystring1
+
+# aud_class_target_string = FinalClassifier.myclassify_practice_set(numfiers=3,xtrain=xtrain_aud,ytrain=ytrain_aud,xtest=xtesting)
+# print 'audio classifier results'
+# print aud_class_target_string
+#
+# xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+# xtrain_pow = xtrain_pow['xtrain']
+#
+# ytrain_pow = sio.loadmat('ytrain_all_pow.mat')
+# ytrain_pow = ytrain_pow['ytrain']
+#
+#
+# pow_class_target_string = FinalClassifier.myclassify_practice_set(numfiers=3,xtrain=xtrain_pow,ytrain=ytrain_pow,xtest=xtesting)
+# print 'power classifier results'
+# print pow_class_target_string
+
+
+
+
+
+
+
+
 
 
 

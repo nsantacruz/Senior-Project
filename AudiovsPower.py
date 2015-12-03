@@ -1,9 +1,4 @@
-
-
 import numpy as np
-
-
-
 #from sklearn import svm
 import scipy.io as sio
 from sklearn.svm import SVC
@@ -24,6 +19,9 @@ from sklearn.ensemble import VotingClassifier
 
 def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
 
+    # remove NaN, Inf, and -Inf values from the xtest feature matrix
+    xtest = xtest[~np.isnan(xtest).any(axis=1),:]
+    xtest = xtest[~np.isinf(xtest).any(axis=1),:]
 
     xtrain = np.append(xtrain_1,xtrain_2,0)
     ytrain = np.append(ytrain_1,ytrain_2)
@@ -31,7 +29,7 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
     print xtrain_1.shape
     print 'xtrainshape' + str(xtrain.shape)
     print 'ytrainshape' + str(ytrain.shape)
-    xtrunclength = sio.loadmat('xtrunclengthaudpow.mat')
+    xtrunclength = sio.loadmat('xtrunclength.mat')
     xtrunclength = xtrunclength['xtrunclength'][0]
 
     print'xtestshape' + str(xtest.shape)
@@ -106,7 +104,6 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
         ytest = qda.predict(xtest)
         predictionMat[:,count] = ytest
         count+=1
-
 
 
     if count < numfiers:
@@ -203,7 +200,6 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
         count+=1
 
 
-
     if count < numfiers:
         ncc1 = NearestCentroid()
         ncc1.fit(xtrain,ytrain)
@@ -238,21 +234,32 @@ def predWindowVecModeFinder(predVec,xtrunclength):
         from collections import Counter
         b = Counter(tempPredRec)
         predModeVec.append(b.most_common(1)[0][0])
-
     return predModeVec
 
 def predVec2Str(ytest):
     gridLetters = 'AP'
-
-
     str = ''
     for pred in ytest:
         #remember, Audio corresponds to 0
         str+= gridLetters[int(pred)]
-
-
-
-
-
     return str
 
+def indAudPow(yteststring, sub):
+    # yteststring is output of AudiovsPower classifier
+    # sub is either 'A' or 'P'
+    index = 0
+    count = 0
+    inds = np.empty(yteststring.count(sub))
+    while index < len(yteststring):
+        index = yteststring.find(sub, index)
+        if index == -1:
+            break
+        inds[count] = index
+        count += 1
+        index += len(sub)
+    return inds
+
+def splitAudPow(xtesting, xtrunclength, inds):
+    for count in range(len(inds)):
+        count += 1
+        

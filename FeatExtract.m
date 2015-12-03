@@ -1,5 +1,6 @@
-function [xtrain, ytrain, xtest, ytest] = FeatExtract(numTestRecs,...
-    isP, Norm, Est, name1, name2, name3, name4)
+function [xtrain, ytrain, xtest, ytest, ybintrain, ybintest] =...
+    FeatExtract(numTestRecs,isP, Norm, Est, name1, name2, name3, name4,...
+    name5, name6)
 % numTestRecs: specifies the number of recordings used for testing - the
 % remaining recordings will be used for training
 %
@@ -10,7 +11,10 @@ function [xtrain, ytrain, xtest, ytest] = FeatExtract(numTestRecs,...
 %
 % Est: if 0, do not use estimated ENF signal; if 1, use estimated ENF
 %
-% name1 thru name4: strings containing the names of files to be saved for
+% name1 and name2: strings containing the names of files to be saved for
+% ybintrain and ybintest
+%
+% name3 thru name6: strings containing the names of files to be saved for
 % xtrain, ytrain, xtest, and ytest
 
 Type_Rec0 = 'PA';
@@ -274,14 +278,20 @@ if Norm
     xtest = normFeatures(xtest);
 end
 
-if nargin == 8
-    save(name1, 'xtrain')
-    save(name2, 'ytrain')
-    save(name3, 'xtest')
-    save(name4, 'ytest')
-elseif nargin == 6
-    save(name1, 'xtrain')
-    save(name2, 'ytrain')
+if nargin == 10
+    save(name3, 'xtrain')
+    save(name4, 'ytrain')
+    save(name5, 'xtest')
+    save(name6, 'ytest')
+elseif nargin == 8
+    save(name3, 'xtrain')
+    save(name4, 'ytrain')
+    
+ybintrain = zeros(size(ytrain)) + isP;
+ybintest = zeros(size(ytest)) + isP;
+save(name1, 'ybintrain');
+save(name2, 'ybintest');
+
 end
 close(h)
 end
