@@ -30,7 +30,7 @@ def myclassify_NA(numfiers,xtrain,xtest):
     ytest = oneclassclass.predict(xtest)
     predictionMat[:,count] = ytest
     count += 1
-    print oneclassclass.get_params()
+    #print oneclassclass.get_params()
 
 
     if count < numfiers:
