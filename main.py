@@ -58,12 +58,12 @@ xtrain_aud_shortened = xtrain_aud[:,0:6]
 xtesting_shortened = xtesting[:,0:6]
 
 
-# ystring0 = NA_Classifier.myclassify_NA(1,xtrain_aud,xtesting)
-# print 'NA classifier Aud'
-# print ystring0
+ystring0 = NA_Classifier.myclassify_NA(9,xtrain_aud,xtesting)
+print 'NA classifier Aud'
+print ystring0
 
 
-ystring3 = NA_Classifier.myclassify_NA(1,xtrain_aud_shortened,xtrain_aud_shortened)
+ystring3 = NA_Classifier.myclassify_NA(9,xtrain_aud_shortened,xtrain_aud_shortened)
 print 'NA classifier Aud'
 print ystring3
 
