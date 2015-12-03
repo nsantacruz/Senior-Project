@@ -19,6 +19,9 @@ from sklearn.ensemble import VotingClassifier
 
 def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
 
+    # remove NaN, Inf, and -Inf values from the xtest feature matrix
+    xtest = xtest[~np.isnan(xtest).any(axis=1),:]
+    xtest = xtest[~np.isinf(xtest).any(axis=1),:]
 
     xtrain = np.append(xtrain_1,xtrain_2,0)
     ytrain = np.append(ytrain_1,ytrain_2)

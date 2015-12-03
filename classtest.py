@@ -1,5 +1,3 @@
-
-
 import numpy as np
  
 
@@ -20,10 +18,21 @@ from sklearn.ensemble import AdaBoostClassifier as ABC
 from sklearn.ensemble import GradientBoostingClassifier as GBC
 from sklearn.ensemble import VotingClassifier
 
-#def myclassify(numfiers = 6,xtrain=xtrain,ytrain=ytrain,xtest=xtest,ytest=ytest):
+
+# This is a classification function to test our classifiers and feature sets
+# numfiers represents the number of classifiers you would like to train. it takes an integer argument and will train
+# up to ~20 classifiers. The larger the number of classifiers the longer the function will take to run
+# xtrain represents your training feature set matrix (your matrix of predictor values). it takes an mxn matrix, where m = number of samples and n = number of features
+# ytrain represents your target vector for xtrain. it takes an mx1 matrix, where m = number of samples
+# xtest and ytest are the same as xtrain and ytrain but for a section of holdout data. the scores of the classifiers will be evaluated based
+# on the performance of the classifiers against this set.
+
 def myclassify(numfiers,xtrain,ytrain,xtest,ytest):
     count = 0
     print numfiers
+
+    ytrain = np.ravel(ytrain)
+    ytest = np.ravel(ytest)
 
 
     bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
