@@ -19,7 +19,6 @@ xtrunclength = xtrunclength['xtrunclength']
 
 #print yteststring
 
-
 xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
 xtrain_aud = xtrain_aud['xtrain']
 
@@ -35,15 +34,17 @@ ybin_pow = ybin_pow['ybintrain']
 xtesting = sio.loadmat('xtesting.mat')
 xtesting = xtesting['xtesting']
 
-#print xtesting.shape
 xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
 xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
-#print xtesting.shape
-#print np.amax(xtesting)
-#print np.amin(xtesting)
 
 yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
-print yteststring
+print yteststring[1]
+indsAud = AudiovsPower.indAudPow(yteststring[1], 'A')
+print indsAud
+indsPow = AudiovsPower.indAudPow(yteststring[1], 'P')
+print indsPow
+
+
 
 # bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
 # bagging2.fit(xtrainhold,ytrainhold1)

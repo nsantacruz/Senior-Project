@@ -103,7 +103,6 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
         count+=1
 
 
-
     if count < numfiers:
 
         tree1 = DTC()
@@ -198,7 +197,6 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
         count+=1
 
 
-
     if count < numfiers:
         ncc1 = NearestCentroid()
         ncc1.fit(xtrain,ytrain)
@@ -233,21 +231,32 @@ def predWindowVecModeFinder(predVec,xtrunclength):
         from collections import Counter
         b = Counter(tempPredRec)
         predModeVec.append(b.most_common(1)[0][0])
-
     return predModeVec
 
 def predVec2Str(ytest):
     gridLetters = 'AP'
-
-
     str = ''
     for pred in ytest:
         #remember, Audio corresponds to 0
         str+= gridLetters[int(pred)]
-
-
-
-
-
     return str
 
+def indAudPow(yteststring, sub):
+    # yteststring is output of AudiovsPower classifier
+    # sub is either 'A' or 'P'
+    index = 0
+    count = 0
+    inds = np.empty(yteststring.count(sub))
+    while index < len(yteststring):
+        index = yteststring.find(sub, index)
+        if index == -1:
+            break
+        inds[count] = index
+        count += 1
+        index += len(sub)
+    return inds
+
+def splitAudPow(xtesting, xtrunclength, inds):
+    for count in range(len(inds)):
+        count += 1
+        
