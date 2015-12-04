@@ -8,40 +8,23 @@ import numpy as np
 from sklearn.ensemble import BaggingClassifier
 from sklearn.tree import ExtraTreeClassifier as ETC
 
-
-
-
-#yteststring = FinalClassifier.myclassify_practice_set(numfiers=6,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
-#classtest.myclassify(numfiers=5,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
-
-#print yteststring
+xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+xtrain_aud = xtrain_aud['xtrain']
 
 xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
 xtrain_aud = xtrain_aud['xtrain']
-#
-# xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
-# xtrain_aud = xtrain_aud['xtrain']
-#
-# xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
-# xtrain_pow = xtrain_pow['xtrain']
-#
-# ybin_aud = sio.loadmat('ybintrain_all_aud.mat')
-# ybin_aud = ybin_aud['ybintrain']
-#
-# ybin_pow = sio.loadmat('ybintrain_all_pow.mat')
-# ybin_pow = ybin_pow['ybintrain']
-#
-# xtesting = sio.loadmat('xtesting.mat')
-# xtesting = xtesting['xtesting']
 
+xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+xtrain_pow = xtrain_pow['xtrain']
 
+ybin_aud = sio.loadmat('ybintrain_all_aud.mat')
+ybin_aud = ybin_aud['ybintrain']
 
-# yteststring = AudiovsPower.myclassify_AudPow(3, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
-# print 'binary audio vs power'
-# print yteststring
+ybin_pow = sio.loadmat('ybintrain_all_pow.mat')
+ybin_pow = ybin_pow['ybintrain']
 
-
-
+xtesting = sio.loadmat('xtesting.mat')
+xtesting = xtesting['xtesting']
 
 xtrunclength = sio.loadmat('xtrunclength.mat')
 xtrunclength = xtrunclength['xtrunclength']
@@ -49,35 +32,44 @@ xtrunclength = xtrunclength['xtrunclength']
 xtesting = sio.loadmat('xtesting.mat')
 xtesting = xtesting['xtesting']
 
-# xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
-# xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
-#
-# yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
+
+yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
+
+print np.shape(xtesting)
+print np.max(xtrunclength)
 # print yteststring[1]
 # indsAud = AudiovsPower.indAudPow(yteststring[1], 'A')
 # print indsAud
 # indsPow = AudiovsPower.indAudPow(yteststring[1], 'P')
 # print indsPow
+# isAud = AudiovsPower.isRecType(yteststring[1], 'A')
+# isPow = AudiovsPower.isRecType(yteststring[1], 'P')
+# print isAud
+# print isPow
 
-xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
-xtrain_aud = xtrain_aud['xtrain']
+# ===============================JON'S STUFF BELOW HERE=====================================
 
-ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
-ytrain_aud = ytrain_aud['ytrain']
+# xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+# xtrain_aud = xtrain_aud['xtrain']
+#
+# ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
+# ytrain_aud = ytrain_aud['ytrain']
+#
+#
+# xtrain_aud_shortened = xtrain_aud[:,0:6]
+# xtesting_shortened = xtesting[:,0:6]
+#
+#
+# ystring0 = NA_Classifier.myclassify_NA(9,xtrain_aud,xtesting)
+# print 'NA classifier Aud'
+# print ystring0
+#
+#
+# ystring3 = NA_Classifier.myclassify_NA(9,xtrain_aud_shortened,xtrain_aud_shortened)
+# print 'NA classifier Aud'
+# print ystring3
 
-
-xtrain_aud_shortened = xtrain_aud[:,0:6]
-xtesting_shortened = xtesting[:,0:6]
-
-
-ystring0 = NA_Classifier.myclassify_NA(9,xtrain_aud,xtesting)
-print 'NA classifier Aud'
-print ystring0
-
-
-ystring3 = NA_Classifier.myclassify_NA(9,xtrain_aud_shortened,xtrain_aud_shortened)
-print 'NA classifier Aud'
-print ystring3
+# ===============================JON'S STUFF ABOVE HERE=====================================
 
 # ystring2 = NA_Classifier.myclassify_NA(2,xtrain_aud_shortened,xtrain_aud_shortened)
 # print 'NA classifier Aud'
@@ -109,37 +101,6 @@ print ystring3
 # print pow_class_target_string
 
 
-
-
-
-
-
-
-
-
-
-# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
-# bagging2.fit(xtrainhold,ytrainhold1)
-# #print bagging2.score(xtest,ytest)
-#
-# print "\n for original holdouts \n" + "on training set score was" + str(bagging2.score(xtrainhold,ytrainhold1))
-# print "on holdout set score was" + str(bagging2.score(xtesthold,ytesthold1))
-#
-#
-#
-#
-# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
-# bagging2.fit(xtrain,ytrain1)
-# #print bagging2.score(xtest,ytest)
-#
-# print "for normalized signal \n" "on training set score was" + str(bagging2.score(xtrain,ytrain1))
-# print "on holdout set score was" + str(bagging2.score(xtest,ytest1))
-
-# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
-# bagging2.fit(xtrain,ytrain1)
-# #print bagging2.score(xtest,ytest)
-# ytest = bagging2.predict(xtest)
-# print ytest[1:1000]
 
 
 #classtest.myclassify(numfiers=21,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)

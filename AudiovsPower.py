@@ -245,6 +245,7 @@ def predVec2Str(ytest):
     return str
 
 def indAudPow(yteststring, sub):
+    # returns indices of yteststring corresponding to sub
     # yteststring is output of AudiovsPower classifier
     # sub is either 'A' or 'P'
     index = 0
@@ -258,6 +259,20 @@ def indAudPow(yteststring, sub):
         count += 1
         index += len(sub)
     return inds
+
+def isRecType(yteststring, sub):
+    # returns array of same length as yteststring - returns 1s for match of sub
+    # yteststring is output of AudiovsPower classifier
+    # sub is either 'A' or 'P'
+    index = 0
+    isType = np.empty(len(yteststring))
+    while index < len(yteststring):
+        if yteststring[index] == sub:
+            isType[index] = 1
+        else:
+            isType[index] = 0
+        index += 1
+    return isType
 
 def splitAudPow(xtesting, xtrunclength, inds):
     for count in range(len(inds)):
