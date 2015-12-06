@@ -27,7 +27,7 @@ def myclassify_NA(numfiers,xtrain,xtest):
 
 
     print 'part 1'
-    oneclassclass = oneclass(nu = 0.1)
+    oneclassclass = oneclass(nu = 0.15)
     print 'part 2'
     oneclassclass.fit(xtrain)
     print 'part 3'
@@ -52,15 +52,15 @@ def myclassify_NA(numfiers,xtrain,xtest):
     #     predictionMat[:,count] = ytest
     #     count+=1
     #
-    if count < numfiers:
-        oneclass2 = oneclass(kernel = 'poly', degree = 4)
-        print 'part 5'
-        oneclass2.fit(xtrain)
-        print 'part 6'
-        ytest = oneclass2.predict(xtest)
-        print 'part 7'
-        predictionMat[:,count] = ytest
-        count+=1
+    # if count < numfiers:
+    #     oneclass2 = oneclass(kernel = 'poly', degree = 4)
+    #     print 'part 5'
+    #     oneclass2.fit(xtrain)
+    #     print 'part 6'
+    #     ytest = oneclass2.predict(xtest)
+    #     print 'part 7'
+    #     predictionMat[:,count] = ytest
+    #     count+=1
 
     for colCount in range(predictionMat.shape[1]):
         tempCol = predictionMat[:,colCount]
