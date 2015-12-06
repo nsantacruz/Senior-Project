@@ -4,6 +4,7 @@
 import numpy as np
 from sklearn.svm import OneClassSVM as oneclass
 import scipy.io as sio
+
 from sklearn.covariance import EllipticEnvelope as EllipticEnv
 
 
@@ -25,6 +26,7 @@ def myclassify_NA(numfiers,xtrain,xtest):
     predictionStringMat = []
 
 
+
     oneclassclass = oneclass()
     oneclassclass.fit(xtrain)
     ytest = oneclassclass.predict(xtest)
@@ -42,34 +44,6 @@ def myclassify_NA(numfiers,xtrain,xtest):
 
 
     if count < numfiers:
-        oneclass2 = oneclass(degree=5)
-        oneclass2.fit(xtrain)
-        ytest = oneclass2.predict(xtest)
-        predictionMat[:,count] = ytest
-        count+=1
-
-    if count < numfiers:
-        oc3 = oneclass(kernel='linear')
-        oc3.fit(xtrain)
-        ytest = oc3.predict(xtest)
-        predictionMat[:,count] = ytest
-        count+=1
-
-    if count < numfiers:
-        oneclass2 = oneclass(kernel = 'poly')
-        oneclass2.fit(xtrain)
-        ytest = oneclass2.predict(xtest)
-        predictionMat[:,count] = ytest
-        count+=1
-
-    if count < numfiers:
-        oc3 = oneclass(kernel='sigmoid')
-        oc3.fit(xtrain)
-        ytest = oc3.predict(xtest)
-        predictionMat[:,count] = ytest
-        count+=1
-
-    if count < numfiers:
         oc3 = oneclass(kernel='linear', degree = 4)
         oc3.fit(xtrain)
         ytest = oc3.predict(xtest)
@@ -82,41 +56,6 @@ def myclassify_NA(numfiers,xtrain,xtest):
         ytest = oneclass2.predict(xtest)
         predictionMat[:,count] = ytest
         count+=1
-
-    if count < numfiers:
-        oc3 = oneclass(kernel='sigmoid', degree = 4)
-        oc3.fit(xtrain)
-        ytest = oc3.predict(xtest)
-        predictionMat[:,count] = ytest
-        count+=1
-
-
-    # if count < numfiers:
-    #     oneclass3 = oneclass(shrinking=1)
-    #     oneclass3.fit(xtrain)
-    #     ytest = oneclass3.predict(xtest)
-    #     predictionMat[:,count] = ytest
-    #     count+=1
-    #
-    # if count < numfiers:
-    #     oneclass4 = oneclass(degree=2)
-    #     oneclass4.fit(xtrain)
-    #     ytest = oneclass4.predict(xtest)
-    #     predictionMat[:,count] = ytest
-    #     count+=1
-    #
-
-
-
-
-    # if count < numfiers:
-    #     El_Env = EllipticEnv()
-    #     El_Env.fit(xtrain)
-    #     ytest =El_Env.predict(xtest)
-    #     predictionMat[:,count] = ytest
-    #     count+=1
-
-
 
     for colCount in range(predictionMat.shape[1]):
         tempCol = predictionMat[:,colCount]
@@ -151,4 +90,106 @@ def predVec2Str(ytest):
         str+=gridLetters[new]
         #str += gridLetters[int(pred)-1]
     return str
+
+
+
+
+
+
+
+
+
+
+
+    # oneclassclass = oneclass()
+    # oneclassclass.fit(xtrain)
+    # ytest = oneclassclass.predict(xtest)
+    # predictionMat[:,count] = ytest
+    # count += 1
+    # #print oneclassclass.get_params()
+    #
+    #
+    # if count < numfiers:
+    #     oc2 = oneclass(degree=4)
+    #     oc2.fit(xtrain)
+    #     ytest = oc2.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count +=1
+    #
+    #
+    # if count < numfiers:
+    #     oneclass2 = oneclass(degree=5)
+    #     oneclass2.fit(xtrain)
+    #     ytest = oneclass2.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+    # if count < numfiers:
+    #     oc3 = oneclass(kernel='linear')
+    #     oc3.fit(xtrain)
+    #     ytest = oc3.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+    # if count < numfiers:
+    #     oneclass2 = oneclass(kernel = 'poly')
+    #     oneclass2.fit(xtrain)
+    #     ytest = oneclass2.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+    # if count < numfiers:
+    #     oc3 = oneclass(kernel='sigmoid')
+    #     oc3.fit(xtrain)
+    #     ytest = oc3.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+    # if count < numfiers:
+    #     oc3 = oneclass(kernel='linear', degree = 4)
+    #     oc3.fit(xtrain)
+    #     ytest = oc3.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+    # if count < numfiers:
+    #     oneclass2 = oneclass(kernel = 'poly', degree = 4)
+    #     oneclass2.fit(xtrain)
+    #     ytest = oneclass2.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+    # if count < numfiers:
+    #     oc3 = oneclass(kernel='sigmoid', degree = 4)
+    #     oc3.fit(xtrain)
+    #     ytest = oc3.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+
+
+    # if count < numfiers:
+    #     oneclass3 = oneclass(shrinking=1)
+    #     oneclass3.fit(xtrain)
+    #     ytest = oneclass3.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+    # if count < numfiers:
+    #     oneclass4 = oneclass(degree=2)
+    #     oneclass4.fit(xtrain)
+    #     ytest = oneclass4.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
+
+
+
+
+    # if count < numfiers:
+    #     El_Env = EllipticEnv()
+    #     El_Env.fit(xtrain)
+    #     ytest =El_Env.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+
 

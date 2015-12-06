@@ -48,6 +48,27 @@ print np.max(xtrunclength)
 # print isPow
 
 # ===============================JON'S STUFF BELOW HERE=====================================
+xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+xtrain_aud = xtrain_aud['xtrain']
+
+ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
+ytrain_aud = ytrain_aud['ytrain']
+
+
+xtrain_aud_shortened = xtrain_aud[:,0:6]
+xtesting_shortened = xtesting[:,0:6]
+
+xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+xtrain_pow = xtrain_pow['xtrain']
+
+
+xtrain_pow_shortened = xtrain_pow[:,0:6]
+
+
+
+ystring0 = NA_Classifier.myclassify_NA(9,xtrain_pow,xtesting)
+print 'NA classifier pow'
+print ystring0
 
 # xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
 # xtrain_aud = xtrain_aud['xtrain']
@@ -70,6 +91,14 @@ print np.max(xtrunclength)
 # print ystring3
 
 # ===============================JON'S STUFF ABOVE HERE=====================================
+ystring3 = NA_Classifier.myclassify_NA(9,xtrain_pow_shortened,xtrain_pow_shortened)
+print 'NA classifier pow'
+print ystring3
+
+
+
+
+
 
 # ystring2 = NA_Classifier.myclassify_NA(2,xtrain_aud_shortened,xtrain_aud_shortened)
 # print 'NA classifier Aud'
@@ -101,6 +130,40 @@ print np.max(xtrunclength)
 # print pow_class_target_string
 
 
+
+
+
+
+
+
+
+
+
+xtest_audpow = xtest_audpow[~np.isnan(xtest_audpow).any(axis=1),:]
+yteststring = AudiovsPower.myclassify_AudPow(5,xtrain_aud,xtrain_pow,ytrain_aud,ytrain_pow,xtest_audpow)
+print yteststring
+# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
+# bagging2.fit(xtrainhold,ytrainhold1)
+# #print bagging2.score(xtest,ytest)
+#
+# print "\n for original holdouts \n" + "on training set score was" + str(bagging2.score(xtrainhold,ytrainhold1))
+# print "on holdout set score was" + str(bagging2.score(xtesthold,ytesthold1))
+#
+#
+#
+#
+# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
+# bagging2.fit(xtrain,ytrain1)
+# #print bagging2.score(xtest,ytest)
+#
+# print "for normalized signal \n" "on training set score was" + str(bagging2.score(xtrain,ytrain1))
+# print "on holdout set score was" + str(bagging2.score(xtest,ytest1))
+
+# bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
+# bagging2.fit(xtrain,ytrain1)
+# #print bagging2.score(xtest,ytest)
+# ytest = bagging2.predict(xtest)
+# print ytest[1:1000]
 
 
 #classtest.myclassify(numfiers=21,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
