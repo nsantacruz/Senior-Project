@@ -11,6 +11,41 @@ from sklearn.tree import ExtraTreeClassifier as ETC
 
 
 
+xtesting_shortened = xtesting[:,0:6]
+
+xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+xtrain_pow = xtrain_pow['xtrain']
+
+
+xtrain_pow_shortened = xtrain_pow[:,0:6]
+
+xtrunclength = sio.loadmat('xtrunclength.mat')
+xtrunclength = xtrunclength['xtrunclength']
+
+xtesting = sio.loadmat('xtesting.mat')
+xtesting = xtesting['xtesting']
+
+xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
+xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
+
+# ystring0 = NA_Classifier.myclassify_NA(1,xtrain_pow,xtesting)
+# print 'NA classifier pow'
+# print ystring0
+
+
+ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtrain_pow_shortened)
+print 'NA classifier pow training'
+print ystring3
+
+
+ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtesting_shortened)
+print 'NA classifier pow testing'
+print ystring3
+
+
+
+
+
 #yteststring = FinalClassifier.myclassify_practice_set(numfiers=6,xtrain=xtrainall,ytrain=ytrainall1,xtest=xtestall)
 #classtest.myclassify(numfiers=5,xtrain=xtrain,ytrain=ytrain1,xtest=xtest,ytest=ytest1)
 
@@ -42,12 +77,12 @@ from sklearn.tree import ExtraTreeClassifier as ETC
 
 
 
-
-xtrunclength = sio.loadmat('xtrunclength.mat')
-xtrunclength = xtrunclength['xtrunclength']
-
-xtesting = sio.loadmat('xtesting.mat')
-xtesting = xtesting['xtesting']
+#
+# xtrunclength = sio.loadmat('xtrunclength.mat')
+# xtrunclength = xtrunclength['xtrunclength']
+#
+# xtesting = sio.loadmat('xtesting.mat')
+# xtesting = xtesting['xtesting']
 
 # xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
 # xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
@@ -59,32 +94,32 @@ xtesting = xtesting['xtesting']
 # indsPow = AudiovsPower.indAudPow(yteststring[1], 'P')
 # print indsPow
 
-xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
-xtrain_aud = xtrain_aud['xtrain']
-
-ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
-ytrain_aud = ytrain_aud['ytrain']
-
-
-xtrain_aud_shortened = xtrain_aud[:,0:6]
-xtesting_shortened = xtesting[:,0:6]
-
-xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
-xtrain_pow = xtrain_pow['xtrain']
-
-
-xtrain_pow_shortened = xtrain_pow[:,0:6]
-
-
+# xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+# xtrain_aud = xtrain_aud['xtrain']
+#
+# ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
+# ytrain_aud = ytrain_aud['ytrain']
+#
+#
+# xtrain_aud_shortened = xtrain_aud[:,0:6]
+# xtesting_shortened = xtesting[:,0:6]
+#
+# xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+# xtrain_pow = xtrain_pow['xtrain']
+#
+#
+# xtrain_pow_shortened = xtrain_pow[:,0:6]
+#
+#
 
 # ystring0 = NA_Classifier.myclassify_NA(1,xtrain_pow,xtesting)
 # print 'NA classifier pow'
 # print ystring0
 
-
-ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow,xtrain_pow)
-print 'NA classifier pow'
-print ystring3
+#
+# ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow,xtrain_pow)
+# print 'NA classifier pow'
+# print ystring3
 
 
 
@@ -130,10 +165,10 @@ print ystring3
 
 
 
-
-xtest_audpow = xtest_audpow[~np.isnan(xtest_audpow).any(axis=1),:]
-yteststring = AudiovsPower.myclassify_AudPow(5,xtrain_aud,xtrain_pow,ytrain_aud,ytrain_pow,xtest_audpow)
-print yteststring
+#
+# xtest_audpow = xtest_audpow[~np.isnan(xtest_audpow).any(axis=1),:]
+# yteststring = AudiovsPower.myclassify_AudPow(5,xtrain_aud,xtrain_pow,ytrain_aud,ytrain_pow,xtest_audpow)
+# print yteststring
 # bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
 # bagging2.fit(xtrainhold,ytrainhold1)
 # #print bagging2.score(xtest,ytest)
