@@ -22,7 +22,7 @@ Type_Rec1 = {'Power_recordings','Audio_recordings'};
 numRecsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
 numRecsPerGrid = [2,11];
 trainingGridLetters = 'ABCDEFGHI' ;
-trainingGridLetters = 'C';
+trainingGridLetters = 'I';
 count = 0;
 
 trainDat = []; %temp matrix used to hold features for training

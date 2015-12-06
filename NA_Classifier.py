@@ -53,7 +53,7 @@ def myclassify_NA(numfiers,xtrain,xtest):
     #     count+=1
     #
     if count < numfiers:
-        oneclass2 = oneclass(kernel = 'poly', degree = 4)
+        oneclass2 = oneclass(kernel = 'poly', nu = .1)
         print 'part 5'
         oneclass2.fit(xtrain)
         print 'part 6'

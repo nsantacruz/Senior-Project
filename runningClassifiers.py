@@ -11,7 +11,7 @@ from sklearn.tree import ExtraTreeClassifier as ETC
 
 
 
-xtesting_shortened = xtesting[:,0:6]
+
 
 xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
 xtrain_pow = xtrain_pow['xtrain']
@@ -27,6 +27,7 @@ xtesting = xtesting['xtesting']
 
 xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
 xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
+xtesting_shortened = xtesting[:,0:6]
 
 # ystring0 = NA_Classifier.myclassify_NA(1,xtrain_pow,xtesting)
 # print 'NA classifier pow'
@@ -37,10 +38,15 @@ ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtrain_pow_shorten
 print 'NA classifier pow training'
 print ystring3
 
+#
 
-ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtesting_shortened)
-print 'NA classifier pow testing'
-print ystring3
+xtrain_ABCDEFGH = sio.loadmat('xtrain_ABCDEFGH_pow.mat')
+xtrain_ABCDEFGH = xtrain_ABCDEFGH['xtrain']
+
+
+# ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtesting_shortened)
+# print 'NA classifier pow testing'
+# print ystring3
 
 
 

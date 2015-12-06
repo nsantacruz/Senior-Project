@@ -3,16 +3,16 @@
 
 clc; clear all; close all;
 
-numTestRecs = 2;
+numTestRecs = 0;
 isP = 1;
 Norm = 0;
 Est = 0;
-name1 = 'ybintrain_C_pow.mat';
-name2 = 'ybintest_C_pow.mat';
-name3 = 'xtrain_Cpow.mat';
-name4 = 'ytrain_Cpow.mat';
-name5 = 'xtest_Cpow.mat';
-name6 = 'ytest_Cpow.mat';
+name1 = 'ybintrain_I_pow.mat';
+name2 = 'ybintest_I_pow.mat';
+name3 = 'xtrain_I_pow.mat';
+name4 = 'ytrain_I_pow.mat';
+name5 = 'xtest_I_pow.mat';
+name6 = 'ytest_I_pow.mat';
 [xtrain_all_pow, ytrain_all_pow, xtest, ytest, ybintrain_all_pow, ybintest_all_pow]...
     = FeatExtract(numTestRecs,...
     isP, Norm, Est, name1, name2, name3, name4,name5,name6);
