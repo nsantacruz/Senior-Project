@@ -23,14 +23,7 @@ from sklearn.tree import ExtraTreeClassifier as ETC
 
 #
 #
-xtrunclength = sio.loadmat('xtrunclength.mat')
-xtrunclength = xtrunclength['xtrunclength']
 
-xtesting = sio.loadmat('xtesting.mat')
-xtesting = xtesting['xtesting']
-
-xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
-xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
 
 # yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
 # print yteststring[1]
@@ -55,7 +48,14 @@ xtrain_pow = xtrain_pow['xtrain']
 
 xtrain_pow_shortened = xtrain_pow[:,0:6]
 
+xtrunclength = sio.loadmat('xtrunclength.mat')
+xtrunclength = xtrunclength['xtrunclength']
 
+xtesting = sio.loadmat('xtesting.mat')
+xtesting = xtesting['xtesting']
+
+xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
+xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
 
 # ystring0 = NA_Classifier.myclassify_NA(1,xtrain_pow,xtesting)
 # print 'NA classifier pow'
