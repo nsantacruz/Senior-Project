@@ -20,9 +20,9 @@ function [xtrain, ytrain, xtest, ytest, ybintrain, ybintest] =...
 Type_Rec0 = 'PA';
 Type_Rec1 = {'Power_recordings','Audio_recordings'};
 numRecsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
-numRecsPerGrid = [2,11];
+numRecsPerGrid = [2,9];
 trainingGridLetters = 'ABCDEFGHI' ;
-trainingGridLetters = 'C';
+trainingGridLetters = 'A';
 count = 0;
 
 trainDat = []; %temp matrix used to hold features for training
@@ -259,11 +259,11 @@ for kk = loopInds
                feature_set_test = [((zeros(length(feature_set_test),...
                    1))+kk+1)/2, feature_set_test];   
             end      
-            feature_mat_test = [feature_mat_test; feature_set_test];
         end
             testDat = [testDat; feature_mat_test];
    end 
 end 
+
 xtrain = trainDat(:,2:end); % Data for testing
 ytrain = trainDat(:,1);
 
@@ -288,11 +288,12 @@ if nargin == 10
 elseif nargin == 8
     save(name3, 'xtrain')
     save(name4, 'ytrain')
-end 
+    
 ybintrain = zeros(size(ytrain)) + isP;
 ybintest = zeros(size(ytest)) + isP;
 save(name1, 'ybintrain');
 save(name2, 'ybintest');
+
+end
 close(h)
 end
-

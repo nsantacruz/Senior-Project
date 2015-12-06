@@ -26,34 +26,39 @@ def myclassify_NA(numfiers,xtrain,xtest):
     predictionStringMat = []
 
 
-
-    oneclassclass = oneclass()
+    print 'part 1'
+    oneclassclass = oneclass(nu = 0.1)
+    print 'part 2'
     oneclassclass.fit(xtrain)
+    print 'part 3'
     ytest = oneclassclass.predict(xtest)
+    print 'part 4'
     predictionMat[:,count] = ytest
     count += 1
     #print oneclassclass.get_params()
 
-
-    if count < numfiers:
-        oc2 = oneclass(degree=4)
-        oc2.fit(xtrain)
-        ytest = oc2.predict(xtest)
-        predictionMat[:,count] = ytest
-        count +=1
-
-
-    if count < numfiers:
-        oc3 = oneclass(kernel='linear', degree = 4)
-        oc3.fit(xtrain)
-        ytest = oc3.predict(xtest)
-        predictionMat[:,count] = ytest
-        count+=1
-
+    # print 'finished one'
+    # if count < numfiers:
+    #     oc2 = oneclass(nu = .05)
+    #     oc2.fit(xtrain)
+    #     ytest = oc2.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count +=1
+    # #
+    # if count < numfiers:
+    #     oc3 = oneclass(kernel='linear', degree = 4)
+    #     oc3.fit(xtrain)
+    #     ytest = oc3.predict(xtest)
+    #     predictionMat[:,count] = ytest
+    #     count+=1
+    #
     if count < numfiers:
         oneclass2 = oneclass(kernel = 'poly', degree = 4)
+        print 'part 5'
         oneclass2.fit(xtrain)
+        print 'part 6'
         ytest = oneclass2.predict(xtest)
+        print 'part 7'
         predictionMat[:,count] = ytest
         count+=1
 
