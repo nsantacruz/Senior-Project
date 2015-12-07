@@ -7,41 +7,85 @@ import scipy.io as sio
 import numpy as np
 from sklearn.ensemble import BaggingClassifier
 from sklearn.tree import ExtraTreeClassifier as ETC
+import Transfer_Mat_From_Matlab
+from Transfer_Mat_From_Matlab import txmat
+
+
+
+xtrain_BCDEFGHI = txmat('xtrain_BCDEFGHI_pow.mat','xtrain')
+ytrain_BCDEFGHI = txmat('ytrain_BCDEFGHI_pow.mat','ytrain')
+xtltrain_BCDEFGHI = txmat('xtltrain_BCDEFGHI_pow.mat','xtltrain')
+
+xtest_BCDEFGHI = txmat('xtest_BCDEFGHI_pow.mat','xtest')
+ytest_BCDEFGHI = txmat('ytest_BCDEFGHI_pow.mat','ytest')
+xtltest_BCDEFGHI = txmat('xtltest_BCDEFGHI_pow.mat','xtltest')
+
+xtrain_A = txmat('xtrain_A_pow.mat','xtrain') # we're gonna use this for testing'
+ytrain_A = txmat('ytrain_A_pow.mat','ytrain')
+xtltrain_A = txmat('xtltrain_A_pow.mat','xtltrain')
+
+
+print 'NA classifier pow training BCDEFGHI and A'
+nu = [0.05, 0.1,.2,.3,.4, 0.5, 0.8]
+for param in nu:
+    ystring,ystring1 = NA_Classifier.myclassify_NA(2,xtrain_BCDEFGHI,xtest_BCDEFGHI,xtltest_BCDEFGHI,xtrain_A,xtltrain_A,nuparam=param)
+    print 'for nu =' + str(param)
+    print 'results on BCDEFGHI testing set'
+    print ystring
+    print 'results on grid A data set'
+    print ystring1
+    print '/n /n'
+
+
+
+
+xtrain_ABCDEFGH = txmat('xtrain_ABCDEFGH_pow.mat','xtrain')
+ytrain_ABCDEFGH = txmat('ytrain_ABCDEFGH_pow.mat','ytrain')
+xtltrain_ABCDEFGH = txmat('xtltrain_ABCDEFGH_pow.mat','xtltrain')
+
+xtest_ABCDEFGH = txmat('xtest_ABCDEFGH_pow.mat','xtest')
+ytest_ABCDEFGH= txmat('ytest_ABCDEFGHpow.mat','ytest')
+xtltest_ABCDEFGH = txmat('xtltest_ABCDEFGH_pow.mat','xtltest')
+
+xtrain_I = txmat('xtrain_I_pow.mat','xtrain') # we're gonna use this for testing'
+ytrain_I = txmat('ytrain_I_pow.mat','ytrain')
+xtltrain_I = txmat('xtltrain_I_pow.mat','xtltrain')
+
+
+print 'NA classifier pow training ABCDEFGH and I'
+nu = [0.05, 0.1,.2,.3,.4, 0.5, 0.8]
+for param in nu:
+    ystring,ystring1 = NA_Classifier.myclassify_NA(2,xtrain_ABCDEFGH,xtest_ABCDEFGH,xtltest_ABCDEFGH,xtrain_I,xtltrain_I,nuparam=param)
+    print 'for nu =' + str(param)
+    print 'results on ABCDEFGH testing set'
+    print ystring
+    print 'results on grid I data set'
+    print ystring1
 
 
 
 
 
-
-xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
-xtrain_pow = xtrain_pow['xtrain']
-
-
-xtrain_pow_shortened = xtrain_pow[:,0:6]
-
-xtrunclength = sio.loadmat('xtrunclength.mat')
-xtrunclength = xtrunclength['xtrunclength']
-
-xtesting = sio.loadmat('xtesting.mat')
-xtesting = xtesting['xtesting']
-
-xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
-xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
-xtesting_shortened = xtesting[:,0:6]
-
-# ystring0 = NA_Classifier.myclassify_NA(1,xtrain_pow,xtesting)
-# print 'NA classifier pow'
-# print ystring0
-
-
-ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtrain_pow_shortened)
-print 'NA classifier pow training'
-print ystring3
 
 #
+# xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
+# xtrain_pow = xtrain_pow['xtrain']
+#
+#
+# xtrain_pow_shortened = xtrain_pow[:,0:6]
+#
+# xtrunclength = sio.loadmat('xtrunclength.mat')
+# xtrunclength = xtrunclength['xtrunclength']
+#
+# xtesting = sio.loadmat('xtesting.mat')
+# xtesting = xtesting['xtesting']
+#
+# xtesting = xtesting[~np.isnan(xtesting).any(axis=1),:]
+# xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
+# xtesting_shortened = xtesting[:,0:6]
 
-xtrain_ABCDEFGH = sio.loadmat('xtrain_ABCDEFGH_pow.mat')
-xtrain_ABCDEFGH = xtrain_ABCDEFGH['xtrain']
+
+
 
 
 # ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtesting_shortened)

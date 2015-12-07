@@ -1,6 +1,6 @@
-function [xtrain, ytrain, xtest, ytest, ybintrain, ybintest] =...
+function [xtrain, ytrain, xtest, ytest, ybintrain, ybintest,xtltrain,xtltest] =...
     FeatExtract(numTestRecs,isP, Norm, Est, name1, name2, name3, name4,...
-    name5, name6)
+    name5, name6,name7,name8)
 % numTestRecs: specifies the number of recordings used for testing - the
 % remaining recordings will be used for training
 %
@@ -17,17 +17,21 @@ function [xtrain, ytrain, xtest, ytest, ybintrain, ybintest] =...
 % name3 thru name6: strings containing the names of files to be saved for
 % xtrain, ytrain, xtest, and ytest
 
+%name 7 and 8 are xtrunclengthtraining and xtrunclengthtesting
+
 Type_Rec0 = 'PA';
 Type_Rec1 = {'Power_recordings','Audio_recordings'};
 numRecsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
-%numRecsPerGrid = [2,11];
+numRecsPerGrid = [2,9];
 trainingGridLetters = 'ABCDEFGHI' ;
-trainingGridLetters = 'C';
+trainingGridLetters = 'BCDEFGHI';
 count = 0;
-
+xcount = 1;
+xcount2 = 1;
 trainDat = []; %temp matrix used to hold features for training
 testDat = []; %temp matrix used to hold features for testing
-
+xtltrain = [];
+xtltest = [];
 %for kk = 1:length(numRecordingsPerGrid)
 h = waitbar(0,'Initializing waitbar...');
 
@@ -77,7 +81,20 @@ for kk = loopInds
         end
 
         xTrunc = x(1:end-mod(length(x),w_length));
-        disp(['xTrunc length ' int2str(length(xTrunc))]);
+        %disp(['xTrunc length ' int2str(length(xTrunc))]);
+        
+    if isempty(xtltrain) %xTruncLengthTraining
+        xtrunctemp = length(xTrunc);
+        xtltrain= [xtrunctemp];
+    else
+        xtrunctemp = xtltrain(xcount-1)+length(xTrunc);
+        xtltrain = [xtltrain, xtrunctemp];
+    end
+    
+    xcount = xcount + 1;
+        
+        
+        
         tempTest_Tr = reshape(xTrunc,[],length(xTrunc)/w_length); % before it was just w_length
         %Integrated ENF Signal
         IENF_Tr = sum(abs(tempTest_Tr));%,2);
@@ -179,6 +196,19 @@ for kk = loopInds
                 w_length = 1000;
             end
             xTrunc = x(1:end-mod(length(x),w_length));
+            %disp(['xTrunc length ' int2str(length(xTrunc))]);
+        
+            if isempty(xtltest) %xTruncLengthTest
+                xtrunctemp = length(xTrunc);
+                xtltest= [xtrunctemp];
+            else
+                xtrunctemp = xtltest(xcount2-1)+length(xTrunc);
+                xtltest = [xtltest, xtrunctemp];
+            end
+    
+            xcount2 = xcount2 + 1;
+            
+            
 
             tempTest_Te = reshape(xTrunc,[],length(xTrunc)/w_length);
             %Integrated ENF Signal
@@ -280,19 +310,54 @@ if Norm
     xtest = normFeatures(xtest);
 end
 
-if nargin == 10
-    save(name3, 'xtrain')
-    save(name4, 'ytrain')
-    save(name5, 'xtest')
-    save(name6, 'ytest')
-elseif nargin == 8
-    save(name3, 'xtrain')
-    save(name4, 'ytrain')
-end 
+% if nargin == 10
+%     save(name3, 'xtrain')
+%     save(name4, 'ytrain')
+%     save(name5, 'xtest')
+%     save(name6, 'ytest')
+% elseif nargin == 8
+%     save(name3, 'xtrain')
+%     save(name4, 'ytrain')
+% end 
 ybintrain = zeros(size(ytrain)) + isP;
 ybintest = zeros(size(ytest)) + isP;
 save(name1, 'ybintrain');
 save(name2, 'ybintest');
+save(name3, 'xtrain')
+save(name4, 'ytrain')
+save(name5, 'xtest')
+save(name6, 'ytest')
+
+
+xtltrain = xtltrain ./w_length
+xtltest = xtltest./w_length
+
+% this is to change the indices to reflect that we removed one window from
+% each recording due to off-by-one errors.
+minus1 = 1;
+for t = 1:length(xtltrain)
+    xtltrain(t) = xtltrain(t) - minus1;
+    minus1 = minus1+1;
+end
+    
+minus1 = 1;
+if ~isempty(xtltest)
+    for t = 1:length(xtltest)
+        xtltest(t) = xtltest(t) - minus1;
+        minus1 = minus1 + 1;
+    end
+end
+    
+
+save(name7,'xtltrain')
+save(name8,'xtltest')
+
+
+disp(xtltrain)   
+disp(xtltest)
+
+
+
 close(h)
 end
 
