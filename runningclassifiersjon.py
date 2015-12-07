@@ -8,17 +8,9 @@ import numpy as np
 from sklearn.ensemble import BaggingClassifier
 from sklearn.tree import ExtraTreeClassifier as ETC
 import Transfer_Mat_From_Matlab
-import classtest
-import FinalClassifier
-import AudiovsPower
-import NA_Classifier
-import scipy.io as sio
-import numpy as np
-from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import ExtraTreeClassifier as ETC
-import Transfer_Mat_From_Matlab
 from Transfer_Mat_From_Matlab import txmat
 
+<<<<<<< HEAD
 
 
 xtrain_BCDEFGHI = txmat('xtrain_BCDEFGHI_pow.mat','xtrain')
@@ -33,9 +25,10 @@ xtrain_A = txmat('xtrain_A_pow.mat','xtrain') # we're gonna use this for testing
 ytrain_A = txmat('ytrain_A_pow.mat','ytrain')
 xtltrain_A = txmat('xtltrain_A_pow.mat','xtltrain')
 
+=======
 xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
 xtrain_pow = xtrain_pow['xtrain']
-
+>>>>>>> bd36724a187f99ba8e1e28e7167a1c6f578d48e7
 
 print 'NA classifier pow training BCDEFGHI and A'
 nu = [0.05, 0.1,.2,.3,.4, 0.5, 0.8]
@@ -74,8 +67,11 @@ for param in nu:
     print 'results on grid I data set'
     print ystring1
 
+<<<<<<< HEAD
 
 
+=======
+xtesting_shortened = xtesting[:,0:6]
 
 # ystring0 = NA_Classifier.myclassify_NA(1,xtrain_pow,xtesting)
 # print 'NA classifier pow'
@@ -85,7 +81,7 @@ for param in nu:
 # ystring3 = NA_Classifier.myclassify_NA(1,xtrain_pow_shortened,xtrain_pow_shortened)
 # print 'NA classifier pow training'
 # print ystring3
-
+>>>>>>> bd36724a187f99ba8e1e28e7167a1c6f578d48e7
 
 
 
@@ -108,6 +104,10 @@ for param in nu:
 
 
 
+
+ystring3 = NA_Classifier.myclassify_NA(1,xtrain_pow_shortened,xtesting_shortened)
+print 'NA classifier pow testing'
+print ystring3
 
 # ystring3 = NA_Classifier.myclassify_NA(2,xtrain_pow_shortened,xtesting_shortened)
 # print 'NA classifier pow testing'
@@ -283,5 +283,3 @@ for param in nu:
 #
 # print xtrainwo.shape
 # print xtestwo.shape
-
-
