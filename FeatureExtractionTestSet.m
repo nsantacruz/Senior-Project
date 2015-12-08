@@ -110,6 +110,11 @@ for ii = 1:numTestingRecs % does this for loop work?
 
 end %ends the training data loop
 xtrunclength = xtrunclength./w_length;
+minus1 = 1;
+for t = 1:length(xtrunclength)
+    xtrunclength(t) =xtrunclength(t) - minus1;
+    minus1 = minus1+1
+end
 disp(xtrunclength)   
   
 trainDat = [trainDat; feature_mat];
