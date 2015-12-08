@@ -223,21 +223,36 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
 
 #given prediction vector for all windows and all recordings, output mode for each recording
 def predWindowVecModeFinder(predVec,xtrunclength):
-    predModeVec = []
+    kmostcommon = 4
+    predMat = np.zeros([len(xtrunclength),kmostcommon])-1
+    percMat = np.zeros(predMat.shape)
+
     for count in range(len(xtrunclength)):
         start = 0 if count == 0 else xtrunclength[count-1]
         tempPredRec = predVec[start:xtrunclength[count]]
         from collections import Counter
         b = Counter(tempPredRec)
-        predModeVec.append(b.most_common(1)[0][0])
+        num_Guesses = len(b.most_common())
+        for guess in range(num_Guesses):
+            which_grid = b.most_common()[guess][0]
+            how_many = b.most_common()[guess][1]
+            predMat[count,guess] = which_grid
+            percMat[count,guess] = float(how_many)/len(tempPredRec)
 
-    return predModeVec
+    for i in range(kmostcommon):
+        print "Mode Classes  " + str(i) + ": " + predVec2Str(predMat[:,i].tolist())
+        tempPercList = percMat[:,i].tolist()
+        tempPercList = map('{:.3f}'.format,tempPercList)
+        print "Mode Percents " + str(i) + ": " + str(tempPercList)
+    return predMat[:,0].tolist()
 
 def predVec2Str(ytest):
     gridLetters = 'ABCDEFGHI'
-    str = ''
+    str = '  '
     for pred in ytest:
         #remember, A corresponds to class 1
-        str += gridLetters[int(pred)-1]
+        tempInt = int(pred)
+        str = str + gridLetters[int(pred)-1] if tempInt != -1 else str + '-'
+        str += ' ' * 8
     return str
 
