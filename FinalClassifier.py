@@ -18,7 +18,11 @@ from sklearn.ensemble import GradientBoostingClassifier as GBC
 from sklearn.ensemble import VotingClassifier
 
 #def myclassify(numfiers = 6,xtrain=xtrain,ytrain=ytrain,xtest=xtest,ytest=ytest):
-def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
+def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytest=None):
+    #NOTE we might not need xtltrain
+    # xtrain and ytrain are your training set. xtltrain is the indices of corresponding recordings in xtrain and ytrain. these will always be present
+    #xtest is your testing set. xtltest is the corresponding indices of the recording. for the practice set xtltest = xtrunclength
+    # ytest is optional and depends on if you are using a testing set or the practice set
 
     # remove NaN, Inf, and -Inf values from the xtest feature matrix
     xtest = xtest[~np.isnan(xtest).any(axis=1),:]
@@ -26,8 +30,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
 
     ytrain = np.ravel(ytrain)
 
-    xtrunclength = sio.loadmat('xtrunclength.mat')
-    xtrunclength = xtrunclength['xtrunclength'][0]
 
     #if xtest is NxM matrix, returns Nxnumifiers matrix where each column corresponds to a classifiers prediction vector
     count = 0
@@ -214,7 +216,7 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
 
     for colCount in range(predictionMat.shape[1]):
         tempCol = predictionMat[:,colCount]
-        modeCol = predWindowVecModeFinder(tempCol,xtrunclength)
+        modeCol = predWindowVecModeFinder(tempCol,xtltest)
         modeStr = predVec2Str(modeCol)
         predictionStringMat.append(modeStr)
 

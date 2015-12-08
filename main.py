@@ -62,5 +62,13 @@ xtesting = xtesting[~np.isinf(xtesting).any(axis=1),:]
 # print ystring0
 xtrain_ABCDEFGH = txmat('xtrain_ABCDEFGH_pow.mat','xtrain')
 ytrain_ABCDEFGH = txmat('ytrain_ABCDEFGH_pow.mat','ytrain')
+xtltrain_ABCDEFGH = txmat('xtltrain_ABCDEFGH_pow.mat','xtltrain')
 
-ystring = FinalClassifier.myclassify_practice_set(1,xtrain_ABCDEFGH,ytrain_ABCDEFGH,xtesting)
+xtrain_I = txmat('xtrain_I_pow.mat','xtrain') # we're gonna use this for testing'
+ytrain_I = txmat('ytrain_I_pow.mat','ytrain')
+xtltrain_I = txmat('xtltrain_I_pow.mat','xtltrain')
+
+xtrunclength = sio.loadmat('xtrunclength.mat')
+xtrunclength = xtrunclength['xtrunclength'][0]
+
+ystring = FinalClassifier.myclassify_practice_set(1,xtrain_ABCDEFGH,ytrain_ABCDEFGH,xtltrain_ABCDEFGH,xtltrain_I, xtrain_I,ytrain_I)
