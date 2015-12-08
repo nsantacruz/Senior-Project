@@ -37,17 +37,6 @@ xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
 xtrain_pow = xtrain_pow['xtrain']
 
 
-print 'NA classifier pow training BCDEFGHI and A'
-nu = [0.05, 0.1,.2,.3,.4, 0.5, 0.8]
-for param in nu:
-    ystring,ystring1 = NA_Classifier.myclassify_NA(2,xtrain_BCDEFGHI,xtest_BCDEFGHI,xtltest_BCDEFGHI,xtrain_A,xtltrain_A,nuparam=param)
-    print 'for nu =' + str(param)
-    print 'results on BCDEFGHI testing set'
-    print ystring
-    print 'results on grid A data set'
-    print ystring1
-    print '/n /n'
-
 
 
 
@@ -56,7 +45,7 @@ ytrain_ABCDEFGH = txmat('ytrain_ABCDEFGH_pow.mat','ytrain')
 xtltrain_ABCDEFGH = txmat('xtltrain_ABCDEFGH_pow.mat','xtltrain')
 
 xtest_ABCDEFGH = txmat('xtest_ABCDEFGH_pow.mat','xtest')
-ytest_ABCDEFGH= txmat('ytest_ABCDEFGHpow.mat','ytest')
+ytest_ABCDEFGH= txmat('ytest_ABCDEFGH_pow.mat','ytest')
 xtltest_ABCDEFGH = txmat('xtltest_ABCDEFGH_pow.mat','xtltest')
 
 xtrain_I = txmat('xtrain_I_pow.mat','xtrain') # we're gonna use this for testing'
@@ -64,15 +53,22 @@ ytrain_I = txmat('ytrain_I_pow.mat','ytrain')
 xtltrain_I = txmat('xtltrain_I_pow.mat','xtltrain')
 
 
-print 'NA classifier pow training ABCDEFGH and I'
+
+
+print 'NA classifier pow training BCDEFGHI and A'
 nu = [0.05, 0.1,.2,.3,.4, 0.5, 0.8]
 for param in nu:
-    ystring,ystring1 = NA_Classifier.myclassify_NA(2,xtrain_ABCDEFGH,xtest_ABCDEFGH,xtltest_ABCDEFGH,xtrain_I,xtltrain_I,nuparam=param)
+    ystring,ystring1 = NA_Classifier.myclassify_NA(2,xtrain_BCDEFGHI,xtest_BCDEFGHI,xtltest_BCDEFGHI,xtrain_A,xtltrain_A,nuparam=param)
+    ystring2,ystring3 = NA_Classifier.myclassify_NA(2,xtrain_ABCDEFGH,xtest_ABCDEFGH,xtltest_ABCDEFGH,xtrain_I,xtltrain_I,nuparam=param)
     print 'for nu =' + str(param)
-    print 'results on ABCDEFGH testing set'
+    print 'results on BCDEFGHI testing set and A data set'
     print ystring
-    print 'results on grid I data set'
     print ystring1
+    print '\n'
+    print 'results on ABCDEFGH testing set and I data set'
+    print ystring2
+    print ystring3
+    print '\n'
 
 
 
