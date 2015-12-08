@@ -3,6 +3,6 @@ ieeedataset
 .DS_Store
 matlabDatasets/*
 matlabDatasets
-.pyc
+*.pyc
 .idea/
 .idea
