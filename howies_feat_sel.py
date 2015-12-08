@@ -32,9 +32,5 @@ print xtrain_fsel_tree.shape
 results_after = FinalClassifier.myclassify_practice_set(3, xtrain_fsel_tree, ytrain_pow, xtesting_fsel_tree)
 print results_after
 
-# svc = SVC(kernel="rbf", C=1)
-# rfe = RFE(estimator=svc, n_features_to_select=10, step=1)
-# recur = rfe.fit(xtrain_pow, ytrain_pow)
-# print "Done"
 
 

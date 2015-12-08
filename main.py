@@ -19,11 +19,6 @@ from sklearn.tree import ExtraTreeClassifier as ETC
 # print 'binary audio vs power'
 # print yteststring
 
-
-#
-#
-
-
 # yteststring = AudiovsPower.myclassify_AudPow(2, xtrain_aud, xtrain_pow, ybin_aud, ybin_pow, xtesting)
 # print yteststring[1]
 # indsAud = AudiovsPower.indAudPow(yteststring[1], 'A')
@@ -31,14 +26,14 @@ from sklearn.tree import ExtraTreeClassifier as ETC
 # indsPow = AudiovsPower.indAudPow(yteststring[1], 'P')
 # print indsPow
 
-# xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
-# xtrain_aud = xtrain_aud['xtrain']
-#
-# ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
-# ytrain_aud = ytrain_aud['ytrain']
-#
-#
-# xtrain_aud_shortened = xtrain_aud[:,0:6]
+xtrain_aud = sio.loadmat('xtrain_all_aud.mat')
+xtrain_aud = xtrain_aud['xtrain']
+
+ytrain_aud = sio.loadmat('ytrain_all_aud.mat')
+ytrain_aud = ytrain_aud['ytrain']
+
+
+xtrain_aud_shortened = xtrain_aud[:,0:6]
 xtesting_shortened = xtesting[:,0:6]
 
 xtrain_pow = sio.loadmat('xtrain_all_pow.mat')
