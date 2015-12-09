@@ -25,8 +25,7 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytest=
     # ytest is optional and depends on if you are using a testing set or the practice set
 
     # remove NaN, Inf, and -Inf values from the xtest feature matrix
-    xtest = xtest[~np.isnan(xtest).any(axis=1),:]
-    xtest = xtest[~np.isinf(xtest).any(axis=1),:]
+    xtest,xtltest = removeNanAndInf(xtest,xtltest)
 
     ytrain = np.ravel(ytrain)
 
@@ -258,3 +257,17 @@ def predVec2Str(ytest):
         str += ' ' * 8
     return str
 
+#removes nan and inf rows from mat, while updating xtrunclength to remain in-sync
+def removeNanAndInf(mat,xtrunclength):
+    badinds = np.isinf(mat).any(axis=1) | np.isnan(mat).any(axis=1)
+    mat = mat[~badinds,:]
+
+    print xtrunclength
+    for i in range(len(xtrunclength)):
+        tempBadInds = badinds[0:xtrunclength[i]]
+        xtrunclength[i] = xtrunclength[i] - np.sum(tempBadInds)
+
+
+
+
+    return mat,xtrunclength

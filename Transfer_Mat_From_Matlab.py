@@ -6,4 +6,5 @@ def txmat(name,type):
     # possible types are xtrain,ytrain,xtest,ytest,ybintrain,ybintest,xtruncLength (this is for the testing set),xtltrain, and xtltest
     x = sio.loadmat(name)
     x = x[type]
+
     return x

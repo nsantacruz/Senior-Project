@@ -66,9 +66,13 @@ xtltrain_ABCDEFGH = txmat('xtltrain_ABCDEFGH_pow.mat','xtltrain')
 
 xtrain_I = txmat('xtrain_I_pow.mat','xtrain') # we're gonna use this for testing'
 ytrain_I = txmat('ytrain_I_pow.mat','ytrain')
-xtltrain_I = txmat('xtltrain_I_pow.mat','xtltrain')
+xtltrain_I = txmat('xtltrain_I_pow.mat','xtltrain')[0]
 
 xtrunclength = sio.loadmat('xtrunclength.mat')
 xtrunclength = xtrunclength['xtrunclength'][0]
 
-ystring = FinalClassifier.myclassify_practice_set(1,xtrain_ABCDEFGH,ytrain_ABCDEFGH,xtltrain_ABCDEFGH,xtltrain_I, xtrain_I,ytrain_I)
+xtesting[0,0] = np.inf
+xtesting[1,0] = np.nan
+xtesting[1198,10] = np.nan
+ystring = FinalClassifier.myclassify_practice_set(1,xtrain_ABCDEFGH,ytrain_ABCDEFGH,xtltrain_ABCDEFGH,xtrunclength,xtesting)
+#ystring = FinalClassifier.myclassify_practice_set(1,xtrain_ABCDEFGH,ytrain_ABCDEFGH,xtltrain_ABCDEFGH,xtltrain_I, xtrain_I,ytrain_I)
