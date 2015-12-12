@@ -18,16 +18,17 @@ from sklearn.ensemble import GradientBoostingClassifier as GBC
 from sklearn.ensemble import VotingClassifier
 
 #def myclassify(numfiers = 6,xtrain=xtrain,ytrain=ytrain,xtest=xtest,ytest=ytest):
-def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
+def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytest=None):
+    #NOTE we might not need xtltrain
+    # xtrain and ytrain are your training set. xtltrain is the indices of corresponding recordings in xtrain and ytrain. these will always be present
+    #xtest is your testing set. xtltest is the corresponding indices of the recording. for the practice set xtltest = xtrunclength
+    # ytest is optional and depends on if you are using a testing set or the practice set
 
     # remove NaN, Inf, and -Inf values from the xtest feature matrix
-    xtest = xtest[~np.isnan(xtest).any(axis=1),:]
-    xtest = xtest[~np.isinf(xtest).any(axis=1),:]
+    xtest,xtltest = removeNanAndInf(xtest,xtltest)
 
     ytrain = np.ravel(ytrain)
 
-    xtrunclength = sio.loadmat('xtrunclength.mat')
-    xtrunclength = xtrunclength['xtrunclength'][0]
 
     #if xtest is NxM matrix, returns Nxnumifiers matrix where each column corresponds to a classifiers prediction vector
     count = 0
@@ -214,11 +215,8 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
 
     for colCount in range(predictionMat.shape[1]):
         tempCol = predictionMat[:,colCount]
-        modeCol,p1,modeCol2,p2,modeCol3,p3,modeCol4,p4 = predWindowVecModeFinder(tempCol,xtrunclength)
+        modeCol = predWindowVecModeFinder(tempCol,xtltest)
         modeStr = predVec2Str(modeCol)
-        modeStr2 = predVec2Str(modeCol2)
-        modeStr3 = predVec2Str(modeCol3)
-        modeStr4 = predVec2Str(modeCol4)
         predictionStringMat.append(modeStr)
 
     return predictionStringMat
@@ -226,49 +224,50 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtest):
 
 #given prediction vector for all windows and all recordings, output mode for each recording
 def predWindowVecModeFinder(predVec,xtrunclength):
-    predModeVec = []
-    perc = []
-    predModeVec1 = []
-    perc1 = []
-    predModeVec2 = []
-    perc2 = []
-    predModeVec3 = []
-    perc3 = []
-    predModeVec4 = []
-    perc4 = []
+    kmostcommon = 4
+    predMat = np.zeros([len(xtrunclength),kmostcommon])-1
+    percMat = np.zeros(predMat.shape)
+
     for count in range(len(xtrunclength)):
         start = 0 if count == 0 else xtrunclength[count-1]
         tempPredRec = predVec[start:xtrunclength[count]]
         from collections import Counter
         b = Counter(tempPredRec)
-        predModeVec.append(b.most_common(1)[0][0])
         num_Guesses = len(b.most_common())
         for guess in range(num_Guesses):
             which_grid = b.most_common()[guess][0]
             how_many = b.most_common()[guess][1]
-            if guess == 0:
-                predModeVec.append(which_grid)
-                perc.append(how_many)
-            elif guess ==1:
-                predModeVec1.append(which_grid)
-                perc1.append(how_many)
-            elif guess ==2:
-                predModeVec2.append(which_grid)
-                perc2.append(how_many)
-            elif guess ==3:
-                predModeVec3.append(which_grid)
-                perc3.append(how_many)
-            else:
-                predModeVec4.append(which_grid)
-                perc4.append(how_many)
+            predMat[count,guess] = which_grid
+            percMat[count,guess] = float(how_many)/len(tempPredRec)
 
-    return predModeVec,perc,predModeVec1,perc1,predModeVec2,perc2,predModeVec3,perc3
+    for i in range(kmostcommon):
+        print "Mode Classes  " + str(i) + ": " + predVec2Str(predMat[:,i].tolist())
+        tempPercList = percMat[:,i].tolist()
+        tempPercList = map('{:.3f}'.format,tempPercList)
+        print "Mode Percents " + str(i) + ": " + str(tempPercList)
+    return predMat[:,0].tolist()
 
 def predVec2Str(ytest):
     gridLetters = 'ABCDEFGHI'
-    str = ''
+    str = '  '
     for pred in ytest:
         #remember, A corresponds to class 1
-        str += gridLetters[int(pred)-1]
+        tempInt = int(pred)
+        str = str + gridLetters[int(pred)-1] if tempInt != -1 else str + '-'
+        str += ' ' * 8
     return str
 
+#removes nan and inf rows from mat, while updating xtrunclength to remain in-sync
+def removeNanAndInf(mat,xtrunclength):
+    badinds = np.isinf(mat).any(axis=1) | np.isnan(mat).any(axis=1)
+    mat = mat[~badinds,:]
+
+    print xtrunclength
+    for i in range(len(xtrunclength)):
+        tempBadInds = badinds[0:xtrunclength[i]]
+        xtrunclength[i] = xtrunclength[i] - np.sum(tempBadInds)
+
+
+
+
+    return mat,xtrunclength
