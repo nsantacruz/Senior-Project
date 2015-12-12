@@ -1,25 +1,7 @@
+import scipy.io as sio
 
-import classtest
-import FinalClassifier
-import AudiovsPower
 import NA_Classifier
-import scipy.io as sio
-import numpy as np
-from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import ExtraTreeClassifier as ETC
-import Transfer_Mat_From_Matlab
-import classtest
-import FinalClassifier
-import AudiovsPower
-import NA_Classifier
-import scipy.io as sio
-import numpy as np
-from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import ExtraTreeClassifier as ETC
-import Transfer_Mat_From_Matlab
 from Transfer_Mat_From_Matlab import txmat
-
-
 
 xtrain_BCDEFGHI = txmat('xtrain_BCDEFGHI_pow.mat','xtrain')
 ytrain_BCDEFGHI = txmat('ytrain_BCDEFGHI_pow.mat','ytrain')

@@ -1,13 +1,7 @@
-import classtest
-import FinalClassifier
-import AudiovsPower
-import NA_Classifier
-import scipy.io as sio
 import numpy as np
-from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import ExtraTreeClassifier as ETC
+import scipy.io as sio
 
-
+import NA_Classifier
 
 #
 # xtrain_aud = sio.loadmat('xtrain_all_aud.mat')

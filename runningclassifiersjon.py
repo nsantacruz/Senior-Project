@@ -1,13 +1,6 @@
-
-import classtest
-import FinalClassifier
-import AudiovsPower
-import NA_Classifier
 import scipy.io as sio
-import numpy as np
-from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import ExtraTreeClassifier as ETC
-import Transfer_Mat_From_Matlab
+
+import NA_Classifier
 from Transfer_Mat_From_Matlab import txmat
 
 <<<<<<< HEAD
