@@ -223,4 +223,64 @@ def predVec2Str(ytest):
     #     predictionMat[:,count] = ytest
     #     count+=1
 
+# lets make this modular, make everything into an array!!!
+def myclassify_oneclass(numfiers,xtrain,xtest,xtrunc,nuparam=.5):
+
+    # remove NaN, Inf, and -Inf values from the xtest feature matrix
+    xtest = xtest[~np.isnan(xtest).any(axis=1),:]
+    xtest = xtest[~np.isinf(xtest).any(axis=1),:]
+    xtrunc = xtrunc[0] # this is because the xtrunc is a list and we want only the first index, which is our array
+
+    #if xtest is NxM matrix, returns Nxnumifiers matrix where each column corresponds to a classifiers prediction vector
+    count = 0
+    print numfiers
+
+    predictionMat = np.empty((xtest.shape[0],numfiers))
+    predictionStringMat = []
+
+
+
+    oneclassifier = oneclass(nu = nuparam)
+    print 'created classifier'
+    oneclassifier = oneclassifier.fit(xtrain)
+    print 'trained classifier'
+    ytest = oneclassifier.predict(xtest)
+    print 'predicted classifier results'
+    predictionMat[:,count] = ytest
+
+    count += 1
+
+    for colCount in range(predictionMat.shape[1]):
+        tempCol = predictionMat[:,colCount]
+        modeCol = predWindowVecModeFinder(tempCol,xtrunc)
+        modeStr = predVec2Str(modeCol)
+        predictionStringMat.append(modeStr)
+
+    return predictionStringMat
+
+
+#given prediction vector for all windows and all recordings, output mode for each recording
+def predWindowVecModeFinder(predVec,xtrunclength):
+    predModeVec = []
+    for count in range(len(xtrunclength)):
+        start = 0 if count == 0 else xtrunclength[count-1]
+        tempPredRec = predVec[start:xtrunclength[count]]
+        from collections import Counter
+        b = Counter(tempPredRec)
+        predModeVec.append(b.most_common(1)[0][0])
+
+    return predModeVec
+
+def predVec2Str(ytest):
+
+    #OneClassSVM.predict(xtest) returns 1 if the classifier believes
+    # that the test sample is from the training dataset, and -1 if not
+    stri = ''
+    for pred in ytest:
+        stri += (' ' + str(int(pred)))
+        #remember, 1 corresponds to yes, -1 to no
+        # new = 1 if int(pred)== 1 else 0
+        # str+=gridLetters[new]
+        #str += gridLetters[int(pred)-1]
+    return stri
 

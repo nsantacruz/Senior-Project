@@ -1,5 +1,5 @@
 function [xtrain, ytrain, xtest, ytest, ybintrain, ybintest,xtltrain,xtltest] =...
-    FeatExtract(numTestRecs,isP, Norm, Est, name1, name2, name3, name4,...
+    FeatExtract(gridlettrs,numTestRecs,isP, Norm, Est, name1, name2, name3, name4,...
     name5, name6,name7,name8)
 % numTestRecs: specifies the number of recordings used for testing - the
 % remaining recordings will be used for training
@@ -22,9 +22,10 @@ function [xtrain, ytrain, xtest, ytest, ybintrain, ybintest,xtltrain,xtltest] =.
 Type_Rec0 = 'PA';
 Type_Rec1 = {'Power_recordings','Audio_recordings'};
 numRecsPerGrid = [2,9,2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
-%numRecsPerGrid = [2,10,2,11,2,11,2,11,2,8,2,11,2,11,2,11];
-trainingGridLetters = 'ABCDEFGHI' ;
-%trainingGridLetters = 'BCDEFGHI';
+% numRecsPerGrid = [2,11];
+% trainingGridLetters = 'ABCDEFGHI' ;
+trainingGridLetters = gridlettrs;
+% trainingGridLetters = '';
 count = 0;
 xcount = 1;
 xcount2 = 1;
