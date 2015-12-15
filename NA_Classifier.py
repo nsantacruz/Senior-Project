@@ -233,7 +233,7 @@ def myclassify_oneclass(numfiers,xtrain,xtest,xtrunc,nuparam=.5):
 
     #if xtest is NxM matrix, returns Nxnumifiers matrix where each column corresponds to a classifiers prediction vector
     count = 0
-    print numfiers
+    # print numfiers
 
     predictionMat = np.empty((xtest.shape[0],numfiers))
     predictionStringMat = []
@@ -241,11 +241,11 @@ def myclassify_oneclass(numfiers,xtrain,xtest,xtrunc,nuparam=.5):
 
 
     oneclassifier = oneclass(nu = nuparam)
-    print 'created classifier'
+    # print 'created classifier'
     oneclassifier = oneclassifier.fit(xtrain)
-    print 'trained classifier'
+    # print 'trained classifier'
     ytest = oneclassifier.predict(xtest)
-    print 'predicted classifier results'
+    # print 'predicted classifier results'
     predictionMat[:,count] = ytest
 
     count += 1
@@ -277,7 +277,12 @@ def predVec2Str(ytest):
     # that the test sample is from the training dataset, and -1 if not
     stri = ''
     for pred in ytest:
-        stri += (' ' + str(int(pred)))
+        if int(pred) == 1:
+            tempy = '1'
+        elif int(pred) == -1:
+            tempy = 'N'
+        stri += (' ' + tempy)
+        # stri += (' ' + str(int(pred)))
         #remember, 1 corresponds to yes, -1 to no
         # new = 1 if int(pred)== 1 else 0
         # str+=gridLetters[new]
