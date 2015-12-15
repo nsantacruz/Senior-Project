@@ -33,83 +33,108 @@ xtltrain_H_pow = txmat('xtltrain_H_pow.mat','xtltrain')
 xtrain_I_pow = txmat('xtrain_I_pow.mat','xtrain')
 xtltrain_I_pow = txmat('xtltrain_I_pow.mat','xtltrain')
 
+xtesting = txmat('xtesting.mat','xtesting')
+xtrunclength = txmat('xtrunclength.mat','xtrunclength')
 
 
+xtrain = [xtrain_A_pow,xtrain_B_pow,xtrain_C_pow,xtrain_D_pow,xtrain_E_pow,xtrain_F_pow,xtrain_G_pow,xtrain_H_pow,xtrain_I_pow]
+xtltrain = [xtltrain_A_pow,xtltrain_B_pow,xtltrain_C_pow,xtltrain_D_pow,xtltrain_E_pow,xtltrain_F_pow,xtltrain_G_pow,xtltrain_H_pow,xtltrain_I_pow]
+grids = ['A','B','C','D','E','F','G','H','I']
 
 
+# for i in range(len(xtrain)):
+#     for j in range(len(xtrain)):
+#         ystring = NA_Classifier.myclassify_oneclass(1,xtrain[i],xtrain[j],xtltrain[j],nuparam = .1)
+#         print 'results for training on ' + grids[i] + ' and testing on ' + grids[j]
+#         # print ""
+#         print ystring
+#         # print ""
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 /Users/Jon/Documents/MATLAB/Senior-Project/nineoneclass.py
+results on training set for training on A power
+[' 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1']
+results on training set for training on B power
+[' -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1']
+results on training set for training on C power
+[' -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1']
+results on training set for training on D power
+[' -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1']
 
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_A_pow,xtltrain_A_pow,nuparam = .3)
-print 'results for train A, nu = .3'
+Process finished wit
+for i in range(len(xtrain)):
+    ystring = NA_Classifier.myclassify_oneclass(1,xtrain[i],xtesting,xtrunclength,nuparam = .1)
+    print 'results on training set for training on ' + grids[i] + ' power '
+    print ystring
+
+#
+# for i in range(len(xtrain)):
+#         ystring = NA_Classifier.myclassify_oneclass(1,xtrain[i],xtrain[j],xtltrain[j],nuparam = .1)
+#         print 'results for training on ' + grids[i] + ' and testing on ' + grids[j]
+#         # print ""
+#         print ystring
+#         # print ""
+#
+
 print ""
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_B_pow,xtltrain_B_pow,nuparam = .3)
-print 'results on B'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_C_pow,xtltrain_C_pow,nuparam = .3)
-print 'results on C'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_D_pow,xtltrain_D_pow,nuparam = .3)
-print 'results on D'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_E_pow,xtltrain_E_pow,nuparam = .3)
-print 'results on E'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_F_pow,xtltrain_F_pow,nuparam = .3)
-print 'results on F'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_G_pow,xtltrain_G_pow,nuparam = .3)
-print 'results on G'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_H_pow,xtltrain_H_pow,nuparam = .3)
-print 'results on H'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_I_pow,xtltrain_I_pow,nuparam = .3)
-print 'results on I'
-print ystring
-
-
-
-
-
-
-
-print 'now for nu = .2'
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_A_pow,xtltrain_A_pow,nuparam = .2)
-print 'results for train A, nu = .2'
 print ""
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_B_pow,xtltrain_B_pow,nuparam = .2)
-print 'results on B'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_C_pow,xtltrain_C_pow,nuparam = .2)
-print 'results on C'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_D_pow,xtltrain_D_pow,nuparam = .2)
-print 'results on D'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_E_pow,xtltrain_E_pow,nuparam = .2)
-print 'results on E'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_F_pow,xtltrain_F_pow,nuparam = .2)
-print 'results on F'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_G_pow,xtltrain_G_pow,nuparam = .2)
-print 'results on G'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_H_pow,xtltrain_H_pow,nuparam = .2)
-print 'results on H'
-print ystring
-ystring = NA_Classifier.myclassify_oneclass(1,xtrain_A_pow,xtrain_I_pow,xtltrain_I_pow,nuparam = .2)
-print 'results on I'
-print ystring
+print "now for audio"
 
 
 
+#Grid A
+xtrain_A_aud = txmat('xtrain_A_aud.mat','xtrain')
+xtltrain_A_aud = txmat('xtltrain_A_aud.mat','xtltrain')
+#Grid B
+xtrain_B_aud = txmat('xtrain_B_aud.mat','xtrain')
+xtltrain_B_aud = txmat('xtltrain_B_aud.mat','xtltrain')
+#Grid C
+xtrain_C_aud = txmat('xtrain_C_aud.mat','xtrain')
+xtltrain_C_aud = txmat('xtltrain_C_aud.mat','xtltrain')
+
+xtrain_D_aud = txmat('xtrain_D_aud.mat','xtrain')
+xtltrain_D_aud = txmat('xtltrain_D_aud.mat','xtltrain')
+
+xtrain_E_aud = txmat('xtrain_E_aud.mat','xtrain')
+xtltrain_E_aud = txmat('xtltrain_E_aud.mat','xtltrain')
+
+xtrain_F_aud = txmat('xtrain_F_aud.mat','xtrain')
+xtltrain_F_aud = txmat('xtltrain_F_aud.mat','xtltrain')
+
+xtrain_G_aud = txmat('xtrain_G_aud.mat','xtrain')
+xtltrain_G_aud = txmat('xtltrain_G_aud.mat','xtltrain')
+
+xtrain_H_aud = txmat('xtrain_H_aud.mat','xtrain')
+xtltrain_H_aud = txmat('xtltrain_H_aud.mat','xtltrain')
+
+xtrain_I_aud = txmat('xtrain_I_aud.mat','xtrain')
+xtltrain_I_aud = txmat('xtltrain_I_aud.mat','xtltrain')
+
+xtesting = txmat('xtesting.mat','xtesting')
+xtrunclength = txmat('xtrunclength.mat','xtrunclength')
 
 
-# tried nu = .7, it didnt work. nu = .5 got about 50% right for A, but 100% right on other grids.
-# nu = .3 worked well, going to try nu = .2 soon
+xtrain = [xtrain_A_aud,xtrain_B_aud,xtrain_C_aud,xtrain_D_aud,xtrain_E_aud,xtrain_F_aud,xtrain_G_aud,xtrain_H_aud,xtrain_I_aud]
+xtltrain = [xtltrain_A_aud,xtltrain_B_aud,xtltrain_C_aud,xtltrain_D_aud,xtltrain_E_aud,xtltrain_F_aud,xtltrain_G_aud,xtltrain_H_aud,xtltrain_I_aud]
+grids = ['A','B','C','D','E','F','G','H','I']
 
 
+# for i in range(len(xtrain)):
+#     for j in range(len(xtrain)):
+#         ystring = NA_Classifier.myclassify_oneclass(1,xtrain[i],xtrain[j],xtltrain[j],nuparam = .1)
+#         print 'results for training on ' + grids[i] + ' and testing on ' + grids[j]
+#         # print ""
+#         print ystring
+#         # print ""
 
+for i in range(len(xtrain)):
+    ystring = NA_Classifier.myclassify_oneclass(1,xtrain[i],xtesting,xtrunclength,nuparam = .1)
+    print 'results on training set for training on ' + grids[i] + ' audio '
+    print ystring
 
+#
+# for i in range(len(xtrain)):
+#         ystring = NA_Classifier.myclassify_oneclass(1,xtrain[i],xtrain[j],xtltrain[j],nuparam = .1)
+#         print 'results for training on ' + grids[i] + ' and testing on ' + grids[j]
+#         # print ""
+#         print ystring
+#         # print ""
+#
