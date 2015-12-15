@@ -247,12 +247,12 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytarge
         targets1.append(ytarg)
         if testing == False:
             if ytarget != None:
-                print targets1
-                print ""
-                print predictions1
+                #print targets1
+                #print ""
+                #print predictions1
                 confusionme = confusion_matrix(targets1[0],predictions1[0])
-                print "Confusion Matrix is: "
-                print confusionme
+                #print "Confusion Matrix is: "
+                #print confusionme
 
 
     return predictionStringMat, targetStringMat
