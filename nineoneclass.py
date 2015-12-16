@@ -49,17 +49,8 @@ grids = ['A','B','C','D','E','F','G','H','I']
 #         # print ""
 #         print ystring
 #         # print ""
-/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 /Users/Jon/Documents/MATLAB/Senior-Project/nineoneclass.py
-results on training set for training on A power
-[' 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1']
-results on training set for training on B power
-[' -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1']
-results on training set for training on C power
-[' -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1']
-results on training set for training on D power
-[' -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1']
 
-Process finished wit
+#Process finished wit
 for i in range(len(xtrain)):
     ystring = NA_Classifier.myclassify_oneclass(1,xtrain[i],xtesting,xtrunclength,nuparam = .1)
     print 'results on training set for training on ' + grids[i] + ' power '

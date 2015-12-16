@@ -2,13 +2,15 @@ import scipy.io as sio
 import NA_Classifier
 from Transfer_Mat_From_Matlab import txmat
 import FinalClassifier
+import AudiovsPower
+import NA_Classifier
 
 
 
 
-#-----first data set
 
-xtrain_1test_aud = txmat('xtrain_1test_aud.mat','xtrain')
+
+'''xtrain_1test_aud = txmat('xtrain_1test_aud.mat','xtrain')
 ytrain_1test_aud = txmat('ytrain_1test_aud.mat','ytrain')
 xtltrain_1test_aud = txmat('xtltrain_1test_aud.mat','xtltrain')
 
@@ -168,5 +170,5 @@ print format('Predictions: ',"11s"), ystringBE
 
 
 
-
+'''
 

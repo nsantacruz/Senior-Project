@@ -26,13 +26,9 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
     xtrain = np.append(xtrain_1,xtrain_2,0)
     ytrain = np.append(ytrain_1,ytrain_2)
     ytrain = np.ravel(ytrain)
-    print xtrain_1.shape
-    print 'xtrainshape' + str(xtrain.shape)
-    print 'ytrainshape' + str(ytrain.shape)
     xtrunclength = sio.loadmat('xtrunclength.mat')
     xtrunclength = xtrunclength['xtrunclength'][0]
 
-    print'xtestshape' + str(xtest.shape)
 
 
     #if xtest is NxM matrix, returns Nxnumifiers matrix where each column corresponds to a classifiers prediction vector
@@ -41,6 +37,7 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
 
     predictionMat = np.empty((xtest.shape[0],numfiers))
     predictionStringMat = []
+    finalPredMat = []
 
     bagging2 = BaggingClassifier(ETC(),bootstrap=False,bootstrap_features=False)
     bagging2.fit(xtrain,ytrain)
@@ -221,8 +218,9 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
         modeCol = predWindowVecModeFinder(tempCol,xtrunclength)
         modeStr = predVec2Str(modeCol)
         predictionStringMat.append(modeStr)
+        finalPredMat += map(int,modeCol)
 
-    return predictionStringMat
+    return predictionStringMat,finalPredMat
 
 
 #given prediction vector for all windows and all recordings, output mode for each recording

@@ -38,6 +38,7 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytarge
 
     predictionMat = np.empty((xtest.shape[0],numfiers))
     predictionStringMat = []
+    finalPredMat = []
     targetStringMat = []
     targets1 = []
     predictions1 = []
@@ -231,9 +232,9 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytarge
     for colCount in range(predictionMat.shape[1]):
         tempCol = predictionMat[:,colCount]
         if testing:
-            modeCol = temppredWindowVecModeFinder(tempCol,xtltest,4,grids,isPrint=1)
+            modeCol = temppredWindowVecModeFinder(tempCol,xtltest,4,grids,isPrint=0)
         else:
-            modeCol = predWindowVecModeFinder(tempCol,xtltest,4,isPrint=1)
+            modeCol = predWindowVecModeFinder(tempCol,xtltest,4,isPrint=0)
 
         ytarg = predWindowVecModeFinder(ytarget,xtltest,1,isPrint=0)
         if testing:
@@ -243,6 +244,7 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytarge
         modeStrans = predVec2Str(ytarg)
         predictionStringMat.append(modeStr)
         predictions1.append(modeCol)
+        finalPredMat += map(int,modeCol)
         targetStringMat.append(modeStrans)
         targets1.append(ytarg)
         if testing == False:
@@ -255,7 +257,7 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytarge
                 #print confusionme
 
 
-    return predictionStringMat, targetStringMat
+    return predictionStringMat, targetStringMat, finalPredMat
 
 
 #given prediction vector for all windows and all recordings, output mode for each recording
@@ -327,14 +329,14 @@ def temppredVec2Str(ytest,grids):
 
 
 def predVec2Str(ytest):
-    gridLetters = 'ABCDEFGHI'
-    str = '  '
+    gridLetters = 'ABCDEFGHIN'
+    str = ''
     if ytest != []:
         for pred in ytest:
             #remember, A corresponds to class 1
             tempInt = int(pred)
             str = str + gridLetters[int(pred)-1] if tempInt != -1 else str + '-'
-            str += ' ' * 8
+            #str += ' ' * 8
     return str
 
 #removes nan and inf rows from mat, while updating xtrunclength to remain in-sync

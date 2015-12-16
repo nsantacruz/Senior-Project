@@ -237,7 +237,7 @@ def myclassify_oneclass(numfiers,xtrain,xtest,xtrunc,nuparam=.5):
 
     predictionMat = np.empty((xtest.shape[0],numfiers))
     predictionStringMat = []
-
+    finalPredMat = []
 
 
     oneclassifier = oneclass(nu = nuparam)
@@ -253,10 +253,11 @@ def myclassify_oneclass(numfiers,xtrain,xtest,xtrunc,nuparam=.5):
     for colCount in range(predictionMat.shape[1]):
         tempCol = predictionMat[:,colCount]
         modeCol = predWindowVecModeFinder(tempCol,xtrunc)
+        finalPredMat += map(int,modeCol)
         modeStr = predVec2Str(modeCol)
         predictionStringMat.append(modeStr)
 
-    return predictionStringMat
+    return predictionStringMat,finalPredMat
 
 
 #given prediction vector for all windows and all recordings, output mode for each recording
