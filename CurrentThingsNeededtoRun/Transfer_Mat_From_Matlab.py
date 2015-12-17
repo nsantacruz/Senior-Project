@@ -9,3 +9,5 @@ def txmat(name,type):
     x = x[type]
 
     return x
+x = txmat('xtesting.mat','xtesting')
+print x.shape
