@@ -1,7 +1,7 @@
 import scipy.io as sio
 
-import NA_Classifier
-from Transfer_Mat_From_Matlab import txmat
+from CurrentThingsNeededtoRun import NA_Classifier
+from CurrentThingsNeededtoRun.Transfer_Mat_From_Matlab import txmat
 
 <<<<<<< HEAD
 
@@ -26,7 +26,7 @@ xtrain_pow = xtrain_pow['xtrain']
 print 'NA classifier pow training BCDEFGHI and A'
 nu = [0.05, 0.1,.2,.3,.4, 0.5, 0.8]
 for param in nu:
-    ystring,ystring1 = NA_Classifier.myclassify_NA(2,xtrain_BCDEFGHI,xtest_BCDEFGHI,xtltest_BCDEFGHI,xtrain_A,xtltrain_A,nuparam=param)
+    ystring,ystring1 = NA_Classifier.myclassify_NA(2, xtrain_BCDEFGHI, xtest_BCDEFGHI, xtltest_BCDEFGHI, xtrain_A, xtltrain_A, nuparam=param)
     print 'for nu =' + str(param)
     print 'results on BCDEFGHI testing set'
     print ystring
@@ -53,7 +53,7 @@ xtltrain_I = txmat('xtltrain_I_pow.mat','xtltrain')
 print 'NA classifier pow training ABCDEFGH and I'
 nu = [0.05, 0.1,.2,.3,.4, 0.5, 0.8]
 for param in nu:
-    ystring,ystring1 = NA_Classifier.myclassify_NA(2,xtrain_ABCDEFGH,xtest_ABCDEFGH,xtltest_ABCDEFGH,xtrain_I,xtltrain_I,nuparam=param)
+    ystring,ystring1 = NA_Classifier.myclassify_NA(2, xtrain_ABCDEFGH, xtest_ABCDEFGH, xtltest_ABCDEFGH, xtrain_I, xtltrain_I, nuparam=param)
     print 'for nu =' + str(param)
     print 'results on ABCDEFGH testing set'
     print ystring
@@ -98,7 +98,7 @@ xtesting_shortened = xtesting[:,0:6]
 
 
 
-ystring3 = NA_Classifier.myclassify_NA(1,xtrain_pow_shortened,xtesting_shortened)
+ystring3 = NA_Classifier.myclassify_NA(1, xtrain_pow_shortened, xtesting_shortened)
 print 'NA classifier pow testing'
 print ystring3
 
