@@ -71,7 +71,7 @@ for kk = loopInds
     % now we make a matrix for training data
     for ii = data_rec(1:end) % does this for loop work?
         tempStr = ['IEEEDataset/Grid_' trainingGrid '/' recTypeName...
-            '/Train_Grid_' trainingGrid '_' recType int2str(ii) '.wav'];
+            '/Train_Grid_' trainingGrid '_' recType int2str(ii+1) '.wav'];
         disp('Training...')
         disp(tempStr);
         if Est
