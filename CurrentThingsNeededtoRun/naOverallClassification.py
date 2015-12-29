@@ -6,32 +6,23 @@ from CurrentThingsNeededtoRun import AudiovsPower
 from CurrentThingsNeededtoRun.Transfer_Mat_From_Matlab import txmat
 
 
-def predVec2Str(ytest):
-    gridLetters = 'ABCDEFGHIN'
-    str = ''
-    if ytest != []:
-        for pred in ytest:
-            #remember, A corresponds to class 1
-            tempInt = int(pred)
-            str = str + gridLetters[int(pred)-1] if tempInt != -1 else str + '-'
-            # str += ' ' * 8
-    return str
-
-xtesting = txmat('xtesting.mat','xtesting')
-xtrunclength = txmat('xtrunclength.mat','xtrunclength')
-
-xtrainallpow = txmat('xtrain_all_pow.mat','xtrain')
-xtltrainallpow = txmat('xtltrain_all_pow.mat','xtltrain')
-ytrainallpow = txmat('ytrain_all_pow.mat','ytrain')
-
 
 def lookatme():
+
+
+    xtesting = txmat('xtesting.mat','xtesting')
+    xtrunclength = txmat('xtrunclength.mat','xtrunclength')
+
+    xtrainallpow = txmat('xtrain_all_pow.mat','xtrain')
+    xtltrainallpow = txmat('xtltrain_all_pow.mat','xtltrain')
+    ytrainallpow = txmat('ytrain_all_pow.mat','ytrain')
+
 
     # print "power results"
     y,x,power9Class = FinalClassifier.myclassify_practice_set(1, xtrainallpow, ytrainallpow, xtltrainallpow, xtrunclength, xtesting)
     # print y
 
-    # print power9Class
+    print FinalClassifier.predVec2Str(power9Class)
     # print ""
 
     xtrainallaud = txmat('xtrain_all_aud.mat','xtrain')
@@ -43,7 +34,7 @@ def lookatme():
 
     y,x,audio9Class = FinalClassifier.myclassify_practice_set(1, xtrain = xtrainallaud, ytrain = ytrainallaud, xtltrain = xtltrainallaud, xtltest = xtrunclength, xtest = xtesting)
     # print y
-    # print audio9Class
+    print FinalClassifier.predVec2Str(audio9Class)
     # print ""
 
 
@@ -56,13 +47,13 @@ def lookatme():
     # print ""
     # print y
     # print ""
-    # print audVpow
+    print audVpow
 
 
 
     grids = ['A','B','C','D','E','F','G','H','I']
     pow1ClassMat = np.empty([len(grids),len(audVpow)])
-    aud1ClassMat = np.empty([len(grids),len(audVpow)])
+
 
     #POWER ONE-CLASS
     xtrain = []
@@ -76,12 +67,17 @@ def lookatme():
 
 
     for i in range(len(xtrain)):
-        ystring,yvec = NA_Classifier.myclassify_oneclass(1, xtrain[i], xtesting, xtrunclength, nuparam = .1)
+        ystring,yvec = NA_Classifier.myclassify_oneclass(1, xtrain[i], xtesting, xtrunclength, nuparam = .05)
         pow1ClassMat[i,:] = yvec
         # print 'results on training set for training on ' + grids[i] + ' power '
-        # print ystring
+        print ystring
+
 
     #AUDIO ONE-CLASS
+    grids = ['A_18class1','B_18class1','C_18class1','D_18class1','E_18class1','F_18class1','G_18class1','H_18class1','I_18class1',
+             'A_18class2','B_18class2','C_18class2','D_18class2','E_18class2','F_18class2','G_18class2','H_18class2','I_18class2']
+
+    aud1ClassMat = np.empty([len(grids),len(audVpow)])
     xtrain = []
     xtltrain = []
     for grid in grids:
@@ -97,12 +93,12 @@ def lookatme():
     print aud1ClassMat.shape
 
 
-# we should run it for audio through 18 one class classifiers, one off each recording
+    # we should run it for audio through 18 one class classifiers, one off each recording
 
     #math time
 
     finalclass = []
-    print temp1classVec.shape
+    # print temp1classVec.shape
     for i in range(len(audVpow)):
         elem = audVpow[i]
         if elem: #power
@@ -119,15 +115,21 @@ def lookatme():
                 finalclass.append(10) #N/A
 
     # print finalclass
-    print predVec2Str(finalclass)
+    print FinalClassifier.predVec2Str(finalclass)
+
+# lookatme()
+# lookatme()
+# lookatme()
+# lookatme()
+# lookatme()
+# lookatme()
+# lookatme()
 lookatme()
-lookatme()
-lookatme()
-lookatme()
-lookatme()
-lookatme()
-lookatme()
-lookatme()
+# lookatme()
+# lookatme()
+# lookatme()
+# lookatme()
+
 # i'm confused why it gets worse with each iteration, i though i'm not saving anything between runnings!
 # it looks like its saving the models or something, so i should look for some parameter which randomizes it?
 # we should run it for audio through 18 one class classifiers, one off each recording, for the none of the above

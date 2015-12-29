@@ -4,13 +4,13 @@
 clc; clear all; close all;
 
 numTestRecs = 0;
-isP = 0;
+isP = 1;
 Norm = 0;
 Est = 0;
 gridletters = 'ABCDEFGHI'
-numrecgridss = [1,9,1,10,1,11,1,11,1,11,1,8,1,11,1,11,1,11];
+numrecgridss = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 for i = 1:length(gridletters)
-temp = ['_',gridletters(i),'_18class2_aud.mat']
+temp = ['_',gridletters(i),'_18class1_pow.mat']
 name1 = ['ybintrain',temp];
 name2 = ['ybintest',temp];
 name3 = ['xtrain',temp];
