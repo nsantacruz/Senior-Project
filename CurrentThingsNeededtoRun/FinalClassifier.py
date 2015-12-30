@@ -336,7 +336,7 @@ def predVec2Str(ytest):
             #remember, A corresponds to class 1
             tempInt = int(pred)
             str = str + gridLetters[int(pred)-1] if tempInt != -1 else str + '-'
-            str += ' '
+            # str += ' '
     return str
 
 #removes nan and inf rows from mat, while updating xtrunclength to remain in-sync

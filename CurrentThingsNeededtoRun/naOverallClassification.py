@@ -21,7 +21,8 @@ def lookatme():
     # print "power results"
     y,x,power9Class = FinalClassifier.myclassify_practice_set(1, xtrainallpow, ytrainallpow, xtltrainallpow, xtrunclength, xtesting)
     # print y
-
+    print power9Class
+    print ""
     print FinalClassifier.predVec2Str(power9Class)
     # print ""
 
@@ -34,7 +35,7 @@ def lookatme():
 
     y,x,audio9Class = FinalClassifier.myclassify_practice_set(1, xtrain = xtrainallaud, ytrain = ytrainallaud, xtltrain = xtltrainallaud, xtltest = xtrunclength, xtest = xtesting)
     # print y
-    print FinalClassifier.predVec2Str(audio9Class)
+    # print FinalClassifier.predVec2Str(audio9Class)
     # print ""
 
 
@@ -47,7 +48,7 @@ def lookatme():
     # print ""
     # print y
     # print ""
-    print audVpow
+    # print audVpow
 
 
 
@@ -70,12 +71,13 @@ def lookatme():
         ystring,yvec = NA_Classifier.myclassify_oneclass(1, xtrain[i], xtesting, xtrunclength, nuparam = .05)
         pow1ClassMat[i,:] = yvec
         # print 'results on training set for training on ' + grids[i] + ' power '
-        print ystring
+        # print ystring
+    # print pow1ClassMat
 
 
     #AUDIO ONE-CLASS
-    grids = ['A_18class1','B_18class1','C_18class1','D_18class1','E_18class1','F_18class1','G_18class1','H_18class1','I_18class1',
-             'A_18class2','B_18class2','C_18class2','D_18class2','E_18class2','F_18class2','G_18class2','H_18class2','I_18class2']
+    # grids = ['A_18class1','B_18class1','C_18class1','D_18class1','E_18class1','F_18class1','G_18class1','H_18class1','I_18class1',
+    #          'A_18class2','B_18class2','C_18class2','D_18class2','E_18class2','F_18class2','G_18class2','H_18class2','I_18class2']
 
     aud1ClassMat = np.empty([len(grids),len(audVpow)])
     xtrain = []
@@ -90,10 +92,23 @@ def lookatme():
         aud1ClassMat[i,:] = yvec
         # print 'results on training set for training on ' + grids[i] + ' audio '
         # print ystring
-    print aud1ClassMat.shape
+    # print aud1ClassMat.shape
 
 
     # we should run it for audio through 18 one class classifiers, one off each recording
+
+
+    xtrain_BD_aud = txmat('xtrain_BD_aud.mat','xtrain')
+    ytrain_BD_aud = txmat('ytrain_BD_aud.mat','ytrain')
+    xtltrain_BD_aud = txmat('xtltrain_BD_aud.mat','xtltrain')
+    y,x,BDsvm = FinalClassifier.myclassify_practice_set(1,xtrain_BD_aud,ytrain_BD_aud,xtltrain_BD_aud,xtrunclength,xtesting,grids='BD')
+    print BDsvm
+
+    xtrain_BE_aud = txmat('xtrain_BE_aud.mat','xtrain')
+    ytrain_BE_aud = txmat('ytrain_BE_aud.mat','ytrain')
+    xtltrain_BE_aud = txmat('xtltrain_BE_aud.mat','xtltrain')
+    y,x,BEsvm = FinalClassifier.myclassify_practice_set(1,xtrain_BE_aud,ytrain_BE_aud,xtltrain_BE_aud,xtrunclength,xtesting,grids='BE')
+    print BEsvm
 
     #math time
 
@@ -110,12 +125,17 @@ def lookatme():
         else: #audio
             temp1classVec = aud1ClassMat[:,i]
             if np.any(temp1classVec == 1):
+                if audio9Class[:,i] == 2: #if we guess class B, use the BD Classifier to make sure it isn't D
+                    if BDsvm[:,i] == 4:
+                        finalclass.append(4) # if we guessed class D but the BD svm says it's B, append B
+                elif audio9Class[:,i] == 5: #if we guess E, make sure it isn't B
+                else:
                 finalclass.append(audio9Class[i])
             else:
                 finalclass.append(10) #N/A
 
     # print finalclass
-    print FinalClassifier.predVec2Str(finalclass)
+    # print FinalClassifier.predVec2Str(finalclass)
 
 # lookatme()
 # lookatme()
