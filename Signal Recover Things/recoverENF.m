@@ -9,16 +9,17 @@ function [ tdmfSig,qifftSig ] = recoverENF(grid,recType,sampleNum)
 %tdmfSig - signal after stft -> qifft -> tdmf
 %qifftSig - signal after stft -> qifft
 
-
+datasetsRoot = '../matlabDatasets';
 gridLetters = 'ABCDEFGHI';
 gridFreqs = [60 50 60 50 50 50 50 50 60];
 
-shouldPlot = false;
+shouldPlot = true;
 
 %--INPUT PARAMS--
 %--END INPUT PARAMS--
 
-gridCellLoaded = load([grid '_' recType '.mat'], 'tempCell');
+
+gridCellLoaded = load([datasetsRoot '/' grid '_' recType '.mat'], 'tempCell');
 origSig = gridCellLoaded.tempCell{sampleNum};     % get samples of first audio file
 sigMax = max(abs(origSig));       % find maximum absolute value
 origSig = origSig/sigMax;        % scale signal

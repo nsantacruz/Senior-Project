@@ -1,7 +1,9 @@
 % Howard Chen
 % Audio ENF Extraction Test
 
-A_Aud = load('A_Aud.mat', 'tempCell');
+
+datasetsRoot = '../matlabDatasets';
+A_Aud = load([datasetsRoot '/A_Aud.mat'], 'tempCell');
 
 %%
 fs = 1000;                          % sample rate
