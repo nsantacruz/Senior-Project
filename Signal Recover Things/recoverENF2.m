@@ -44,7 +44,7 @@ filteredSig = filterENF(origSig,idealMidf,1,decF);
 %% ESPRIT ALGO
 
 fs = 1000;
-decf = 2;
+decf = 4;
 framet = 2;    %seconds per frame
 overt = 1;     %seconds overlap b/w frames
 
@@ -66,7 +66,7 @@ for ii = 1:length(decsig)/wlen
     %xframed(ii,:) = x;
     
     N = length(x);    % length of signal
-    M = round((2*N)/5);
+    M = round(N/3 + 20);
     P = 2;
 
     %create X matrix
@@ -92,14 +92,15 @@ for ii = 1:length(decsig)/wlen
     
     effs = (fs/decf)*angle(eig(Q))/(2*pi);
     f1s(ii) = effs(1);
-    f2s(ii) = effs(2);
-    f3s(ii) = sum(effs);
+    %f2s(ii) = effs(2);
+    %f3s(ii) = sum(effs);
     
 end
 
 figure;plot(f1s);
-figure;plot(f2s);
-figure;plot(f3s);
+title('enf estimate ESPRIT');
+%figure;plot(f2s);
+%figure;plot(f3s);
 
 
 
