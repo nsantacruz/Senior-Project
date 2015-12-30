@@ -26,7 +26,7 @@ def myclassify_AudPow(numfiers,xtrain_1,xtrain_2,ytrain_1,ytrain_2,xtest):
     xtrain = np.append(xtrain_1,xtrain_2,0)
     ytrain = np.append(ytrain_1,ytrain_2)
     ytrain = np.ravel(ytrain)
-    xtrunclength = sio.loadmat('Files/xtrunclength.mat')
+    xtrunclength = sio.loadmat('../Files/xtrunclength.mat')
     xtrunclength = xtrunclength['xtrunclength'][0]
 
 
