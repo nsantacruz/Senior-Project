@@ -48,7 +48,26 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytarge
     # ytest = svc1.predict(xtest)
     # predictionMat[:,count] = ytest
     # count+=1
+    if count < numfiers:
+        # votingClassifiers combine completely different machine learning classifiers and use a majority vote
+        clff1 = SVC()
+        clff2 = RFC(bootstrap=False)
+        clff3 = ETC()
+        clff4 = neighbors.KNeighborsClassifier()
+        clff5 = quadda()
 
+
+
+        eclf = VotingClassifier(estimators = [('svc',clff1),('rfc',clff2),('etc',clff3),('knn',clff4),('qda',clff5)])
+        eclf = eclf.fit(xtrain,ytrain)
+        #print(eclf.score(xtest,ytest))
+        # for claf, label in zip([clff1,clff2,clff3,clff4,clff5,eclf],['SVC','RFC','ETC','KNN','QDA','Ensemble']):
+        #     cla
+        #     scores = crossvalidation.cross_val_score(claf,xtrain,ytrain,scoring='accuracy')
+        #     print ()
+        ytest = eclf.predict(xtest)
+        predictionMat[:,count] = ytest
+        count+=1
 
     if count < numfiers:
 
@@ -77,26 +96,6 @@ def myclassify_practice_set(numfiers,xtrain,ytrain,xtltrain,xtltest,xtest,ytarge
         predictionMat[:,count] = ytest
         count+=1
 
-    if count < numfiers:
-        # votingClassifiers combine completely different machine learning classifiers and use a majority vote
-        clff1 = SVC()
-        clff2 = RFC(bootstrap=False)
-        clff3 = ETC()
-        clff4 = neighbors.KNeighborsClassifier()
-        clff5 = quadda()
-
-
-
-        eclf = VotingClassifier(estimators = [('svc',clff1),('rfc',clff2),('etc',clff3),('knn',clff4),('qda',clff5)])
-        eclf = eclf.fit(xtrain,ytrain)
-        #print(eclf.score(xtest,ytest))
-        # for claf, label in zip([clff1,clff2,clff3,clff4,clff5,eclf],['SVC','RFC','ETC','KNN','QDA','Ensemble']):
-        #     cla
-        #     scores = crossvalidation.cross_val_score(claf,xtrain,ytrain,scoring='accuracy')
-        #     print ()
-        ytest = eclf.predict(xtest)
-        predictionMat[:,count] = ytest
-        count+=1
 
 
     if count < numfiers:
@@ -330,13 +329,13 @@ def temppredVec2Str(ytest,grids):
 
 def predVec2Str(ytest):
     gridLetters = 'ABCDEFGHIN'
-    str = ''
+    str = ' ' *3
     if ytest != []:
         for pred in ytest:
             #remember, A corresponds to class 1
             tempInt = int(pred)
             str = str + gridLetters[int(pred)-1] if tempInt != -1 else str + '-'
-            #str += ' ' * 8
+            # str += ' '
     return str
 
 #removes nan and inf rows from mat, while updating xtrunclength to remain in-sync

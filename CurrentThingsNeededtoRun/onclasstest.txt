@@ -1,0 +1,494 @@
+results on training setA for training on A power
+[' 1 1']
+results on training setB for training on A power
+[' 1 1']
+results on training setC for training on A power
+[' - -']
+results on training setD for training on A power
+[' 1 1']
+results on training setE for training on A power
+[' - 1']
+results on training setF for training on A power
+[' - -']
+results on training setG for training on A power
+[' - -']
+results on training setH for training on A power
+[' - -']
+results on training setI for training on A power
+[' - -']
+results on training setA for training on B power
+[' - -']
+results on training setB for training on B power
+[' 1 1']
+results on training setC for training on B power
+[' - -']
+results on training setD for training on B power
+[' 1 1']
+results on training setE for training on B power
+[' - 1']
+results on training setF for training on B power
+[' - -']
+results on training setG for training on B power
+[' - -']
+results on training setH for training on B power
+[' - -']
+results on training setI for training on B power
+[' - -']
+results on training setA for training on C power
+[' - -']
+results on training setB for training on C power
+[' - -']
+results on training setC for training on C power
+[' 1 1']
+results on training setD for training on C power
+[' - 1']
+results on training setE for training on C power
+[' - -']
+results on training setF for training on C power
+[' - -']
+results on training setG for training on C power
+[' 1 -']
+results on training setH for training on C power
+[' - -']
+results on training setI for training on C power
+[' - 1']
+results on training setA for training on D power
+[' - -']
+results on training setB for training on D power
+[' 1 1']
+results on training setC for training on D power
+[' - -']
+results on training setD for training on D power
+[' 1 1']
+results on training setE for training on D power
+[' - 1']
+results on training setF for training on D power
+[' - -']
+results on training setG for training on D power
+[' - -']
+results on training setH for training on D power
+[' - -']
+results on training setI for training on D power
+[' - -']
+results on training setA for training on E power
+[' - -']
+results on training setB for training on E power
+[' - 1']
+results on training setC for training on E power
+[' - -']
+results on training setD for training on E power
+[' - -']
+results on training setE for training on E power
+[' 1 1']
+results on training setF for training on E power
+[' - -']
+results on training setG for training on E power
+[' - -']
+results on training setH for training on E power
+[' - -']
+results on training setI for training on E power
+[' - -']
+results on training setA for training on F power
+[' - -']
+results on training setB for training on F power
+[' - -']
+results on training setC for training on F power
+[' - -']
+results on training setD for training on F power
+[' - -']
+results on training setE for training on F power
+[' - -']
+results on training setF for training on F power
+[' 1 1']
+results on training setG for training on F power
+[' - -']
+results on training setH for training on F power
+[' - -']
+results on training setI for training on F power
+[' - -']
+results on training setA for training on G power
+[' - -']
+results on training setB for training on G power
+[' - -']
+results on training setC for training on G power
+[' - -']
+results on training setD for training on G power
+[' - -']
+results on training setE for training on G power
+[' - -']
+results on training setF for training on G power
+[' - -']
+results on training setG for training on G power
+[' 1 1']
+results on training setH for training on G power
+[' - -']
+results on training setI for training on G power
+[' 1 -']
+results on training setA for training on H power
+[' - -']
+results on training setB for training on H power
+[' - -']
+results on training setC for training on H power
+[' - -']
+results on training setD for training on H power
+[' - -']
+results on training setE for training on H power
+[' - -']
+results on training setF for training on H power
+[' - -']
+results on training setG for training on H power
+[' - -']
+results on training setH for training on H power
+[' 1 1']
+results on training setI for training on H power
+[' - -']
+results on training setA for training on I power
+[' - -']
+results on training setB for training on I power
+[' 1 -']
+results on training setC for training on I power
+[' - 1']
+results on training setD for training on I power
+[' 1 1']
+results on training setE for training on I power
+[' - -']
+results on training setF for training on I power
+[' - -']
+results on training setG for training on I power
+[' 1 1']
+results on training setH for training on I power
+[' - -']
+results on training setI for training on I power
+[' 1 1']
+
+
+
+now for larger nu
+results on training setA for training on A power
+[' 1 1']
+results on training setB for training on A power
+[' 1 1']
+results on training setC for training on A power
+[' - -']
+results on training setD for training on A power
+[' 1 1']
+results on training setE for training on A power
+[' - 1']
+results on training setF for training on A power
+[' - -']
+results on training setG for training on A power
+[' - -']
+results on training setH for training on A power
+[' - -']
+results on training setI for training on A power
+[' - -']
+results on training setA for training on B power
+[' - -']
+results on training setB for training on B power
+[' 1 1']
+results on training setC for training on B power
+[' - -']
+results on training setD for training on B power
+[' 1 -']
+results on training setE for training on B power
+[' - -']
+results on training setF for training on B power
+[' - -']
+results on training setG for training on B power
+[' - -']
+results on training setH for training on B power
+[' - -']
+results on training setI for training on B power
+[' - -']
+results on training setA for training on C power
+[' - -']
+results on training setB for training on C power
+[' - -']
+results on training setC for training on C power
+[' 1 1']
+results on training setD for training on C power
+[' - 1']
+results on training setE for training on C power
+[' - -']
+results on training setF for training on C power
+[' - -']
+results on training setG for training on C power
+[' - -']
+results on training setH for training on C power
+[' - -']
+results on training setI for training on C power
+[' - 1']
+results on training setA for training on D power
+[' - -']
+results on training setB for training on D power
+[' 1 1']
+results on training setC for training on D power
+[' - -']
+results on training setD for training on D power
+[' 1 1']
+results on training setE for training on D power
+[' - -']
+results on training setF for training on D power
+[' - -']
+results on training setG for training on D power
+[' - -']
+results on training setH for training on D power
+[' - -']
+results on training setI for training on D power
+[' - -']
+results on training setA for training on E power
+[' - -']
+results on training setB for training on E power
+[' - -']
+results on training setC for training on E power
+[' - -']
+results on training setD for training on E power
+[' - -']
+results on training setE for training on E power
+[' - 1']
+results on training setF for training on E power
+[' - -']
+results on training setG for training on E power
+[' - -']
+results on training setH for training on E power
+[' - -']
+results on training setI for training on E power
+[' - -']
+results on training setA for training on F power
+[' - -']
+results on training setB for training on F power
+[' - -']
+results on training setC for training on F power
+[' - -']
+results on training setD for training on F power
+[' - -']
+results on training setE for training on F power
+[' - -']
+results on training setF for training on F power
+[' 1 1']
+results on training setG for training on F power
+[' - -']
+results on training setH for training on F power
+[' - -']
+results on training setI for training on F power
+[' - -']
+results on training setA for training on G power
+[' - -']
+results on training setB for training on G power
+[' - -']
+results on training setC for training on G power
+[' - -']
+results on training setD for training on G power
+[' - -']
+results on training setE for training on G power
+[' - -']
+results on training setF for training on G power
+[' - -']
+results on training setG for training on G power
+[' 1 1']
+results on training setH for training on G power
+[' - -']
+results on training setI for training on G power
+[' 1 -']
+results on training setA for training on H power
+[' - -']
+results on training setB for training on H power
+[' - -']
+results on training setC for training on H power
+[' - -']
+results on training setD for training on H power
+[' - -']
+results on training setE for training on H power
+[' - -']
+results on training setF for training on H power
+[' - -']
+results on training setG for training on H power
+[' - -']
+results on training setH for training on H power
+[' 1 1']
+results on training setI for training on H power
+[' - -']
+results on training setA for training on I power
+[' - -']
+results on training setB for training on I power
+[' - -']
+results on training setC for training on I power
+[' - 1']
+results on training setD for training on I power
+[' - -']
+results on training setE for training on I power
+[' - -']
+results on training setF for training on I power
+[' - -']
+results on training setG for training on I power
+[' 1 1']
+results on training setH for training on I power
+[' - -']
+results on training setI for training on I power
+[' 1 1']
+
+
+
+now for smaller nu
+results on training setA for training on A power
+[' 1 1']
+results on training setB for training on A power
+[' 1 1']
+results on training setC for training on A power
+[' - -']
+results on training setD for training on A power
+[' 1 1']
+results on training setE for training on A power
+[' - 1']
+results on training setF for training on A power
+[' - -']
+results on training setG for training on A power
+[' - -']
+results on training setH for training on A power
+[' - -']
+results on training setI for training on A power
+[' - -']
+results on training setA for training on B power
+[' - -']
+results on training setB for training on B power
+[' 1 1']
+results on training setC for training on B power
+[' - -']
+results on training setD for training on B power
+[' 1 1']
+results on training setE for training on B power
+[' - 1']
+results on training setF for training on B power
+[' - -']
+results on training setG for training on B power
+[' - -']
+results on training setH for training on B power
+[' - -']
+results on training setI for training on B power
+[' - -']
+results on training setA for training on C power
+[' - -']
+results on training setB for training on C power
+[' 1 -']
+results on training setC for training on C power
+[' 1 1']
+results on training setD for training on C power
+[' 1 1']
+results on training setE for training on C power
+[' - -']
+results on training setF for training on C power
+[' - -']
+results on training setG for training on C power
+[' 1 -']
+results on training setH for training on C power
+[' - -']
+results on training setI for training on C power
+[' 1 1']
+results on training setA for training on D power
+[' - -']
+results on training setB for training on D power
+[' 1 1']
+results on training setC for training on D power
+[' - -']
+results on training setD for training on D power
+[' 1 1']
+results on training setE for training on D power
+[' - 1']
+results on training setF for training on D power
+[' - -']
+results on training setG for training on D power
+[' - -']
+results on training setH for training on D power
+[' - -']
+results on training setI for training on D power
+[' - -']
+results on training setA for training on E power
+[' - -']
+results on training setB for training on E power
+[' - 1']
+results on training setC for training on E power
+[' - -']
+results on training setD for training on E power
+[' - -']
+results on training setE for training on E power
+[' 1 1']
+results on training setF for training on E power
+[' - -']
+results on training setG for training on E power
+[' - -']
+results on training setH for training on E power
+[' 1 -']
+results on training setI for training on E power
+[' - -']
+results on training setA for training on F power
+[' - -']
+results on training setB for training on F power
+[' - -']
+results on training setC for training on F power
+[' - -']
+results on training setD for training on F power
+[' - -']
+results on training setE for training on F power
+[' - -']
+results on training setF for training on F power
+[' 1 1']
+results on training setG for training on F power
+[' - -']
+results on training setH for training on F power
+[' - -']
+results on training setI for training on F power
+[' - -']
+results on training setA for training on G power
+[' - -']
+results on training setB for training on G power
+[' - -']
+results on training setC for training on G power
+[' - 1']
+results on training setD for training on G power
+[' - -']
+results on training setE for training on G power
+[' - -']
+results on training setF for training on G power
+[' - -']
+results on training setG for training on G power
+[' 1 1']
+results on training setH for training on G power
+[' - -']
+results on training setI for training on G power
+[' 1 -']
+results on training setA for training on H power
+[' - -']
+results on training setB for training on H power
+[' - -']
+results on training setC for training on H power
+[' - -']
+results on training setD for training on H power
+[' - -']
+results on training setE for training on H power
+[' - -']
+results on training setF for training on H power
+[' - -']
+results on training setG for training on H power
+[' - -']
+results on training setH for training on H power
+[' 1 1']
+results on training setI for training on H power
+[' - -']
+results on training setA for training on I power
+[' - -']
+results on training setB for training on I power
+[' 1 1']
+results on training setC for training on I power
+[' - 1']
+results on training setD for training on I power
+[' 1 1']
+results on training setE for training on I power
+[' - 1']
+results on training setF for training on I power
+[' - -']
+results on training setG for training on I power
+[' 1 1']
+results on training setH for training on I power
+[' - -']
+results on training setI for training on I power
+[' 1 1']

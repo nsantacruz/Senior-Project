@@ -272,7 +272,7 @@ def predVec2Str(ytest):
         if int(pred) == 1:
             tempy = '1'
         elif int(pred) == -1:
-            tempy = 'N'
+            tempy = '-'
         stri += (' ' + tempy)
         # stri += (' ' + str(int(pred)))
         #remember, 1 corresponds to yes, -1 to no
