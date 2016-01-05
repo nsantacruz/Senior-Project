@@ -1,4 +1,4 @@
-function [ enf ] = esprit( fs,decf,framet,overt,sig,M )
+function [ enf,thirdsingval ] = esprit( fs,decf,framet,overt,sig,M )
 %ESPRIT - estimates enf for time domain signal sig
 %fs - sampling freq
 %decf - decimation coef, 1 for no decimation
@@ -13,11 +13,11 @@ olen = floor(overt*(fs/decf));
 
 decsig = decimate(sig,decf);   % decimate from 1kHz to 250Hz
 
-if olen ~= 0
-    decsig = decsig(1:floor(length(decsig)/olen)*olen);  %truncate so that its divisible by wlen
-    enf = zeros(1,length(decsig)/olen-1);
+decsig = decsig(1:floor(length(decsig)/olen)*olen);  %truncate so that its divisible by wlen
+enf = zeros(1,length(decsig)/olen-1);
 %xframed = zeros(decsig/wlen,wlen);
-for ii = 1:length(enf)-1
+thirdsingval = zeros(1,length(enf));
+for ii = 1:length(enf)
     start = (ii-1)*olen+1;
     x = decsig(start:start + wlen - 1);
     %xframed(ii,:) = x;
@@ -32,9 +32,9 @@ for ii = 1:length(enf)-1
         X(:,jj) = x(jj:jj+M-1);
     end
     
-    [U,~,~] = svd(X);
-    
-%     singVals = diag(S);
+    [U,S,~] = svd(X); 
+    singVals = diag(S);
+    thirdsingval(ii) = singVals(3);
 %     [~,singValsInds] = sort(singVals,'descend');
 %     
 %     Us = zeros(M,P);

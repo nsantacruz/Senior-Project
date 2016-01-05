@@ -14,8 +14,10 @@ olen = floor(overt*(fs/decf));
 decsig = decimate(sig,decf);   % decimate from 1kHz to 250Hz
 
 decsig = decsig(1:floor(length(decsig)/olen)*olen);  %truncate so that its divisible by wlen
-enf = zeros(1,length(decsig)/olen);
+enf = zeros(1,length(decsig)/olen-1);
 %xframed = zeros(decsig/wlen,wlen);
+% thirdsingval = zeros(1,length(enf));
+
 for ii = 1:length(enf)
     start = (ii-1)*olen+1;
     x = decsig(start:start + wlen - 1);
@@ -31,9 +33,9 @@ for ii = 1:length(enf)
         X(:,jj) = x(jj:jj+M-1);
     end
     
-    [U,~,~] = svd(X);
-    
-%     singVals = diag(S);
+    [U,~,~] = svd(X); 
+    %singVals = diag(S);
+    %thirdsingval = singVals(1);
 %     [~,singValsInds] = sort(singVals,'descend');
 %     
 %     Us = zeros(M,P);
@@ -52,7 +54,6 @@ for ii = 1:length(enf)
     %f3s(ii) = sum(effs);
     
 end
-
 
 %figure;plot(f2s);
 %figure;plot(f3s);

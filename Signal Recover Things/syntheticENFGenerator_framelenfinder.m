@@ -3,7 +3,7 @@ if false
 mu = 60; %Hz
 sigma = 0.0133;
 fs = 400;
-framet = 1; % seconds
+framet = 2; % seconds
 numframes = 50;
 framelen = framet*fs;
 
@@ -18,7 +18,7 @@ t = linspace(0,framet,framelen);
 
 for ii = 1:numframes
 
-    sinwave = sin(2*pi*enf(ii)*t); % + phi(ii));
+    sinwave = sin(2*pi*enf(ii)*t + phi(ii));
     
     %timedomain = timedomain + sinwave;
     starti = (ii-1)*framelen + 1;
@@ -55,15 +55,30 @@ else
 noises = 20; % does the algorithm need to know the noise level? because if yes we need to find a way to determine it...
 enfs = cell(size(noises));
 
-estFt = 1.2;
-estOt = estFt;
-estDec = 1;
-fs = 400;
-wlen = floor(estFt*(fs/estDec));
-olen = floor(estOt*(fs/estDec));
-Ms =  floor(wlen/3):10:ceil(2*olen/3);
-%Ms = floor(wlen/3):10:ceil(2*wlen/3)
-Mscores = zeros(size(Ms,2),size(noises,2));
+estFt = linspace(0.5,6.5,50);
+
+
+
+
+% questions / notes
+% 1) how do i implement maxalgo?
+% 2) basic breakdown of each algorithm?
+% 3) do the algorithms know the noise levels? if so we need to change, if
+% not we need to estimate
+% 4)plot correlation
+% 5) plot against different M's? (which M are we using right now?)
+singvals = zeros(1,length(estFt));
+
+for kk = 1:length(estFt)
+    tempEstFt = estFt(kk);
+    estOt = estFt(kk);
+    estDec = 1;
+    fs = 400;
+    wlen = floor(tempEstFt*(fs/estDec));
+    olen = floor(estOt*(fs/estDec));
+    Ms =  floor(wlen/3);%:10:ceil(2*olen/3);
+    %Ms = floor(wlen/3):10:ceil(2*wlen/3)
+    Mscores = zeros(size(Ms,2),size(noises,2));
     
 for ii = 1:length(noises)
     n = noises(ii);
@@ -90,26 +105,27 @@ for ii = 1:length(noises)
     h = waitbar(0,['Please wait... ' int2str(ii)]);
     for jj = 1:length(Ms)
         %estEnf = maxfreqalgo(fs,estDec,estFt*fs,estOt*fs,8,60,1,noisysig);
-        estEnf = esprit(fs,estDec,estFt,estOt,noisysig,Ms(jj));
+        [estEnf,sval] = esprit(fs,estDec,estFt,estOt,noisysig,Ms(jj));
+        singvals(kk) = sval;
         %trueEnf = maxfreqalgo(fs,estDec,estFt*fs,estOt*fs,8,60,1,fullsignal);
         %trueEnf = esprit(fs,estDec,estFt,estOt,fullsignal,Ms(jj));
         
         %figure;plot(estEnf);
+%        tempTD = zeros(size(timedomain));
         
-       len = floor(estFt*fs); 
-       tempTD = zeros(length(estEnf)*len);
+%         for kk = 1:length(estEnf)
+%             startT = ((kk-1)*olen+1)/fs;
+%             t = linspace(startT,startT + estOt,estFt*fs);
+%             sinwave = sin(2*pi*estEnf(ii)*t);
+%             
+%             
+%             
+%             tempTD = tempTD + sinwave;
+%         end
         
-        for kk = 1:length(estEnf)
-            %startT = ((kk-1)*olen+1)/fs;
-            t = linspace(0,estFt,len);
-            sinwave = sin(2*pi*estEnf(ii)*t);
-            starti = (kk-1)*estFt*fs + 1;
-            tempTD(starti:starti + estFt*fs - 1) = sinwave;
-        end
         
-        
-        tempCorr = corrcoef(fullsignal,tempTD);
-        Mscores(jj,ii) = tempCorr(2);
+        %tempCorr = corrcoef(enf,estEnf);
+        %Mscores(jj,ii) = tempCorr(2);
         
         waitbar(jj/length(Ms));
     end
@@ -121,18 +137,25 @@ for ii = 1:length(noises)
 
     
 end
-
+end
 
 %figure;plot(1:length(estEnf)-1,estEnf(1:end-1),1:length(estEnf)-1,enf(1:end-1));
 %legend('estimate','truth');
 %%
 
-x = Ms;
-figure;
-plot(x,Mscores(:,1)); %,x,Mscores(:,3),x,Mscores(:,4),x,Mscores(:,5));
-title('M per noisy signal');
-xlabel('M');
-ylabel('X Correlation Avg');
-legend('Noise = -3dB','Noise = 0dB','Noise = 5dB','Noise = 10dB','Noise = 20dB');
+% x = Ms;
+% figure;
+% plot(x,Mscores(:,1)); %,x,Mscores(:,3),x,Mscores(:,4),x,Mscores(:,5));
+% title('M per noisy signal');
+% xlabel('M');
+% ylabel('X Correlation Avg');
+% legend('Noise = -3dB','Noise = 0dB','Noise = 5dB','Noise = 10dB','Noise = 20dB');
+
+figure;plot(estFt,singvals);
+
+
+
+
 
 end
+
