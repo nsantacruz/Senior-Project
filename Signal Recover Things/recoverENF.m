@@ -48,22 +48,18 @@ fs = 1000;                          % sample rate
 decF = 3;
 df = 1.9*decF;
 
-filteredSig = filterENF(origSig,idealMidf,1,decF);
-%AA1_test = AA1_test_Orig;
 
-AA1_test_len = length(filteredSig);    % length of signal
-wlen = 3000;                        % window length
-hop  = 100;                         % hop size
+
+framelen = 3000;                        % window length
+hoplen  = 100;                         % hop size
 zfac = 8;                           % zero padding factor of 4
 
-K = sum(hamming(wlen, 'periodic'))/wlen;
+[enf,t,sfilt,ffilt,s] = maxfreqalgo(fs,decF,framelen,hoplen,zfac,midf,df,origSig);
 
-[s, f, t] = stft3(filteredSig, wlen, hop, zfac, fs);
-[peaks, qifftSig,sfilt,ffilt] = qifft(s,f,(idealMidf-df)*decF,(idealMidf+df)*decF, fs/decF);
-tdmfSig = tdmf(qifftSig,50,0.03);
+
 if shouldPlot
 figure;
-plot(t,abs(qifftSig));
+plot(t,abs(enf));
 
 
 figure;
@@ -73,7 +69,7 @@ imagesc(t,ffilt/decF,sfilt);
 set(gca,'YDir','normal')
 set(gca, 'FontName', 'Times New Roman', 'FontSize', 14)
 
-plot(t,tdmfSig,'b','LineWidth',1);
+plot(t,enf,'b','LineWidth',1);
 %plot(t,qifftSig,'r');
 %colormap(hot);
 

@@ -43,64 +43,7 @@ filteredSig = filterENF(origSig,idealMidf,1,decF);
 
 %% ESPRIT ALGO
 
-fs = 1000;
-decf = 4;
-framet = 2;    %seconds per frame
-overt = 1;     %seconds overlap b/w frames
-
-wlen = framet*(fs/decf);
-olen = overt*(fs/decf);
-
-decsig = decimate(filteredSig,decf);   % decimate from 1kHz to 250Hz
-decsig = decsig(1:floor(length(decsig)/wlen)*wlen);  %truncate so that its divisible by wlen
-
-
-f1s = zeros(1,length(decsig)/wlen);
-f2s = f1s;
-f3s = f2s;
-
-%xframed = zeros(decsig/wlen,wlen);
-for ii = 1:length(decsig)/wlen
-    start = (ii-1)*wlen+1;
-    x = decsig(start:start + olen - 1);
-    %xframed(ii,:) = x;
-    
-    N = length(x);    % length of signal
-    M = round(N/3 + 20);
-    P = 2;
-
-    %create X matrix
-    X = zeros(M,N);
-    for jj = 1:N-M;
-        X(:,jj) = x(jj:jj+M-1);
-    end
-    
-    [U,~,~] = svd(X);
-    
-%     singVals = diag(S);
-%     [~,singValsInds] = sort(singVals,'descend');
-%     
-%     Us = zeros(M,P);
-%     for jj = 1:P
-%         Us(:,jj) = U(:,singValsInds(jj));
-%     end
-    Us = U(:,1:P);
-    U1 = Us(1:end-1,:);
-    U2 = Us(2:end,:);
-    
-    Q = pinv(U1)*U2;
-    
-    effs = (fs/decf)*angle(eig(Q))/(2*pi);
-    f1s(ii) = effs(1);
-    %f2s(ii) = effs(2);
-    %f3s(ii) = sum(effs);
-    
-end
-
-figure;plot(f1s);
-title('enf estimate ESPRIT');
-%figure;plot(f2s);
-%figure;plot(f3s);
+enf = esprit(fs,4,2,1,filteredSig);
 
 
 
