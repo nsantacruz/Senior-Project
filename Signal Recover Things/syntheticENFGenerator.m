@@ -27,7 +27,7 @@ end
 
 fullsignal = filter(1, [1 -0.97],fullsignal);
 
-noise = -3;
+noise = 20;
 noisysig = awgn(fullsignal,noise);
 
 
@@ -52,11 +52,11 @@ figure;spectrogram(noisysig);
 else
 %% ESPRIT TESTING
 
-noises = [-3,0,5,10]; % does the algorithm need to know the noise level? because if yes we need to find a way to determine it...
+noises = [10,20]; % does the algorithm need to know the noise level? because if yes we need to find a way to determine it...
 enfs = cell(size(noises));
 
 estFt = 1;
-estOt = 0;
+estOt = 1;
 estDec = 1;
 fs = 400;
 wlen = floor(estFt*(fs/estDec));
@@ -130,13 +130,13 @@ for ii = 1:length(noises)
     
 end
 
-figure;plot(1:length(estEnf),estEnf,1:length(estEnf),enf);
+figure;plot(1:length(estEnf)-1,estEnf(1:end-1),1:length(estEnf)-1,enf(1:end-1));
 legend('estimate','truth');
 %%
 
 x = Ms;
 figure;
-plot(x,Mscores(:,1),x,Mscores(:,2),x,Mscores(:,3),x,Mscores(:,4));
+plot(x,Mscores(:,1),x,Mscores(:,2)); %,x,Mscores(:,3),x,Mscores(:,4));
 title('M per noisy signal');
 xlabel('M');
 ylabel('X Correlation Avg');
