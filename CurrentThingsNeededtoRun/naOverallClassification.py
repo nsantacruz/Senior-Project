@@ -21,9 +21,9 @@ def lookatme():
     # print "power results"
     y,x,power9Class = FinalClassifier.myclassify_practice_set(1, xtrainallpow, ytrainallpow, xtltrainallpow, xtrunclength, xtesting)
     # print y
-    print power9Class
-    print ""
-    print FinalClassifier.predVec2Str(power9Class)
+    # print power9Class
+    # print ""
+    # print FinalClassifier.predVec2Str(power9Class)
     # print ""
 
     xtrainallaud = txmat('xtrain_all_aud.mat','xtrain')
@@ -110,6 +110,7 @@ def lookatme():
     y,x,BEsvm = FinalClassifier.myclassify_practice_set(1,xtrain_BE_aud,ytrain_BE_aud,xtltrain_BE_aud,xtrunclength,xtesting,grids='BE')
     print BEsvm
 
+
     #math time
 
     finalclass = []
@@ -125,17 +126,24 @@ def lookatme():
         else: #audio
             temp1classVec = aud1ClassMat[:,i]
             if np.any(temp1classVec == 1):
-                if audio9Class[:,i] == 2: #if we guess class B, use the BD Classifier to make sure it isn't D
-                    if BDsvm[:,i] == 4:
+                if audio9Class[i] == 2: #if we guess class B, use the BD Classifier to make sure it isn't D
+                    if BDsvm[i] == 2: # BDsvm ==1 is B, 2 is D
                         finalclass.append(4) # if we guessed class D but the BD svm says it's B, append B
-                elif audio9Class[:,i] == 5: #if we guess E, make sure it isn't B
+                    else:
+                        finalclass.append(audio9Class[i])
+                elif audio9Class[i] == 5: #if we guess E, make sure it isn't B
+                    if BEsvm[i] ==1:
+                        finalclass.append(2)
+                    else:
+                        finalclass.append(audio9Class[i])
                 else:
-                finalclass.append(audio9Class[i])
+                    finalclass.append(audio9Class[i])
+                # finalclass.append(audio9Class[i])
             else:
                 finalclass.append(10) #N/A
 
     # print finalclass
-    # print FinalClassifier.predVec2Str(finalclass)
+    print FinalClassifier.predVec2Str(finalclass)
 
 # lookatme()
 # lookatme()
@@ -145,10 +153,10 @@ def lookatme():
 # lookatme()
 # lookatme()
 lookatme()
-# lookatme()
-# lookatme()
-# lookatme()
-# lookatme()
+lookatme()
+lookatme()
+lookatme()
+lookatme()
 
 # i'm confused why it gets worse with each iteration, i though i'm not saving anything between runnings!
 # it looks like its saving the models or something, so i should look for some parameter which randomizes it?

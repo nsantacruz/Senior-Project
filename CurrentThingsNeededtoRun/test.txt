@@ -11,3 +11,7 @@
 [' - 1 - 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 1 - - 1 - - - - - - - -']  H
 [' - - - - - - - 1 - - - - - - - 1 - - - - - - - - - - - - - - - - - - - - - - - 1 - - - - - - - - - -']  I
    A H C F F B G I N D A F B D N I N E A E N B B A D E G N N N D D I H G E A N H I E H E C F F B G E I
+
+
+   AHCFFBGINDAFBDNINBAENBBADBGNNNDDIHGEANHIBHECFFBGBI
+   AHCFFBGINDAFBDNINEAENBBADEGNNNDDIHGEANHIEHECFFBGEI
