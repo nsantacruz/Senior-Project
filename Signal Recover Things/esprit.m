@@ -12,13 +12,16 @@ wlen = floor(framet*(fs/decf));
 olen = floor(overt*(fs/decf));
 
 decsig = decimate(sig,decf);   % decimate from 1kHz to 250Hz
-decsig = decsig(1:floor(length(decsig)/olen)*olen);  %truncate so that its divisible by wlen
 
-
-enf = zeros(1,length(decsig)/olen-1);
-
+if olen ~= 0
+    decsig = decsig(1:floor(length(decsig)/olen)*olen);  %truncate so that its divisible by wlen
+    enf = zeros(1,length(decsig)/olen-1);
+else 
+    decsig = decsig(1:floor(length(decsig)/wlen)*wlen);
+    enf = zeros(1,length(decsig)/wlen);
+end
 %xframed = zeros(decsig/wlen,wlen);
-for ii = 1:length(decsig)/olen-1 
+for ii = 1:length(enf)-1
     start = (ii-1)*olen+1;
     x = decsig(start:start + wlen - 1);
     %xframed(ii,:) = x;

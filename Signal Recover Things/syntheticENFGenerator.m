@@ -130,7 +130,7 @@ for ii = 1:length(noises)
     
 end
 
-figure;plot(1:length(estEnf),estEnf,1:length(estEnf),trueEnf);
+figure;plot(1:length(estEnf),estEnf,1:length(estEnf),enf);
 legend('estimate','truth');
 %%
 
